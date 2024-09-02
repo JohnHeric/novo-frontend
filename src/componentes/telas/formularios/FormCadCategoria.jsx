@@ -1,6 +1,6 @@
-import { InputGroup, Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
+import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 
-export default function CadastroCategoria(props) {
+export default function FormCadCategoria(props) {
     return (
         <Container>
             <Row className="vh-100 d-flex justify-content-center align-items-center">
@@ -10,19 +10,31 @@ export default function CadastroCategoria(props) {
                         <Card.Body>
                             <div className="mb-3 mt-4">
                                 <h2 className="fw-bold text-uppercase mb-2">ACME</h2>
-                                <p className="mb-5">Cadastro de Categoria</p>
+                                <p className="mb-5">Cadastro de Categorias</p>
                                 <Form>
                                     <Row className="mb-3">
-                                        <Form.Group as={Col} className="mb-3" controlId="formFullName">
+                                        <Form.Group as={Col} className="mb-3" controlId="codigo">
                                             <Form.Label className="text-center">Código</Form.Label>
-                                            <Form.Control type="text" placeholder="Digite o código" />
+                                            <Form.Control
+                                                type="text"
+                                                id="codigo"
+                                                name="codigo"
+                                                placeholder="Digite o código"
+                                                required
+                                            />
                                         </Form.Group>
                                         <Form.Group as={Col}>
                                         </Form.Group>
                                     </Row>
-                                    <Form.Group as={Col} className="mb-3" controlId="formPhoneNumber">
+                                    <Form.Group as={Col} className="mb-3" controlId="descricao">
                                         <Form.Label>Descrição</Form.Label>
-                                        <Form.Control type="text" placeholder="Digite a descrição" />
+                                        <Form.Control
+                                            type="text"
+                                            id="descricao"
+                                            name="descricao"
+                                            placeholder="Digite a descrição"
+                                            required
+                                        />
                                     </Form.Group>
                                     <div className="d-grid">
                                         <Button variant="primary" type="submit">

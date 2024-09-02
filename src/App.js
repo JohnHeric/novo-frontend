@@ -1,27 +1,27 @@
 import Pagina from "./componentes/layouts/Pagina.jsx";
-import CadastroCliente from "./componentes/cadastros/CadastroCliente.jsx";
-import CadastroFornecedor from "./componentes/cadastros/CadastroFornecedor.jsx";
-import CadastroProduto from "./componentes/cadastros/CadastroProduto.jsx";
-import CadastroUsuario from "./componentes/cadastros/CadastroUsuario.jsx";
-import CadastroCategoria from "./componentes/cadastros/CadastroCategoria.jsx";
+import TelaCadCategoria from "./componentes/telas/TelaCadCategoria.jsx";
+import TelaCadCliente from "./componentes/telas/TelaCadCliente.jsx";
+import TelaCadFornecedor from "./componentes/telas/TelaCadFornecedor.jsx";
+import TelaCadProduto from "./componentes/telas/TelaCadProduto.jsx";
+import TelaCadUsuario from "./componentes/telas/TelaCadUsuario.jsx";
 
 function App() {
   return (
     <div className="App">
       <Pagina>
-        <CadastroCliente/>
+        <TelaCadCliente/>
       </Pagina>
       <Pagina>
-        <CadastroFornecedor/>
+        <TelaCadFornecedor/>
       </Pagina>
       <Pagina>
-        <CadastroProduto/>
+        <TelaCadProduto/>
       </Pagina>
       <Pagina>
-        <CadastroUsuario/>
+        <TelaCadCategoria/>
       </Pagina>
       <Pagina>
-        <CadastroCategoria/>
+        <TelaCadUsuario/>
       </Pagina>
     </div>
   );
