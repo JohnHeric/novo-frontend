@@ -106,14 +106,6 @@ export default function FormCadProduto(props) {
                                         </Button>
                                     </div>
                                 </Form>
-                                <div className="mt-3">
-                                    <p className="mb-0 text-center">
-                                        Já possui uma conta?{' '}
-                                        <a href="{''}" className="text-primary fw-bold">
-                                            Faça Login
-                                        </a>
-                                    </p>
-                                </div>
                             </div>
                         </Card.Body>
                     </Card>

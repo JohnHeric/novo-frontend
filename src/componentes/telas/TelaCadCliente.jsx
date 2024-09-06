@@ -1,15 +1,16 @@
-import FormCadCliente from "./formularios/FormCadCliente";
+import FormCadCliente from "./formularios/FormCadCliente.jsx";
+import Pagina from "../layouts/Pagina.jsx";
 import { Alert } from "react-bootstrap";
 
 export default function TelaCadCliente(props) {
     return (
-        <div>
+        <Pagina>
             <Alert className="mt-02 mb-02 success text-center" variant="success">
                 <h2>
                     Cadastro de Clientes
                 </h2>
             </Alert>
             <FormCadCliente />
-        </div>
+        </Pagina>
     );
 }
