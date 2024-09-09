@@ -5,9 +5,9 @@ import { Alert } from "react-bootstrap";
 export default function TelaCadCliente(props) {
     return (
         <Pagina>
-            <Alert className="mt-02 mb-02 success text-center" variant="success">
+            <Alert className="mt-2 mb-2 text-center">
                 <h2>
-                    Cadastro de Clientes
+                    Clientes
                 </h2>
             </Alert>
             <FormCadCliente />

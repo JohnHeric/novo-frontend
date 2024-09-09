@@ -1,16 +1,23 @@
 import FormCadProduto from "./formularios/FormCadProduto.jsx";
 import Pagina from "../layouts/Pagina.jsx";
-import { Alert } from "react-bootstrap";
+import TabelaProdutos from "./tabelas/TabelaProdutos.jsx";
+import { produtos } from "../../dados/mockProdutos.js";
+import { Alert } from "react-bootstrap"
+import { useState } from "react";
 
 export default function TelaCadProduto(props) {
+    const [exibirTabela, setExibirTabela] = useState(true);
+
     return (
         <Pagina>
-            <Alert className="mt-02 mb-02 success text-center" variant="success">
-                <h2>
-                    Cadastro de Produtos
-                </h2>
+            <Alert className="mt-2 mb-2 text-center">
+                <h2>Produtos</h2>
             </Alert>
-            <FormCadProduto />
+            {
+                exibirTabela ?
+                    <TabelaProdutos listaDeProdutos={produtos} setExibirTabela={setExibirTabela} /> :
+                    <FormCadProduto setExibirTabela={setExibirTabela} />
+            }
         </Pagina>
     );
 }

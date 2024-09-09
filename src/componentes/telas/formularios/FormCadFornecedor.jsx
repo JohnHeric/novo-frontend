@@ -2,7 +2,7 @@ import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 
 export default function FormCadFornecedor(props) {
     return (
-        <Container>
+        <Container className="mt-02 mb-02">
             <Row className="vh-100 d-flex justify-content-center align-items-center">
                 <Col md={10} lg={8} xs={12}>
                     <div className="border-3 border-primary border"></div>

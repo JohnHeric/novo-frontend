@@ -7,7 +7,7 @@ export default function Tela404(props) {
         <Pagina>
             <Container>
                 <div className="text-center ">
-                    <img className="square bg-primary rounded" src={imagem404} width="248" />
+                    <img className="square bg-primary rounded" alt="erro404" src={imagem404} width="248" />
                 </div>
                 <h1 className="text-center">O recurso solicitado não existe!</h1>
             </Container>

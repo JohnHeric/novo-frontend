@@ -3,11 +3,12 @@ import Pagina from "../layouts/Pagina.jsx";
 import { Alert } from "react-bootstrap";
 
 export default function TelaCadFornecedor(props) {
+
     return (
         <Pagina>
-            <Alert className="mt-02 mb-02 success text-center" variant="success">
+            <Alert className="mt-2 mb-2 text-center">
                 <h2>
-                    Cadastro de Fornecedores
+                    Fornecedores
                 </h2>
             </Alert>
             <FormCadFornecedor />

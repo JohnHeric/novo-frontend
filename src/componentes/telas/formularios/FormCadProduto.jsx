@@ -2,7 +2,7 @@ import { InputGroup, Col, Button, Row, Container, Card, Form } from 'react-boots
 
 export default function FormCadProduto(props) {
     return (
-        <Container>
+        <Container className="mt-02 mb-02">
             <Row className="vh-100 d-flex justify-content-center align-items-center">
                 <Col md={10} lg={8} xs={12}>
                     <div className="border-3 border-primary border"></div>
@@ -100,11 +100,24 @@ export default function FormCadProduto(props) {
                                             />
                                         </Form.Group>
                                     </Row>
-                                    <div className="d-grid">
-                                        <Button variant="primary" type="submit">
-                                            Cadastrar
-                                        </Button>
-                                    </div>
+                                    <Row>
+                                        <Col md={1}>
+                                            <div className="mb-2 mt-2">
+                                                <Button>
+                                                    Cadastrar
+                                                </Button>
+                                            </div>
+                                        </Col>
+                                        <Col md={{offset:1}}>
+                                            <div className="mb-2 mt-2">
+                                                <Button onClick={() => {
+                                                    props.setExibirTabela(true);
+                                                }}>
+                                                    Voltar  
+                                                </Button>
+                                            </div>
+                                        </Col>
+                                    </Row>
                                 </Form>
                             </div>
                         </Card.Body>
