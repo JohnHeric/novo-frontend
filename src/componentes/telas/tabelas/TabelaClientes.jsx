@@ -1,6 +1,6 @@
 import { Button, Container, Table } from "react-bootstrap"
 
-export default function TabelaFornecedores(props) {
+export default function TabelaClientes(props) {
     return (
         <Container>
             <Button className="mb-3" variant="primary" onClick={() => {
@@ -11,9 +11,8 @@ export default function TabelaFornecedores(props) {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>Razão Social</th>
-                        <th>CNPJ</th>
-                        <th>Nome Fantasia</th>
+                        <th>Nome</th>
+                        <th>CPF</th>
                         <th>Telefone</th>
                         <th>E-mail</th>
                         <th>Rua</th>
@@ -24,20 +23,19 @@ export default function TabelaFornecedores(props) {
                 </thead>
                 <tbody>
                     {
-                        props.listaDeFornecedores?.map((fornecedor) => {
+                        props.listaDeClientes?.map((cliente) => {
                             return (
                                 <tr>
-                                    <td>{fornecedor.razaoSocial}</td>
-                                    <td>{fornecedor.cnpj}</td>
-                                    <td>{fornecedor.nomeFantasia}</td>
-                                    <td>{fornecedor.telefone}</td>
-                                    <td>{fornecedor.email}</td>
-                                    <td>{fornecedor.rua}</td>
-                                    <td>{fornecedor.numero}</td>
-                                    <td>{fornecedor.cidade}</td>
-                                    <td>{fornecedor.cep}</td>
+                                    <th>{cliente.nome}</th>
+                                    <th>{cliente.cpf}</th>
+                                    <th>{cliente.telefone}</th>
+                                    <th>{cliente.email}</th>
+                                    <th>{cliente.rua}</th>
+                                    <th>{cliente.numero}</th>
+                                    <th>{cliente.cidade}</th>
+                                    <th>{cliente.cep}</th>
                                 </tr>
-                            )
+                            );
                         })
                     }
                 </tbody>

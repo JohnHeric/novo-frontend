@@ -11,7 +11,9 @@ export default function TelaCadProduto(props) {
     return (
         <Pagina>
             <Alert className="mt-2 mb-2 text-center">
-                <h2>Produtos</h2>
+                <h2>
+                    Produtos
+                </h2>
             </Alert>
             {
                 exibirTabela ?

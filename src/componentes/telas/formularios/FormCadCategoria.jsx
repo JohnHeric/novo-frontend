@@ -36,11 +36,24 @@ export default function FormCadCategoria(props) {
                                             required
                                         />
                                     </Form.Group>
-                                    <div className="d-grid">
-                                        <Button variant="primary" type="submit">
-                                            Cadastrar
-                                        </Button>
-                                    </div>
+                                    <Row>
+                                        <Col md={1}>
+                                            <div className="mt-2 mb-2">
+                                                <Button>
+                                                    Cadastrar
+                                                </Button>
+                                            </div>
+                                        </Col>
+                                        <Col md={{ offset: 1 }}>
+                                            <div className="mt-2 mb-2">
+                                                <Button onClick={() => {
+                                                    props.setExibirTabela(true);
+                                                }}>
+                                                    Voltar
+                                                </Button>
+                                            </div>
+                                        </Col>
+                                    </Row>
                                 </Form>
                             </div>
                         </Card.Body>

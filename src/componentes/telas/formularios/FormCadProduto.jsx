@@ -95,7 +95,7 @@ export default function FormCadProduto(props) {
                                                 type="date"
                                                 id="dataValidade"
                                                 name="dataValidade"
-                                                placeholder="Validade"
+                                                placeholder="Data de Validade"
                                                 required
                                             />
                                         </Form.Group>
@@ -108,12 +108,12 @@ export default function FormCadProduto(props) {
                                                 </Button>
                                             </div>
                                         </Col>
-                                        <Col md={{offset:1}}>
+                                        <Col md={{ offset: 1 }}>
                                             <div className="mb-2 mt-2">
                                                 <Button onClick={() => {
-                                                    props.setExibirTabela(true);
+                                                    props.setExibirTabela(true)
                                                 }}>
-                                                    Voltar  
+                                                    Voltar
                                                 </Button>
                                             </div>
                                         </Col>
