@@ -20,8 +20,8 @@ export default function TabelaCategorias(props) {
                         props.listaDeCategorias?.map((categoria) => {
                             return (
                                 <tr>
-                                    <th>{categoria.codigo}</th>
-                                    <th>{categoria.descricao}</th>
+                                    <td>{categoria.codigo}</td>
+                                    <td>{categoria.descricao}</td>
                                 </tr>
                             );
                         })

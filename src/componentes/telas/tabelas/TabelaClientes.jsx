@@ -26,14 +26,14 @@ export default function TabelaClientes(props) {
                         props.listaDeClientes?.map((cliente) => {
                             return (
                                 <tr>
-                                    <th>{cliente.nome}</th>
-                                    <th>{cliente.cpf}</th>
-                                    <th>{cliente.telefone}</th>
-                                    <th>{cliente.email}</th>
-                                    <th>{cliente.rua}</th>
-                                    <th>{cliente.numero}</th>
-                                    <th>{cliente.cidade}</th>
-                                    <th>{cliente.cep}</th>
+                                    <td>{cliente.nome}</td>
+                                    <td>{cliente.cpf}</td>
+                                    <td>{cliente.telefone}</td>
+                                    <td>{cliente.email}</td>
+                                    <td>{cliente.rua}</td>
+                                    <td>{cliente.numero}</td>
+                                    <td>{cliente.cidade}</td>
+                                    <td>{cliente.cep}</td>
                                 </tr>
                             );
                         })
