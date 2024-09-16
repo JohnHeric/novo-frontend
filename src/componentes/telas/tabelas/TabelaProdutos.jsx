@@ -1,13 +1,23 @@
 import { Button, Container, Table } from "react-bootstrap"
 
 export default function TabelaProdutos(props) {
+
     function excluirProduto(produto) {
         if (window.confirm("Deseja realmente excluir o produto " + produto.descricao)) {
-            props.listaDeProdutos = props.listaDeProdutos.filter((item) => {
-                return item.codigo != produto.codigo
-            });
+            props.setListaDeProdutos(props.listaDeProdutos.filter(
+                (item) => {
+                    return item.codigo != produto.codigo;
+                }));
         }
     }
+    // Este algoritmo faz o mesmo que o algoritmo de cima
+    /*let novaLista = []
+    for (let i=0; i< props.listaDeProdutos.length ; i++) {
+        if(props.listaDeProdutos[i].codigo != produto.codigo) {
+            novaLista.push(props.listaDeProdutos[i])
+        }
+    }
+    props.setListaDeProdutos(novaLista);*/
 
     return (
         <Container>

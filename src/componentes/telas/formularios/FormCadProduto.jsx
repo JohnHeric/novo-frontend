@@ -11,12 +11,14 @@ export default function FormCadProduto(props) {
         urlImagem: "",
         dataValidade: ""
     });
+
     const [formValidado, setFormValidado] = useState(false);
+
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             // Cadastrar produto
-            props.listaDeProdutos.push(produto);
+            props.setListaDeProdutos([...props.listaDeProdutos, produto]); // Array vazio está recebendo o conteúdo da lista espalhada mais o produto
             // Exibir tabela com o produto incluído
             props.setExibirTabela(true);
         }

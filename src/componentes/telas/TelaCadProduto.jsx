@@ -7,6 +7,9 @@ import { useState } from "react";
 
 export default function TelaCadProduto(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
+    const [listaDeProdutos, setListaDeProdutos] = useState(produtos);
+    const [modoEdicao, setModoEdicao] = useState(false);
+    const [produtoSelecionado, setProdutoSelecionado] = useState(false);
 
     return (
         <Pagina>
@@ -17,8 +20,13 @@ export default function TelaCadProduto(props) {
             </Alert>
             {
                 exibirTabela ?
-                    <TabelaProdutos listaDeProdutos={produtos} setExibirTabela={setExibirTabela} /> :
-                    <FormCadProduto listaDeProdutos={produtos} setExibirTabela={setExibirTabela} />
+                    <TabelaProdutos listaDeProdutos={listaDeProdutos}
+                        setListaDeProdutos={setListaDeProdutos}
+                        setExibirTabela={setExibirTabela} /> :
+
+                    <FormCadProduto listaDeProdutos={listaDeProdutos}
+                        setListaDeProdutos={setListaDeProdutos}
+                        setExibirTabela={setExibirTabela} />
             }
         </Pagina>
     );
