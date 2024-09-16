@@ -2,25 +2,37 @@ import { InputGroup, Col, Button, Row, Container, Card, Form } from 'react-boots
 import { useState } from "react";
 
 export default function FormCadProduto(props) {
-    const [produto, setProduto] = useState({
+    const prodVazio = {
         codigo: 0,
         descricao: "",
-        precoCusto: 0,
-        precoVenda: 0,
-        qtdEstoque: 0,
+        precoCusto: "",
+        precoVenda: "",
+        qtdEstoque: "",
         urlImagem: "",
         dataValidade: ""
-    });
+    };
 
     const [formValidado, setFormValidado] = useState(false);
+    const estadoProduto = props.produtoSelecionado;
+    const [produto, setProduto] = useState(estadoProduto)
+
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            // Cadastrar produto
-            props.setListaDeProdutos([...props.listaDeProdutos, produto]); // Array vazio está recebendo o conteúdo da lista espalhada mais o produto
-            // Exibir tabela com o produto incluído
-            props.setExibirTabela(true);
+            if (!props.modoEdicao) {
+                // Cadastrar produto
+                props.setListaDeProdutos([...props.listaDeProdutos, produto]); // Array vazio está recebendo o conteúdo da lista espalhada mais o produto
+                // Exibir tabela com o produto incluído
+                //props.setExibirTabela(true);
+            } else {
+                props.setListaDeProdutos([...props.listaDeProdutos.filter((item) => item.codigo !== produto.codigo), produto]);
+                props.setModoEdicao(false);
+                props.setProdutoSelecionado(prodVazio);
+            }
+            props.setExibirTabela(true)
+            setProduto(prodVazio);
+            setFormValidado(false);
         }
         else {
             setFormValidado(true);
@@ -45,7 +57,13 @@ export default function FormCadProduto(props) {
                         <Card.Body>
                             <div className="mb-3 mt-4">
                                 <h2 className="fw-bold text-uppercase mb-2">ACME</h2>
-                                <p className="mb-5">Cadastro de Produtos</p>
+                                <p className="mb-5">
+                                    {
+                                        props.modoEdicao ?
+                                            "Alteração de Produto" :
+                                            "Cadastro de Produtos"
+                                    }
+                                </p>
                                 <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
                                     <Form.Group as={Col} className="mb-3">
                                         <Form.Label className="text-center">Descrição</Form.Label>
@@ -60,18 +78,36 @@ export default function FormCadProduto(props) {
                                         />
                                     </Form.Group>
                                     <Row className="mb-3">
-                                        <Form.Group as={Col} className="mb-3">
-                                            <Form.Label className="text-center">Código</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                id="codigo"
-                                                name="codigo"
-                                                placeholder="Código do Produto"
-                                                value={produto.codigo}
-                                                onChange={manipularMudanca}
-                                                required
-                                            />
-                                        </Form.Group>
+                                        {
+                                            props.modoEdicao ?
+                                                <fieldset disabled>
+                                                    <Form.Group as={Col} className="mb-3">
+                                                        <Form.Label className="text-center">Código</Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            id="codigo"
+                                                            name="codigo"
+                                                            placeholder="Código do Produto"
+                                                            value={produto.codigo}
+                                                            onChange={manipularMudanca}
+                                                            required
+                                                        />
+                                                    </Form.Group>
+                                                </fieldset> :
+
+                                                <Form.Group as={Col} className="mb-3">
+                                                    <Form.Label className="text-center">Código</Form.Label>
+                                                    <Form.Control
+                                                        type="text"
+                                                        id="codigo"
+                                                        name="codigo"
+                                                        placeholder="Código do Produto"
+                                                        value={produto.codigo}
+                                                        onChange={manipularMudanca}
+                                                        required
+                                                    />
+                                                </Form.Group>
+                                        }
                                         <Form.Group as={Col} className="mb-3">
                                             <Form.Label>Estoque</Form.Label>
                                             <InputGroup>
@@ -152,14 +188,20 @@ export default function FormCadProduto(props) {
                                         <Col md={1}>
                                             <div className="mb-2 mt-2">
                                                 <Button type="submit">
-                                                    Cadastrar
+                                                    {
+                                                        props.modoEdicao ?
+                                                            "Alterar" :
+                                                            "Cadastrar"
+                                                    }
                                                 </Button>
                                             </div>
                                         </Col>
                                         <Col md={{ offset: 1 }}>
                                             <div className="mb-2 mt-2">
                                                 <Button onClick={() => {
-                                                    props.setExibirTabela(true)
+                                                    props.setExibirTabela(true);
+                                                    props.setModoEdicao(false);
+                                                    props.setProdutoSelecionado(prodVazio);
                                                 }}>
                                                     Voltar
                                                 </Button>
@@ -172,6 +214,6 @@ export default function FormCadProduto(props) {
                     </Card>
                 </Col>
             </Row>
-        </Container>
+        </Container >
     );
 }

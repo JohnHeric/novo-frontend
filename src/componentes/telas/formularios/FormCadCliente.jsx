@@ -12,76 +12,68 @@ export default function FormCadCliente(props) {
                                 <h2 className="fw-bold text-uppercase mb-2">ACME</h2>
                                 <p className="mb-5">Cadastro de Clientes</p>
                                 <Form>
-                                    <Form.Group as={Col} className="mb-3" controlId="nome">
-                                        <Form.Label className="text-center">Nome Completo</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            id="nome"
-                                            name="nome"
-                                            placeholder="Nome completo"
-                                            required
-                                        />
-                                    </Form.Group>
-                                    <Row className="mb-3">
-                                    </Row>
-                                    <Row className="mb-3">
+                                    <h3>Dados Pessoais</h3>
+
+                                    <Row className="mt-4">
                                         <Form.Group as={Col} className="mb-3" controlId="cpf">
                                             <Form.Label className="text-center">CPF</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 id="cpf"
                                                 name="cpf"
-                                                placeholder="Digite o CPF"
-                                                required
-                                            />
-                                        </Form.Group>
-
-                                        <Form.Group as={Col} className="mb-3" controlId="telefone">
-                                            <Form.Label>Telefone</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                id="telefone"
-                                                name="telefone"
-                                                placeholder="Digite o telefone"
+                                                placeholder="Digite o seu CPF"
                                                 required
                                             />
                                         </Form.Group>
                                     </Row>
-                                    <Form.Group as={Col} className="mb-3" controlId="email">
-                                        <Form.Label className="text-center">Endereço de e-mail</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            id="email"
-                                            name="email"
-                                            placeholder="Digite o e-mail"
-                                            required
-                                        />
-                                    </Form.Group>
-                                    <h2>Endereço</h2>
                                     <Row className="mb-3">
-                                        <Form.Group as={Col} className="mb-3" controlId="rua">
-                                            <Form.Label className="text-center">Rua</Form.Label>
+                                        <Form.Group as={Col} className="mb-3" controlId="nome">
+                                            <Form.Label className="text-center">Nome</Form.Label>
                                             <Form.Control
                                                 type="text"
-                                                id="rua"
-                                                name="rua"
-                                                placeholder="Informe a Rua"
+                                                id="nome"
+                                                name="nome"
+                                                placeholder="Nome Completo"
                                                 required
                                             />
                                         </Form.Group>
+                                    </Row>
 
+                                    <h2>Endereço</h2>
+                                    <Row className="mt-4">
+                                        <Form.Group as={Col} className="mb-3" controlId="endereco">
+                                            <Form.Label className="text-center">Endereço</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="endereco"
+                                                name="endereco"
+                                                placeholder="Digite o nome da Rua ou Av."
+                                                required
+                                            />
+                                        </Form.Group>
                                         <Form.Group as={Col} className="mb-3" controlId="numero">
-                                            <Form.Label>Nº</Form.Label>
+                                            <Form.Label className="text-center">Número</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 id="numero"
                                                 name="numero"
-                                                placeholder="Informe o Número"
+                                                placeholder="Digite o e-mail"
                                                 required
                                             />
                                         </Form.Group>
                                     </Row>
                                     <Row className="mb-3">
+                                        <Form.Group as={Col} className="mb-3" controlId="bairro">
+                                            <Form.Label className="text-center">Bairro</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="bairro"
+                                                name="bairro"
+                                                placeholder="Informe o Bairro"
+                                                required
+                                            />
+                                        </Form.Group>
+
                                         <Form.Group as={Col} className="mb-3" controlId="cidade">
                                             <Form.Label className="text-center">Cidade</Form.Label>
                                             <Form.Control
@@ -89,6 +81,18 @@ export default function FormCadCliente(props) {
                                                 id="cidade"
                                                 name="cidade"
                                                 placeholder="Informe a Cidade"
+                                                required
+                                            />
+                                        </Form.Group>
+                                    </Row>
+                                    <Row className="mb-3">
+                                        <Form.Group as={Col} className="mb-3" controlId="uf">
+                                            <Form.Label className="text-center">Estado</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="uf"
+                                                name="uf"
+                                                placeholder="Informe o Estado"
                                                 required
                                             />
                                         </Form.Group>
