@@ -10,6 +10,7 @@ export default function TabelaProdutos(props) {
                 }));
         }
     }
+    
     // Este algoritmo faz o mesmo que o algoritmo de cima
     /*let novaLista = []
     for (let i=0; i< props.listaDeProdutos.length ; i++) {

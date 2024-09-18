@@ -26,7 +26,13 @@ export default function FormCadProduto(props) {
                 // Exibir tabela com o produto incluído
                 //props.setExibirTabela(true);
             } else {
-                props.setListaDeProdutos([...props.listaDeProdutos.filter((item) => item.codigo !== produto.codigo), produto]);
+                props.setListaDeProdutos ([...props.listaDeProdutos.map((item) => {
+                    return item.codigo === produto.codigo ? produto : item;
+                })]);
+                
+                // O algoritmo abaixo excluia os elementos da lista e recriava uma nova lista de maneira não ordenada
+                //props.setListaDeProdutos([...props.listaDeProdutos.filter((item) => item.codigo !== produto.codigo), produto]);
+
                 props.setModoEdicao(false);
                 props.setProdutoSelecionado(prodVazio);
             }
