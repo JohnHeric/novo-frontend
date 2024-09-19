@@ -7,6 +7,12 @@ import { useState } from "react"
 
 export default function TelaCadCategoria(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
+    const [listaDeCategorias, setListaDeCategorias] = useState(categorias);
+    const [modoEdicao, setModoEdicao] = useState(false);
+    const [categoriaSelecionada, setCategoriaSelecionada] = useState({
+        codigo: 0,
+        descricao: ""
+    });
 
     return (
         <Pagina>
@@ -17,8 +23,18 @@ export default function TelaCadCategoria(props) {
             </Alert>
             {
                 exibirTabela ?
-                    <TabelaCategorias listaDeCategorias={categorias} setExibirTabela={setExibirTabela} /> :
-                    <FormCadCategoria setExibirTabela={setExibirTabela} />
+                    <TabelaCategorias listaDeCategorias={listaDeCategorias}
+                        setListaDeCategorias={setListaDeCategorias}
+                        setModoEdicao={setModoEdicao}
+                        setCategoriaSelecionada={setCategoriaSelecionada}
+                        setExibirTabela={setExibirTabela} /> :
+                    <FormCadCategoria listaDeCategorias={listaDeCategorias}
+                        setListaDeCategorias={setListaDeCategorias}
+                        modoEdicao={modoEdicao}
+                        setModoEdicao={setModoEdicao}
+                        categoriaSelecionada={categoriaSelecionada}
+                        setCategoriaSelecionada={setCategoriaSelecionada}
+                        setExibirTabela={setExibirTabela} />
             }
         </Pagina>
     );

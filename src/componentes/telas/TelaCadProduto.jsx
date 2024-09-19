@@ -29,19 +29,17 @@ export default function TelaCadProduto(props) {
             {
                 exibirTabela ?
                     <TabelaProdutos listaDeProdutos={listaDeProdutos}
-                        modoEdicao={modoEdicao}
-                        setModoEdicao={setModoEdicao}
-                        produtoSelecionado={produtoSelecionado}
-                        setProdutoSelecionado={setProdutoSelecionado}
                         setListaDeProdutos={setListaDeProdutos}
+                        setModoEdicao={setModoEdicao}
+                        setProdutoSelecionado={setProdutoSelecionado}
                         setExibirTabela={setExibirTabela} /> :
 
                     <FormCadProduto listaDeProdutos={listaDeProdutos}
-                        produtoSelecionado={produtoSelecionado}
-                        setProdutoSelecionado={setProdutoSelecionado}
+                        setListaDeProdutos={setListaDeProdutos}
                         modoEdicao={modoEdicao}
                         setModoEdicao={setModoEdicao}
-                        setListaDeProdutos={setListaDeProdutos}
+                        produtoSelecionado={produtoSelecionado}
+                        setProdutoSelecionado={setProdutoSelecionado}
                         setExibirTabela={setExibirTabela} />
             }
         </Pagina>

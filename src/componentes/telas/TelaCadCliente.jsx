@@ -7,6 +7,18 @@ import { useState } from "react";
 
 export default function TelaCadCliente(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
+    const [listaDeClientes, setListaDeClientes] = useState(clientes);
+    const [modoEdicao, setModoEdicao] = useState(false);
+    const [clienteSelecionado, setClienteSelecionado] = useState({
+        cpf: "",
+        nome: "",
+        endereco: "",
+        numero: "",
+        bairro: "",
+        cidade: "",
+        uf: "",
+        cep: "",
+    })
 
     return (
         <Pagina>
@@ -17,8 +29,19 @@ export default function TelaCadCliente(props) {
             </Alert>
             {
                 exibirTabela ?
-                    <TabelaClientes listaDeClientes={clientes} setExibirTabela={setExibirTabela} /> :
-                    <FormCadCliente setExibirTabela={setExibirTabela} />
+                    <TabelaClientes listaDeClientes={listaDeClientes}
+                        setListaDeClientes={setListaDeClientes}
+                        setModoEdicao={setModoEdicao}
+                        setClienteSelecionado={setClienteSelecionado}
+                        setExibirTabela={setExibirTabela} /> :
+
+                    <FormCadCliente listaDeClientes={listaDeClientes}
+                        setListaDeClientes={setListaDeClientes}
+                        modoEdicao={modoEdicao}
+                        setModoEdicao={setModoEdicao}
+                        clienteSelecionado={clienteSelecionado}
+                        setClienteSelecionado={setClienteSelecionado}
+                        setExibirTabela={setExibirTabela} />
             }
         </Pagina>
     );

@@ -2,7 +2,7 @@ import { InputGroup, Col, Button, Row, Container, Card, Form } from 'react-boots
 import { useState } from "react";
 
 export default function FormCadProduto(props) {
-    const prodVazio = {
+    const produtoVazio = {
         codigo: 0,
         descricao: "",
         precoCusto: "",
@@ -14,7 +14,7 @@ export default function FormCadProduto(props) {
 
     const [formValidado, setFormValidado] = useState(false);
     const estadoProduto = props.produtoSelecionado;
-    const [produto, setProduto] = useState(estadoProduto)
+    const [produto, setProduto] = useState(estadoProduto);
 
 
     function manipularSubmissao(evento) {
@@ -26,21 +26,18 @@ export default function FormCadProduto(props) {
                 // Exibir tabela com o produto incluído
                 //props.setExibirTabela(true);
             } else {
-                props.setListaDeProdutos ([...props.listaDeProdutos.map((item) => {
+                props.setListaDeProdutos([...props.listaDeProdutos.map((item) => {
                     return item.codigo === produto.codigo ? produto : item;
                 })]);
-                
                 // O algoritmo abaixo excluia os elementos da lista e recriava uma nova lista de maneira não ordenada
                 //props.setListaDeProdutos([...props.listaDeProdutos.filter((item) => item.codigo !== produto.codigo), produto]);
-
                 props.setModoEdicao(false);
-                props.setProdutoSelecionado(prodVazio);
+                props.setProdutoSelecionado(produtoVazio);
             }
             props.setExibirTabela(true)
-            setProduto(prodVazio);
+            setProduto(produtoVazio);
             setFormValidado(false);
-        }
-        else {
+        } else {
             setFormValidado(true);
         }
         evento.preventDefault();
@@ -56,7 +53,7 @@ export default function FormCadProduto(props) {
 
     return (
         <Container className="mt-02 mb-02">
-            <Row className="vh-100 d-flex justify-content-center align-items-center">
+            <Row className="d-flex justify-content-center align-items-center">
                 <Col md={10} lg={8} xs={12}>
                     <div className="border-3 border-primary border"></div>
                     <Card className="shadow">
@@ -207,7 +204,7 @@ export default function FormCadProduto(props) {
                                                 <Button onClick={() => {
                                                     props.setExibirTabela(true);
                                                     props.setModoEdicao(false);
-                                                    props.setProdutoSelecionado(prodVazio);
+                                                    props.setProdutoSelecionado(produtoVazio);
                                                 }}>
                                                     Voltar
                                                 </Button>
