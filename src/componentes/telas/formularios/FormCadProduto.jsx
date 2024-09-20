@@ -16,7 +16,6 @@ export default function FormCadProduto(props) {
     const estadoProduto = props.produtoSelecionado;
     const [produto, setProduto] = useState(estadoProduto);
 
-
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
@@ -29,7 +28,7 @@ export default function FormCadProduto(props) {
                 props.setListaDeProdutos([...props.listaDeProdutos.map((item) => {
                     return item.codigo === produto.codigo ? produto : item;
                 })]);
-                // O algoritmo abaixo excluia os elementos da lista e recriava uma nova lista de maneira não ordenada
+                // O algoritmo abaixo excluia o elemento alterado e adicionava-o no final, desordenando a lista
                 //props.setListaDeProdutos([...props.listaDeProdutos.filter((item) => item.codigo !== produto.codigo), produto]);
                 props.setModoEdicao(false);
                 props.setProdutoSelecionado(produtoVazio);

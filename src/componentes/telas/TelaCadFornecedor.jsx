@@ -7,6 +7,18 @@ import { useState } from "react"
 
 export default function TelaCadFornecedor(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
+    const [listaDeFornecedores, setListaDeFornecedores] = useState(fornecedores);
+    const [modoEdicao, setModoEdicao] = useState(false);
+    const [fornecedorSelecionado, setFornecedorSelecionado] = useState({
+        razaoSocial: "",
+        cnpj: "",
+        nomeFantasia: "",
+        telefone: "",
+        rua: "",
+        numero: "",
+        cidade: "",
+        cep: ""
+    });
 
     return (
         <Pagina>
@@ -17,8 +29,19 @@ export default function TelaCadFornecedor(props) {
             </Alert>
             {
                 exibirTabela ?
-                    <TabelaFornecedores listaDeFornecedores={fornecedores} setExibirTabela={setExibirTabela} /> :
-                    <FormCadFornecedor setExibirTabela={setExibirTabela} />
+                    <TabelaFornecedores listaDeFornecedores={listaDeFornecedores}
+                        setListaDeFornecedores={setListaDeFornecedores}
+                        setModoEdicao={setModoEdicao}
+                        setFornecedorSelecionado={setFornecedorSelecionado}
+                        setExibirTabela={setExibirTabela} /> :
+
+                    <FormCadFornecedor listaDeFornecedores={listaDeFornecedores}
+                        setListaDeFornecedores={setListaDeFornecedores}
+                        modoEdicao={modoEdicao}
+                        setModoEdicao={setModoEdicao}
+                        fornecedorSelecionado={fornecedorSelecionado}
+                        setFornecedorSelecionado={setFornecedorSelecionado}
+                        setExibirTabela={setExibirTabela} />
             }
         </Pagina>
     )
