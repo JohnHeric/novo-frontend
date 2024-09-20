@@ -59,7 +59,7 @@ export default function FormCadProduto(props) {
                         <Card.Body>
                             <div className="mb-3 mt-4">
                                 <h2 className="fw-bold text-uppercase mb-2">ACME</h2>
-                                <p className="mb-5">
+                                <p className="mb-4">
                                     {
                                         props.modoEdicao ?
                                             "Alteração de Produto" :
@@ -67,18 +67,20 @@ export default function FormCadProduto(props) {
                                     }
                                 </p>
                                 <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
-                                    <Form.Group as={Col} className="mb-3">
-                                        <Form.Label className="text-center">Descrição</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            id="descricao"
-                                            name="descricao"
-                                            placeholder="Descrição do Produto"
-                                            value={produto.descricao}
-                                            onChange={manipularMudanca}
-                                            required
-                                        />
-                                    </Form.Group>
+                                    <Row>
+                                        <Form.Group as={Col} className="mb-3">
+                                            <Form.Label className="text-center">Descrição</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="descricao"
+                                                name="descricao"
+                                                placeholder="Descrição do Produto"
+                                                value={produto.descricao}
+                                                onChange={manipularMudanca}
+                                                required
+                                            />
+                                        </Form.Group>
+                                    </Row>
                                     <Row className="mb-3">
                                         {
                                             props.modoEdicao ?

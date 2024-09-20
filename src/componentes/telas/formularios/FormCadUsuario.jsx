@@ -1,8 +1,8 @@
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 import { useState } from "react";
 
-export default function FormCadCliente(props) {
-    const clienteVazio = {
+export default function FormCadusuario(props) {
+    const usuarioVazio = {
         cpf: "",
         nome: "",
         endereco: "",
@@ -14,23 +14,27 @@ export default function FormCadCliente(props) {
     };
 
     const [formValidado, setFormValidado] = useState(false);
-    const estadoCliente = props.clienteSelecionado;
-    const [cliente, setCliente] = useState(estadoCliente);
+    const estadoUsuario = props.usuarioSelecionado;
+    const [usuario, setUsuario] = useState(estadoUsuario);
+
+    function confereSenha() {
+        const senha = 0;
+    }
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (!props.modoEdicao) {
-                props.setListaDeClientes([...props.listaDeClientes, cliente]);
+                props.setListaDeUsuarios([...props.listaDeUsuarios, usuario]);
             } else {
-                props.setListaDeClientes([...props.listaDeClientes.map((item) => {
-                    return item.cpf === cliente.cpf ? cliente : item;
+                props.setListaDeUsuarios([...props.listaDeUsuarios.map((item) => {
+                    return item.login === usuario.login ? usuario : item;
                 })]);
                 props.setModoEdicao(false);
-                props.setClienteSelecionado(clienteVazio);
+                props.setUsuarioSelecionado(usuarioVazio);
             }
             props.setExibirTabela(true);
-            setCliente(clienteVazio);
+            setUsuario(usuarioVazio);
             setFormValidado(false);
         } else {
             setFormValidado(true);
@@ -42,7 +46,7 @@ export default function FormCadCliente(props) {
     function manipularMudanca(evento) {
         const elemento = evento.target.name;
         const valor = evento.target.value;
-        setCliente({ ...cliente, [elemento]: valor });
+        setUsuario({ ...usuario, [elemento]: valor });
         console.log(`componente: ${elemento} : ${valor}`);
     }
 
@@ -53,17 +57,17 @@ export default function FormCadCliente(props) {
                     <div className="border-3 border-primary border"></div>
                     <Card className="shadow">
                         <Card.Body>
-                            <div className="mb-3 mt-3">
+                            <div className="mb-3 mt-4">
                                 <h2 className="fw-bold text-uppercase mb-2">ACME</h2>
                                 <p className="mb-4">
                                     {
                                         props.modoEdicao ?
-                                            "Alteração de Cliente" :
-                                            "Cadastro de Cliente"
+                                            "Alteração de usuario" :
+                                            "Cadastro de usuario"
                                     }
                                 </p>
                                 <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
-                                    <h3>Dados Pessoais</h3>                                    
+                                    <h3>Dados Pessoais</h3>
                                     <Row className="mt-4">
                                         <Form.Group as={Col} className="mb-3">
                                             <Form.Label className="text-center">Nome</Form.Label>
@@ -72,44 +76,69 @@ export default function FormCadCliente(props) {
                                                 id="nome"
                                                 name="nome"
                                                 placeholder="Nome Completo"
-                                                value={cliente.nome}
+                                                value={usuario.nome}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
                                         </Form.Group>
                                     </Row>
-                                    <Row className="mb-3">
-                                        {
-                                            props.modoEdicao ?
+                                    {
+                                        props.modoEdicao ?
+                                            <Row>
                                                 <fieldset disabled>
                                                     <Form.Group as={Col} className="mb-3">
-                                                        <Form.Label className="text-center">CPF</Form.Label>
+                                                        <Form.Label className="text-center">Login</Form.Label>
                                                         <Form.Control
                                                             type="text"
-                                                            id="cpf"
-                                                            name="cpf"
-                                                            placeholder="Digite o seu CPF"
-                                                            value={cliente.cpf}
+                                                            id="login"
+                                                            name="login"
+                                                            placeholder="Digite o nome de usuário desejado"
+                                                            value={usuario.login}
                                                             onChange={manipularMudanca}
                                                             required
                                                         />
                                                     </Form.Group>
-                                                </fieldset> :
-
+                                                </fieldset>
                                                 <Form.Group as={Col} className="mb-3">
-                                                    <Form.Label className="text-center">CPF</Form.Label>
+                                                    <Form.Label className="text-center">Nova Senha</Form.Label>
                                                     <Form.Control
-                                                        type="text"
-                                                        id="cpf"
-                                                        name="cpf"
-                                                        placeholder="Digite o seu CPF"
-                                                        value={cliente.cpf}
+                                                        type="password"
+                                                        id="senha"
+                                                        name="senha"
+                                                        placeholder="Digite sua nova senha"
+                                                        value={usuario.senha}
                                                         onChange={manipularMudanca}
                                                         required
                                                     />
                                                 </Form.Group>
-                                        }
-                                    </Row>
+                                            </Row> :
+                                            <Row>
+                                                <Form.Group as={Col} className="mb-3">
+                                                    <Form.Label className="text-center">Login</Form.Label>
+                                                    <Form.Control
+                                                        type="text"
+                                                        id="login"
+                                                        name="login"
+                                                        placeholder="Digite o nome de usuário desejado"
+                                                        value={usuario.login}
+                                                        onChange={manipularMudanca}
+                                                        required
+                                                    />
+                                                </Form.Group>
+                                                <Form.Group as={Col} className="mb-3">
+                                                    <Form.Label className="text-center">Senha</Form.Label>
+                                                    <Form.Control
+                                                        type="password"
+                                                        id="senha"
+                                                        name="senha"
+                                                        placeholder="Digite sua nova senha"
+                                                        value={usuario.senha}
+                                                        onChange={manipularMudanca}
+                                                        required
+                                                    />
+                                                </Form.Group>
+                                            </Row>
+                                    }
                                     <h2>Endereço</h2>
                                     <Row className="mt-4">
                                         <Form.Group as={Col} className="mb-3">
@@ -119,7 +148,7 @@ export default function FormCadCliente(props) {
                                                 id="endereco"
                                                 name="endereco"
                                                 placeholder="Digite o nome da Rua ou Av."
-                                                value={cliente.endereco}
+                                                value={usuario.endereco}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -131,7 +160,7 @@ export default function FormCadCliente(props) {
                                                 id="numero"
                                                 name="numero"
                                                 placeholder="Informe o número da residência"
-                                                value={cliente.numero}
+                                                value={usuario.numero}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -145,7 +174,7 @@ export default function FormCadCliente(props) {
                                                 id="bairro"
                                                 name="bairro"
                                                 placeholder="Informe o Bairro"
-                                                value={cliente.bairro}
+                                                value={usuario.bairro}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -158,7 +187,7 @@ export default function FormCadCliente(props) {
                                                 id="cidade"
                                                 name="cidade"
                                                 placeholder="Informe a Cidade"
-                                                value={cliente.cidade}
+                                                value={usuario.cidade}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -172,12 +201,11 @@ export default function FormCadCliente(props) {
                                                 id="uf"
                                                 name="uf"
                                                 placeholder="Informe o Estado"
-                                                value={cliente.uf}
+                                                value={usuario.uf}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
                                         </Form.Group>
-
                                         <Form.Group as={Col} className="mb-3">
                                             <Form.Label>CEP</Form.Label>
                                             <Form.Control
@@ -185,7 +213,7 @@ export default function FormCadCliente(props) {
                                                 id="cep"
                                                 name="cep"
                                                 placeholder="Informe o CEP"
-                                                value={cliente.cep}
+                                                value={usuario.cep}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -208,7 +236,7 @@ export default function FormCadCliente(props) {
                                                 <Button onClick={() => {
                                                     props.setExibirTabela(true)
                                                     props.setModoEdicao(false)
-                                                    props.setClienteSelecionado(clienteVazio)
+                                                    props.setUsuarioSelecionado(usuarioVazio)
                                                 }}>
                                                     Voltar
                                                 </Button>
@@ -221,6 +249,6 @@ export default function FormCadCliente(props) {
                     </Card>
                 </Col>
             </Row>
-        </Container>
+        </Container >
     );
 }

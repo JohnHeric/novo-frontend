@@ -1,36 +1,34 @@
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 import { useState } from "react";
 
-export default function FormCadCliente(props) {
-    const clienteVazio = {
+export default function FormCadEntregador(props) {
+    const entregadorVazio = {
         cpf: "",
         nome: "",
-        endereco: "",
-        numero: "",
-        bairro: "",
-        cidade: "",
-        uf: "",
-        cep: "",
+        cnh: "",
+        dataNasc: "",
+        veiculo: "",
+        ano: ""
     };
 
     const [formValidado, setFormValidado] = useState(false);
-    const estadoCliente = props.clienteSelecionado;
-    const [cliente, setCliente] = useState(estadoCliente);
+    const estadoEntregador = props.entregadorSelecionado;
+    const [entregador, setEntregador] = useState(estadoEntregador);
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (!props.modoEdicao) {
-                props.setListaDeClientes([...props.listaDeClientes, cliente]);
+                props.setListaDeEntregadores([...props.listaDeEntregadores, entregador]);
             } else {
-                props.setListaDeClientes([...props.listaDeClientes.map((item) => {
-                    return item.cpf === cliente.cpf ? cliente : item;
+                props.setListaDeEntregadores([...props.listaDeEntregadores.map((item) => {
+                    return item.cpf === entregador.cpf ? entregador : item;
                 })]);
                 props.setModoEdicao(false);
-                props.setClienteSelecionado(clienteVazio);
+                props.setEntregadorSelecionado(entregadorVazio);
             }
             props.setExibirTabela(true);
-            setCliente(clienteVazio);
+            setEntregador(entregadorVazio);
             setFormValidado(false);
         } else {
             setFormValidado(true);
@@ -42,8 +40,14 @@ export default function FormCadCliente(props) {
     function manipularMudanca(evento) {
         const elemento = evento.target.name;
         const valor = evento.target.value;
-        setCliente({ ...cliente, [elemento]: valor });
+        setEntregador({ ...entregador, [elemento]: valor });
         console.log(`componente: ${elemento} : ${valor}`);
+    }
+
+    function descartarMudancas() {
+        props.setExibirTabela(true)
+        props.setModoEdicao(false)
+        props.setEntregadorSelecionado(entregadorVazio)
     }
 
     return (
@@ -53,18 +57,18 @@ export default function FormCadCliente(props) {
                     <div className="border-3 border-primary border"></div>
                     <Card className="shadow">
                         <Card.Body>
-                            <div className="mb-3 mt-3">
+                            <div className="mb-3 mt-4">
                                 <h2 className="fw-bold text-uppercase mb-2">ACME</h2>
                                 <p className="mb-4">
                                     {
                                         props.modoEdicao ?
-                                            "Alteração de Cliente" :
-                                            "Cadastro de Cliente"
+                                            "Alteração de entregador" :
+                                            "Cadastro de entregador"
                                     }
                                 </p>
                                 <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
-                                    <h3>Dados Pessoais</h3>                                    
-                                    <Row className="mt-4">
+                                    <h3>Dados Pessoais</h3>
+                                    <Row>
                                         <Form.Group as={Col} className="mb-3">
                                             <Form.Label className="text-center">Nome</Form.Label>
                                             <Form.Control
@@ -72,13 +76,13 @@ export default function FormCadCliente(props) {
                                                 id="nome"
                                                 name="nome"
                                                 placeholder="Nome Completo"
-                                                value={cliente.nome}
+                                                value={entregador.nome}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
                                         </Form.Group>
                                     </Row>
-                                    <Row className="mb-3">
+                                    <Row>
                                         {
                                             props.modoEdicao ?
                                                 <fieldset disabled>
@@ -89,7 +93,7 @@ export default function FormCadCliente(props) {
                                                             id="cpf"
                                                             name="cpf"
                                                             placeholder="Digite o seu CPF"
-                                                            value={cliente.cpf}
+                                                            value={entregador.cpf}
                                                             onChange={manipularMudanca}
                                                             required
                                                         />
@@ -103,89 +107,61 @@ export default function FormCadCliente(props) {
                                                         id="cpf"
                                                         name="cpf"
                                                         placeholder="Digite o seu CPF"
-                                                        value={cliente.cpf}
+                                                        value={entregador.cpf}
                                                         onChange={manipularMudanca}
                                                         required
                                                     />
                                                 </Form.Group>
                                         }
-                                    </Row>
-                                    <h2>Endereço</h2>
-                                    <Row className="mt-4">
-                                        <Form.Group as={Col} className="mb-3">
-                                            <Form.Label className="text-center">Endereço</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                id="endereco"
-                                                name="endereco"
-                                                placeholder="Digite o nome da Rua ou Av."
-                                                value={cliente.endereco}
-                                                onChange={manipularMudanca}
-                                                required
-                                            />
-                                        </Form.Group>
-                                        <Form.Group as={Col} className="mb-3">
-                                            <Form.Label className="text-center">Número</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                id="numero"
-                                                name="numero"
-                                                placeholder="Informe o número da residência"
-                                                value={cliente.numero}
-                                                onChange={manipularMudanca}
-                                                required
-                                            />
-                                        </Form.Group>
-                                    </Row>
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} className="mb-3">
-                                            <Form.Label className="text-center">Bairro</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                id="bairro"
-                                                name="bairro"
-                                                placeholder="Informe o Bairro"
-                                                value={cliente.bairro}
-                                                onChange={manipularMudanca}
-                                                required
-                                            />
-                                        </Form.Group>
 
                                         <Form.Group as={Col} className="mb-3">
-                                            <Form.Label className="text-center">Cidade</Form.Label>
+                                            <Form.Label className="text-center">CNH</Form.Label>
                                             <Form.Control
                                                 type="text"
-                                                id="cidade"
-                                                name="cidade"
-                                                placeholder="Informe a Cidade"
-                                                value={cliente.cidade}
+                                                id="cnh"
+                                                name="cnh"
+                                                placeholder="Digite sua CNH"
+                                                value={entregador.cnh}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
                                         </Form.Group>
                                     </Row>
-                                    <Row className="mb-3">
+                                    <Row>
                                         <Form.Group as={Col} className="mb-3">
-                                            <Form.Label className="text-center">Estado</Form.Label>
+                                            <Form.Label className="text-center">Veículo</Form.Label>
                                             <Form.Control
                                                 type="text"
-                                                id="uf"
-                                                name="uf"
-                                                placeholder="Informe o Estado"
-                                                value={cliente.uf}
+                                                id="veiculo"
+                                                name="veiculo"
+                                                placeholder="Informe o nome do veículo"
+                                                value={entregador.veiculo}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
                                         </Form.Group>
-
+                                    </Row>
+                                    <Row>
                                         <Form.Group as={Col} className="mb-3">
-                                            <Form.Label>CEP</Form.Label>
+                                            <Form.Label className="text-center">Ano do Veículo</Form.Label>
                                             <Form.Control
                                                 type="text"
-                                                id="cep"
-                                                name="cep"
-                                                placeholder="Informe o CEP"
-                                                value={cliente.cep}
+                                                id="ano"
+                                                name="ano"
+                                                placeholder="Digite o ano do veículo"
+                                                value={entregador.ano}
+                                                onChange={manipularMudanca}
+                                                required
+                                            />
+                                        </Form.Group>
+                                        <Form.Group as={Col} className="mb-3">
+                                            <Form.Label className="text-center">Data de Nascimento</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="dataNasc"
+                                                name="dataNasc"
+                                                placeholder="Digite sua data de nascimento"
+                                                value={entregador.dataNasc}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -206,9 +182,7 @@ export default function FormCadCliente(props) {
                                         <Col md={{ offset: 1 }}>
                                             <div className="mb-2 mt-2">
                                                 <Button onClick={() => {
-                                                    props.setExibirTabela(true)
-                                                    props.setModoEdicao(false)
-                                                    props.setClienteSelecionado(clienteVazio)
+                                                    descartarMudancas();
                                                 }}>
                                                     Voltar
                                                 </Button>

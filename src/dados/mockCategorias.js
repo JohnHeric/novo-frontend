@@ -1,14 +1,14 @@
 export const categorias = [
     {
         "codigo": 1,
-        "descricao": "Vestuário",
+        "descricao": "Vestuário"
     },
     {
         "codigo": 2,
-        "descricao": "Acessórios",
+        "descricao": "Acessórios"
     },
     {
         "codigo": 3,
-        "descricao": "Calçados",
-    },
+        "descricao": "Calçados"
+    }
 ];

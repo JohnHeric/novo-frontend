@@ -29,11 +29,12 @@ export default function TabelaFornecedores(props) {
                     <tr>
                         <th>Razão Social</th>
                         <th>CNPJ</th>
-                        <th>Nome Fantasia</th>
                         <th>Telefone</th>
-                        <th>Rua</th>
-                        <th>Número</th>
+                        <th>Endereço</th>
+                        <th>Numero</th>
+                        <th>Bairro</th>
                         <th>Cidade</th>
+                        <th>Estado</th>
                         <th>CEP</th>
                         <th>Ações</th>
                     </tr>
@@ -45,11 +46,12 @@ export default function TabelaFornecedores(props) {
                                 <tr>
                                     <td>{fornecedor.razaoSocial}</td>
                                     <td>{fornecedor.cnpj}</td>
-                                    <td>{fornecedor.nomeFantasia}</td>
                                     <td>{fornecedor.telefone}</td>
-                                    <td>{fornecedor.rua}</td>
+                                    <td>{fornecedor.endereco}</td>
                                     <td>{fornecedor.numero}</td>
+                                    <td>{fornecedor.bairro}</td>
                                     <td>{fornecedor.cidade}</td>
+                                    <td>{fornecedor.uf}</td>
                                     <td>{fornecedor.cep}</td>
                                     <td>
                                         <Button onClick={() => {

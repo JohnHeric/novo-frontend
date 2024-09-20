@@ -49,7 +49,7 @@ export default function FormCadCategoria(props) {
                         <Card.Body>
                             <div className="mb-3 mt-4">
                                 <h2 className="fw-bold text-uppercase mb-2">ACME</h2>
-                                <p className="mb-5">
+                                <p className="mb-4">
                                     {
                                         props.modoEdicao ?
                                             "Alteração de Categoria" :
@@ -92,18 +92,20 @@ export default function FormCadCategoria(props) {
                                         <Form.Group as={Col}>
                                         </Form.Group>
                                     </Row>
-                                    <Form.Group as={Col} className="mb-3" controlId="descricao">
-                                        <Form.Label>Descrição</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            id="descricao"
-                                            name="descricao"
-                                            placeholder="Digite a descrição"
-                                            value={categoria.descricao}
-                                            onChange={manipularMudanca}
-                                            required
-                                        />
-                                    </Form.Group>
+                                    <Row>
+                                        <Form.Group as={Col} className="mb-3" controlId="descricao">
+                                            <Form.Label>Descrição</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="descricao"
+                                                name="descricao"
+                                                placeholder="Digite a descrição"
+                                                value={categoria.descricao}
+                                                onChange={manipularMudanca}
+                                                required
+                                            />
+                                        </Form.Group>
+                                    </Row>
                                     <Row>
                                         <Col md={1}>
                                             <div className="mt-2 mb-2">

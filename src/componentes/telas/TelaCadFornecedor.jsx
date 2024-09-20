@@ -12,11 +12,12 @@ export default function TelaCadFornecedor(props) {
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState({
         razaoSocial: "",
         cnpj: "",
-        nomeFantasia: "",
         telefone: "",
-        rua: "",
+        endereco: "",
         numero: "",
+        bairro: "",
         cidade: "",
+        uf: "",
         cep: ""
     });
 

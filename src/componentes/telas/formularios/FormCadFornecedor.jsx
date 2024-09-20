@@ -55,7 +55,7 @@ export default function FormCadFornecedor(props) {
                         <Card.Body>
                             <div className="mb-3 mt-4">
                                 <h2 className="fw-bold text-uppercase mb-2">ACME</h2>
-                                <p className="mb-5">
+                                <p className="mb-4">
                                     {
                                         props.modoEdicao ?
                                             "Alteração de Produto" :
@@ -63,7 +63,7 @@ export default function FormCadFornecedor(props) {
                                     }
                                 </p>
                                 <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
-                                    <Row className="mb-3">
+                                    <Row>
                                         <Form.Group as={Col} className="mb-3">
                                             <Form.Label className="text-center">Razão Social</Form.Label>
                                             <Form.Control
@@ -76,6 +76,8 @@ export default function FormCadFornecedor(props) {
                                                 required
                                             />
                                         </Form.Group>
+                                    </Row>
+                                    <Row className="mb-3">
                                         {
                                             props.modoEdicao ?
                                                 <fieldset disabled>
@@ -106,21 +108,6 @@ export default function FormCadFornecedor(props) {
                                                     />
                                                 </Form.Group>
                                         }
-                                    </Row>
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} className="mb-3">
-                                            <Form.Label className="text-center">Nome Fantasia</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                id="nomeFantasia"
-                                                name="nomeFantasia"
-                                                placeholder="Digite o nome Fantasia"
-                                                value={fornecedor.nomeFantasia}
-                                                onChange={manipularMudanca}
-                                                required
-                                            />
-                                        </Form.Group>
-
                                         <Form.Group as={Col} className="mb-3">
                                             <Form.Label>Telefone</Form.Label>
                                             <Form.Control
@@ -135,27 +122,26 @@ export default function FormCadFornecedor(props) {
                                         </Form.Group>
                                     </Row>
                                     <h2>Endereço</h2>
-                                    <Row className="mb-3">
+                                    <Row className="mt-4">
                                         <Form.Group as={Col} className="mb-3">
-                                            <Form.Label className="text-center">Rua</Form.Label>
+                                            <Form.Label className="text-center">Endereço</Form.Label>
                                             <Form.Control
                                                 type="text"
-                                                id="rua"
-                                                name="rua"
-                                                placeholder="Informe a rua"
-                                                value={fornecedor.rua}
+                                                id="endereco"
+                                                name="endereco"
+                                                placeholder="Digite o nome da Rua ou Av."
+                                                value={fornecedor.endereco}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
                                         </Form.Group>
-
                                         <Form.Group as={Col} className="mb-3">
-                                            <Form.Label>Nº</Form.Label>
+                                            <Form.Label className="text-center">Número</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 id="numero"
                                                 name="numero"
-                                                placeholder="Informe o número"
+                                                placeholder="Informe o número da residência"
                                                 value={fornecedor.numero}
                                                 onChange={manipularMudanca}
                                                 required
@@ -164,6 +150,19 @@ export default function FormCadFornecedor(props) {
                                     </Row>
                                     <Row className="mb-3">
                                         <Form.Group as={Col} className="mb-3">
+                                            <Form.Label className="text-center">Bairro</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="bairro"
+                                                name="bairro"
+                                                placeholder="Informe o Bairro"
+                                                value={fornecedor.bairro}
+                                                onChange={manipularMudanca}
+                                                required
+                                            />
+                                        </Form.Group>
+
+                                        <Form.Group as={Col} className="mb-3">
                                             <Form.Label className="text-center">Cidade</Form.Label>
                                             <Form.Control
                                                 type="text"
@@ -171,6 +170,20 @@ export default function FormCadFornecedor(props) {
                                                 name="cidade"
                                                 placeholder="Informe a Cidade"
                                                 value={fornecedor.cidade}
+                                                onChange={manipularMudanca}
+                                                required
+                                            />
+                                        </Form.Group>
+                                    </Row>
+                                    <Row className="mb-3">
+                                        <Form.Group as={Col} className="mb-3">
+                                            <Form.Label className="text-center">Estado</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="uf"
+                                                name="uf"
+                                                placeholder="Informe o Estado"
+                                                value={fornecedor.uf}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -191,7 +204,7 @@ export default function FormCadFornecedor(props) {
                                     </Row>
                                     <Row>
                                         <Col md={1}>
-                                            <div className="mt-2 mb-2">
+                                            <div className="mb-2 mt-2">
                                                 <Button type="submit">
                                                     {
                                                         props.modoEdicao ?
@@ -202,11 +215,11 @@ export default function FormCadFornecedor(props) {
                                             </div>
                                         </Col>
                                         <Col md={{ offset: 1 }}>
-                                            <div className="mt-2 mb-2">
+                                            <div className="mb-2 mt-2">
                                                 <Button onClick={() => {
-                                                    props.setExibirTabela(true);
-                                                    props.setModoEdicao(false);
-                                                    props.setFornecedorSelecionado(fornecedorVazio);
+                                                    props.setExibirTabela(true)
+                                                    props.setModoEdicao(false)
+                                                    props.setFornecedorSelecionado(fornecedorVazio)
                                                 }}>
                                                     Voltar
                                                 </Button>

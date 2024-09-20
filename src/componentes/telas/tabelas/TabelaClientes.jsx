@@ -1,6 +1,7 @@
 import { Button, Container, Table } from "react-bootstrap"
 
 export default function TabelaClientes(props) {
+
     function excluirCliente(cliente) {
         if (window.confirm("Deseja realmente excluir o cliente " + cliente.nome)) {
             props.setListaDeClientes(props.listaDeClientes.filter(
