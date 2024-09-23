@@ -33,7 +33,6 @@ export default function FormCadProduto(props) {
                 // O algoritmo abaixo excluia o elemento alterado e adicionava-o no final, desordenando a lista
                 //props.setListaDeProdutos([...props.listaDeProdutos.filter((item) => item.codigo !== produto.codigo), produto]);
                 props.setModoEdicao(false);
-                props.setProdutoSelecionado(produtoVazio);
             }
             props.setExibirTabela(true)
             setProduto(produtoVazio);

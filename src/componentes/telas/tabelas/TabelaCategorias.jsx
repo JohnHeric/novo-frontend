@@ -60,6 +60,7 @@ export default function TabelaCategorias(props) {
                     }
                 </tbody>
             </Table>
+            <p>Quantidade de categorias cadastradas: {props.listaDeCategorias.length}</p>
         </Container>
     );
 }
