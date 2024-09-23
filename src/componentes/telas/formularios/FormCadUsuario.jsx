@@ -46,6 +46,12 @@ export default function FormCadusuario(props) {
         console.log(`componente: ${elemento} : ${valor}`);
     }
 
+    function voltar() {
+        props.setExibirTabela(true);
+        props.setModoEdicao(false);
+        props.setUsuarioSelecionado(usuarioVazio);
+    }
+
     return (
         <Container className="mt-02 mb-02">
             <Row className="d-flex justify-content-center align-items-center">
@@ -230,9 +236,7 @@ export default function FormCadusuario(props) {
                                         <Col md={{ offset: 1 }}>
                                             <div className="mb-2 mt-2">
                                                 <Button onClick={() => {
-                                                    props.setExibirTabela(true)
-                                                    props.setModoEdicao(false)
-                                                    props.setUsuarioSelecionado(usuarioVazio)
+                                                    voltar();
                                                 }}>
                                                     Voltar
                                                 </Button>

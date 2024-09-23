@@ -25,9 +25,11 @@ export default function FormCadProduto(props) {
                 // Exibir tabela com o produto incluído
                 //props.setExibirTabela(true);
             } else {
-                props.setListaDeProdutos([...props.listaDeProdutos.map((item) => {
+                // Não é necessário esparramar a lista pois o .map retorna um novo array
+                // props.setListaDeProdutos([...props.listaDeProdutos.map((item) => ...
+                props.setListaDeProdutos(props.listaDeProdutos.map((item) => {
                     return item.codigo === produto.codigo ? produto : item;
-                })]);
+                }));
                 // O algoritmo abaixo excluia o elemento alterado e adicionava-o no final, desordenando a lista
                 //props.setListaDeProdutos([...props.listaDeProdutos.filter((item) => item.codigo !== produto.codigo), produto]);
                 props.setModoEdicao(false);
@@ -48,6 +50,12 @@ export default function FormCadProduto(props) {
         const valor = evento.target.value;
         setProduto({ ...produto, [elemento]: valor });
         console.log(`componente: ${elemento} : ${valor}`);
+    }
+
+    function voltar () {
+        props.setExibirTabela(true);
+        props.setModoEdicao(false);
+        props.setProdutoSelecionado(produtoVazio);
     }
 
     return (
@@ -84,7 +92,7 @@ export default function FormCadProduto(props) {
                                     <Row className="mb-3">
                                         {
                                             props.modoEdicao ?
-                                                <fieldset disabled>
+                                               <fieldset disabled>
                                                     <Form.Group as={Col} className="mb-3">
                                                         <Form.Label className="text-center">Código</Form.Label>
                                                         <Form.Control
@@ -93,10 +101,12 @@ export default function FormCadProduto(props) {
                                                             name="codigo"
                                                             placeholder="Código do Produto"
                                                             value={produto.codigo}
+                                                            // Ao invés de usar o fieldset disabled, poderia desabilitar o modo de edição apenas neste campo
+                                                            //disabled = {props.modoEdicao}
                                                             onChange={manipularMudanca}
                                                             required
                                                         />
-                                                    </Form.Group>
+                                                   </Form.Group>
                                                 </fieldset> :
 
                                                 <Form.Group as={Col} className="mb-3">
@@ -203,9 +213,7 @@ export default function FormCadProduto(props) {
                                         <Col md={{ offset: 1 }}>
                                             <div className="mb-2 mt-2">
                                                 <Button onClick={() => {
-                                                    props.setExibirTabela(true);
-                                                    props.setModoEdicao(false);
-                                                    props.setProdutoSelecionado(produtoVazio);
+                                                    voltar();
                                                 }}>
                                                     Voltar
                                                 </Button>
