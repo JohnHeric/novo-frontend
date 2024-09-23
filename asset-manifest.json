@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/SistemaReact/static/css/main.d221dc40.css",
+    "main.js": "/SistemaReact/static/js/main.5622e625.js",
+    "static/media/Tela404.png": "/SistemaReact/static/media/Tela404.1dcebe26cff12383c9c0.png",
+    "index.html": "/SistemaReact/index.html",
+    "main.d221dc40.css.map": "/SistemaReact/static/css/main.d221dc40.css.map",
+    "main.5622e625.js.map": "/SistemaReact/static/js/main.5622e625.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d221dc40.css",
+    "static/js/main.5622e625.js"
+  ]
+}
