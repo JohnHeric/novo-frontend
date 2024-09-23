@@ -17,10 +17,6 @@ export default function FormCadusuario(props) {
     const estadoUsuario = props.usuarioSelecionado;
     const [usuario, setUsuario] = useState(estadoUsuario);
 
-    function confereSenha() {
-        const senha = 0;
-    }
-
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
