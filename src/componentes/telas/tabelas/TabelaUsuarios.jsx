@@ -74,6 +74,7 @@ export default function TabelaUsuarios(props) {
                     }
                 </tbody>
             </Table>
+            <p>Quantidade de usuários cadastrados: {props.listaDeUsuarios.length}</p>
         </Container>
     );
 }

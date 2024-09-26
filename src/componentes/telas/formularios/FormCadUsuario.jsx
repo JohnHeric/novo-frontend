@@ -17,10 +17,6 @@ export default function FormCadusuario(props) {
     const estadoUsuario = props.usuarioSelecionado;
     const [usuario, setUsuario] = useState(estadoUsuario);
 
-    function confereSenha() {
-        const senha = 0;
-    }
-
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
@@ -48,6 +44,12 @@ export default function FormCadusuario(props) {
         const valor = evento.target.value;
         setUsuario({ ...usuario, [elemento]: valor });
         console.log(`componente: ${elemento} : ${valor}`);
+    }
+
+    function voltar() {
+        props.setExibirTabela(true);
+        props.setModoEdicao(false);
+        props.setUsuarioSelecionado(usuarioVazio);
     }
 
     return (
@@ -234,9 +236,7 @@ export default function FormCadusuario(props) {
                                         <Col md={{ offset: 1 }}>
                                             <div className="mb-2 mt-2">
                                                 <Button onClick={() => {
-                                                    props.setExibirTabela(true)
-                                                    props.setModoEdicao(false)
-                                                    props.setUsuarioSelecionado(usuarioVazio)
+                                                    voltar();
                                                 }}>
                                                     Voltar
                                                 </Button>

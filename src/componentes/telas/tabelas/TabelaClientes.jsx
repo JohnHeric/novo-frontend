@@ -74,6 +74,7 @@ export default function TabelaClientes(props) {
                     }
                 </tbody>
             </Table>
+            <p>Quantidade de clientes cadastrados: {props.listaDeClientes.length}</p>
         </Container>
     );
 }
