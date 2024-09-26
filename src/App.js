@@ -31,3 +31,7 @@ function App() {
 }
 
 export default App;
+
+// git remote rm origin
+// git push --mirror "link da origem"
+// git remote add origin "link do novo repositório"
