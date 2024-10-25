@@ -54,7 +54,6 @@ export default function FormCadEntregador(props) {
         <Container className="mt-02 mb-02">
             <Row className="d-flex justify-content-center align-items-center">
                 <Col md={10} lg={8} xs={12}>
-                    <div className="border-3 border-primary border"></div>
                     <Card className="shadow">
                         <Card.Body>
                             <div className="mb-3 mt-4">

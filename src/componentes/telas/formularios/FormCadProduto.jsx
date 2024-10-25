@@ -1,5 +1,7 @@
-import { InputGroup, Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
-import { useState } from "react";
+import { Button, Card, Col, Container, Form, InputGroup, Row, Spinner, ToastContainer } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { consultarCategoria } from "../../../servicos/servicoCategoria.js"
+import toast, { Toaster } from "react-hot-toast";
 
 export default function FormCadProduto(props) {
     const produtoVazio = {
@@ -11,10 +13,26 @@ export default function FormCadProduto(props) {
         urlImagem: "",
         dataValidade: ""
     };
-
     const [formValidado, setFormValidado] = useState(false);
     const estadoProduto = props.produtoSelecionado;
     const [produto, setProduto] = useState(estadoProduto);
+    const [categorias, setCategorias] = useState([]);
+    const [temCategorias, setTemCategorias] = useState(false);
+
+    useEffect(() => {
+        consultarCategoria().then((resultado) => {
+            if (Array.isArray(resultado)) {
+                setCategorias(resultado);
+                setTemCategorias(true);
+                toast.success("Categorias carregadas com sucesso");
+            }
+            else
+                toast.error("Não foi possível carregar as categorias!");
+        }).catch(() => {
+            setTemCategorias(false);
+            toast.error("Não foi possível carregar as categorias!");
+        });
+    }, []); // Para que o useEffect tenha o efeito de um didMount o segundo parâmetro deve ser um vetor VAZIO!
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
@@ -31,7 +49,7 @@ export default function FormCadProduto(props) {
                     return item.codigo === produto.codigo ? produto : item;
                 }));
                 // O algoritmo abaixo excluia o elemento alterado e adicionava-o no final, desordenando a lista
-                //props.setListaDeProdutos([...props.listaDeProdutos.filter((item) => item.codigo !== produto.codigo), produto]);
+                // props.setListaDeProdutos([...props.listaDeProdutos.filter((item) => item.codigo !== produto.codigo), produto]);
                 props.setModoEdicao(false);
             }
             props.setExibirTabela(true)
@@ -51,7 +69,7 @@ export default function FormCadProduto(props) {
         console.log(`componente: ${elemento} : ${valor}`);
     }
 
-    function voltar () {
+    function voltar() {
         props.setExibirTabela(true);
         props.setModoEdicao(false);
         props.setProdutoSelecionado(produtoVazio);
@@ -61,7 +79,6 @@ export default function FormCadProduto(props) {
         <Container className="mt-02 mb-02">
             <Row className="d-flex justify-content-center align-items-center">
                 <Col md={10} lg={8} xs={12}>
-                    <div className="border-3 border-primary border"></div>
                     <Card className="shadow">
                         <Card.Body>
                             <div className="mb-3 mt-4">
@@ -91,7 +108,7 @@ export default function FormCadProduto(props) {
                                     <Row className="mb-3">
                                         {
                                             props.modoEdicao ?
-                                               <fieldset disabled>
+                                                <fieldset disabled>
                                                     <Form.Group as={Col} className="mb-3">
                                                         <Form.Label className="text-center">Código</Form.Label>
                                                         <Form.Control
@@ -101,11 +118,11 @@ export default function FormCadProduto(props) {
                                                             placeholder="Código do Produto"
                                                             value={produto.codigo}
                                                             // Ao invés de usar o fieldset disabled, poderia desabilitar o modo de edição apenas neste campo
-                                                            //disabled = {props.modoEdicao}
+                                                            // disabled = {props.modoEdicao}
                                                             onChange={manipularMudanca}
                                                             required
                                                         />
-                                                   </Form.Group>
+                                                    </Form.Group>
                                                 </fieldset> :
 
                                                 <Form.Group as={Col} className="mb-3">
@@ -184,7 +201,9 @@ export default function FormCadProduto(props) {
                                                 onChange={manipularMudanca}
                                             />
                                         </Form.Group>
-                                        <Form.Group as={Col} className="mb-3">
+                                    </Row>
+                                    <Row>
+                                        <Form.Group as={Col} md={4} className="mb-3">
                                             <Form.Label>Validade</Form.Label>
                                             <Form.Control
                                                 type="text"
@@ -196,11 +215,35 @@ export default function FormCadProduto(props) {
                                                 required
                                             />
                                         </Form.Group>
+                                        <Form.Group as={Col} md={7} className="mb-3">
+                                            <Form.Label>Categoria</Form.Label>
+                                            <Form.Select id="categoria" name="categoria">
+                                                <option value="" selected disabled>Selecione uma categoria</option>
+                                                {
+                                                    // Criar em tempo de execução as categorias existentes no banco de dados
+                                                    categorias.map((categoria) => {
+                                                        return <option value={categoria.codigo}>
+                                                            {categoria.descricao}
+                                                        </option>;
+                                                    })
+                                                }
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <Form.Group as={Col} md={1} className="mt-4">
+                                            <Form.Label>     </Form.Label>
+                                            {
+                                                !temCategorias ?
+                                                    <Spinner className="mt-2" animation="border" role="status" variant="primary">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </Spinner> :
+                                                    ""
+                                            }
+                                        </Form.Group>
                                     </Row>
                                     <Row>
                                         <Col md={1}>
                                             <div className="mb-2 mt-2">
-                                                <Button type="submit">
+                                                <Button type="submit" disabled={!temCategorias}>
                                                     {
                                                         props.modoEdicao ?
                                                             "Alterar" :
@@ -225,6 +268,7 @@ export default function FormCadProduto(props) {
                     </Card>
                 </Col>
             </Row>
+            <Toaster position="top-center" reverseOrder={false} />
         </Container >
     );
 }
