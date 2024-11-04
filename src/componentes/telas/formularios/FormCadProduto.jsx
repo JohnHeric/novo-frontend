@@ -1,22 +1,12 @@
 import { Button, Card, Col, Container, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { consultarCategoria } from "../../../servicos/servicoCategoria.js"
-import { gravarProduto } from "../../../servicos/servicoProduto.js";
+import { gravarProduto, alterarProduto } from "../../../servicos/servicoProduto.js";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function FormCadProduto(props) {
-    const produtoVazio = {
-        codigo: 0,
-        descricao: "",
-        precoCusto: "",
-        precoVenda: "",
-        qtdEstoque: "",
-        urlImagem: "",
-        dataValidade: "",
-        categoria: {}
-    };
-    const [formValidado, setFormValidado] = useState(false);
     const [produto, setProduto] = useState(props.produtoSelecionado);
+    const [formValidado, setFormValidado] = useState(false);
     const [categorias, setCategorias] = useState([]);
     const [temCategorias, setTemCategorias] = useState(false);
 
@@ -25,6 +15,7 @@ export default function FormCadProduto(props) {
             if (Array.isArray(resultado)) {
                 setCategorias(resultado);
                 setTemCategorias(true);
+                toast.success("Categorias Carregadas com Sucesso!");
             }
             else
                 toast.error("Não foi possível carregar as categorias!");
@@ -48,8 +39,10 @@ export default function FormCadProduto(props) {
             if (!props.modoEdicao) {
                 gravarProduto(produto)
                     .then((resultado) => {
-                        if (resultado.status)
+                        if (resultado.status) {
                             props.setExibirTabela(true);
+                            toast.success("Produto Cadastrado!");
+                        }
                         else
                             toast.error(resultado.mensagem);
                     });
@@ -58,18 +51,35 @@ export default function FormCadProduto(props) {
                 // Exibir tabela com o produto incluído
                 // props.setExibirTabela(true);
             } else {
-
+                alterarProduto(produto)
+                    .then((resultado) => {
+                        if (resultado.status) {
+                            props.setModoEdicao(false);                            
+                            toast.success("Produto Alterado!");
+                        }
+                        else
+                            toast.error(resultado.mensagem);
+                    });
                 // Não é necessário esparramar a lista pois o .map retorna um novo array
                 // props.setListaDeProdutos([...props.listaDeProdutos.map((item) => ...
-                props.setListaDeProdutos(props.listaDeProdutos.map((item) => {
-                    return item.codigo === produto.codigo ? produto : item;
-                }));
+                // props.setListaDeProdutos(props.listaDeProdutos.map((item) => {
+                //     return item.codigo === produto.codigo ? produto : item;
+                //}));
                 // O algoritmo abaixo excluia o elemento alterado e adicionava-o no final, desordenando a lista
                 // props.setListaDeProdutos([...props.listaDeProdutos.filter((item) => item.codigo !== produto.codigo), produto]);
-                props.setModoEdicao(false);
+                //props.setModoEdicao(false);
             }
             props.setExibirTabela(true)
-            setProduto(produtoVazio);
+            props.setProdutoSelecionado({
+                codigo: 0,
+                descricao: "",
+                precoCusto: "",
+                precoVenda: "",
+                qtdEstoque: "",
+                urlImagem: "",
+                dataValidade: "",
+                categoria: {}
+            });
             setFormValidado(false);
         } else {
             setFormValidado(true);
@@ -88,7 +98,16 @@ export default function FormCadProduto(props) {
     function voltar() {
         props.setExibirTabela(true);
         props.setModoEdicao(false);
-        props.setProdutoSelecionado(produtoVazio);
+        props.setProdutoSelecionado({
+            codigo: 0,
+            descricao: "",
+            precoCusto: "",
+            precoVenda: "",
+            qtdEstoque: "",
+            urlImagem: "",
+            dataValidade: "",
+            categoria: {}
+        });
     }
 
     return (
@@ -284,7 +303,7 @@ export default function FormCadProduto(props) {
                     </Card>
                 </Col>
             </Row>
-            <Toaster position="top-center" reverseOrder={false} />
+            <Toaster position="top-center" />
         </Container >
     );
 }

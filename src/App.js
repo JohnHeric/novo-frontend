@@ -16,12 +16,12 @@ function App() {
           // A ordem das rotas é importante
         }
         <Routes>
-          <Route path="/produto" element={<TelaCadProduto />} />
-          <Route path="/cliente" element={<TelaCadCliente />} />
-          <Route path="/fornecedor" element={<TelaCadFornecedor />} />
-          <Route path="/categoria" element={<TelaCadCategoria />} />
-          <Route path="/entregador" element={<TelaCadEntregador />} />
-          <Route path="/usuario" element={<TelaCadUsuario />} />
+          <Route path="/produtos" element={<TelaCadProduto />} />
+          <Route path="/clientes" element={<TelaCadCliente />} />
+          <Route path="/fornecedores" element={<TelaCadFornecedor />} />
+          <Route path="/categorias" element={<TelaCadCategoria />} />
+          <Route path="/entregadores" element={<TelaCadEntregador />} />
+          <Route path="/usuarios" element={<TelaCadUsuario />} />
           <Route path="/" element={<TelaMenu props="TESTE" />} />
           <Route path="*" element={<Tela404 />} />
         </Routes>
