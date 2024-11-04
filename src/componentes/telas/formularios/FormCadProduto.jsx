@@ -1,6 +1,7 @@
-import { Button, Card, Col, Container, Form, InputGroup, Row, Spinner, ToastContainer } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { consultarCategoria } from "../../../servicos/servicoCategoria.js"
+import { gravarProduto } from "../../../servicos/servicoProduto.js";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function FormCadProduto(props) {
@@ -11,11 +12,11 @@ export default function FormCadProduto(props) {
         precoVenda: "",
         qtdEstoque: "",
         urlImagem: "",
-        dataValidade: ""
+        dataValidade: "",
+        categoria: {}
     };
     const [formValidado, setFormValidado] = useState(false);
-    const estadoProduto = props.produtoSelecionado;
-    const [produto, setProduto] = useState(estadoProduto);
+    const [produto, setProduto] = useState(props.produtoSelecionado);
     const [categorias, setCategorias] = useState([]);
     const [temCategorias, setTemCategorias] = useState(false);
 
@@ -24,25 +25,40 @@ export default function FormCadProduto(props) {
             if (Array.isArray(resultado)) {
                 setCategorias(resultado);
                 setTemCategorias(true);
-                toast.success("Categorias carregadas com sucesso");
             }
             else
                 toast.error("Não foi possível carregar as categorias!");
-        }).catch(() => {
+        }).catch((erro) => {
             setTemCategorias(false);
             toast.error("Não foi possível carregar as categorias!");
         });
     }, []); // Para que o useEffect tenha o efeito de um didMount o segundo parâmetro deve ser um vetor VAZIO!
 
+    function selecionarCategoria(evento) {
+        setProduto({
+            ...produto, categoria: {
+                codigo: evento.currentTarget.value
+            }
+        });
+    }
+
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (!props.modoEdicao) {
-                // Cadastrar produto
-                props.setListaDeProdutos([...props.listaDeProdutos, produto]); // Array vazio está recebendo o conteúdo da lista espalhada mais o produto
+                gravarProduto(produto)
+                    .then((resultado) => {
+                        if (resultado.status)
+                            props.setExibirTabela(true);
+                        else
+                            toast.error(resultado.mensagem);
+                    });
+                // Nosso cadastro, anteriormente, salvava o produto em uma lista de dados mockados.
+                // props.setListaDeProdutos([...props.listaDeProdutos, produto]); // Array vazio está recebendo o conteúdo da lista espalhada mais o produto
                 // Exibir tabela com o produto incluído
-                //props.setExibirTabela(true);
+                // props.setExibirTabela(true);
             } else {
+
                 // Não é necessário esparramar a lista pois o .map retorna um novo array
                 // props.setListaDeProdutos([...props.listaDeProdutos.map((item) => ...
                 props.setListaDeProdutos(props.listaDeProdutos.map((item) => {
@@ -217,7 +233,7 @@ export default function FormCadProduto(props) {
                                         </Form.Group>
                                         <Form.Group as={Col} md={7} className="mb-3">
                                             <Form.Label>Categoria</Form.Label>
-                                            <Form.Select id="categoria" name="categoria">
+                                            <Form.Select id="categoria" name="categoria" onChange={selecionarCategoria}>
                                                 <option value="" selected disabled>Selecione uma categoria</option>
                                                 {
                                                     // Criar em tempo de execução as categorias existentes no banco de dados

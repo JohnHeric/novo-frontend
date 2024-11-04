@@ -1,11 +1,13 @@
 import FormCadProduto from "./formularios/FormCadProduto.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaProdutos from "./tabelas/TabelaProdutos.jsx";
-import { produtos } from "../../dados/mockProdutos.js";
 import { Alert } from "react-bootstrap"
-import { useState } from "react";
+import { useState, useEffect } from "react";
+//import { produtos } from "../../dados/mockProdutos.js";
+import { consultarProduto } from "../../servicos/servicoProduto.js";
 
 export default function TelaCadProduto(props) {
+    const [produtos, setProdutos] = useState([]);
     const [exibirTabela, setExibirTabela] = useState(true);
     const [listaDeProdutos, setListaDeProdutos] = useState(produtos);
     const [modoEdicao, setModoEdicao] = useState(false);
@@ -18,6 +20,12 @@ export default function TelaCadProduto(props) {
         urlImagem: "",
         dataValidade: ""
     });
+
+    useEffect(() => {
+        consultarProduto().then((lista) => {
+            setListaDeProdutos(lista);
+        });
+    }, []); // listaVazia -> didMount
 
     return (
         <Pagina>
