@@ -241,7 +241,7 @@ export default function FormCadProduto(props) {
                                         <Form.Group as={Col} md={4} className="mb-3">
                                             <Form.Label>Validade</Form.Label>
                                             <Form.Control
-                                                type="text"
+                                                type="date"
                                                 id="dataValidade"
                                                 name="dataValidade"
                                                 placeholder="Data de Validade"
