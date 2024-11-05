@@ -1,4 +1,4 @@
-const urlBase = "https://bcc-backend-lp-2-mu.vercel.app/produtos";
+const urlBase = "https://bcc-backend-lp-2-opal.vercel.app/produtos";
 
 export async function gravarProduto(produto) {
     const resposta = await fetch(urlBase, {
