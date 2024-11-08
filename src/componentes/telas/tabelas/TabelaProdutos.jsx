@@ -1,6 +1,7 @@
 import { Button, Container, Table } from "react-bootstrap"
 import { excluirProduto } from "../../../servicos/servicoProduto.js";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 export default function TabelaProdutos(props) {
 
@@ -8,15 +9,16 @@ export default function TabelaProdutos(props) {
         if (window.confirm("Deseja realmente excluir o produto " + produto.descricao)) {
             excluirProduto(produto)
                 .then((resultado) => {
-                    if (resultado.status)
-                        toast.success("Produto Alterado!");
+                    if (resultado.status) {
+                        props.setListaDeProdutos(props.listaDeProdutos.filter(
+                            (item) => {
+                                return item.codigo !== produto.codigo;
+                            }));
+                        toast.success("Produto excluído com sucesso!");
+                    }
                     else
-                        toast.error(resultado.mensagem);
+                        toast.error("Não foi possível excluir o produto: " + resultado.mensagem);
                 });
-            /*props.setListaDeProdutos(props.listaDeProdutos.filter(
-                (item) => {
-                    return item.codigo !== produto.codigo;
-                }));*/
         }
     }
 
@@ -88,12 +90,13 @@ export default function TabelaProdutos(props) {
                                         </Button>
                                     </td>
                                 </tr>
-                            )
+                            );
                         })
                     }
                 </tbody>
             </Table>
             <p>Quantidade de produtos cadastrados: {props.listaDeProdutos.length}</p>
+            <Toaster position="top-center" />
         </Container>
     );
 }

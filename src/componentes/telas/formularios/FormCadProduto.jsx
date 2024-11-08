@@ -41,7 +41,7 @@ export default function FormCadProduto(props) {
                     .then((resultado) => {
                         if (resultado.status) {
                             props.setExibirTabela(true);
-                            toast.success("Produto Cadastrado!");
+                            toast.success("Produto cadastrado com sucesso!");
                         }
                         else
                             toast.error(resultado.mensagem);
@@ -54,8 +54,8 @@ export default function FormCadProduto(props) {
                 alterarProduto(produto)
                     .then((resultado) => {
                         if (resultado.status) {
-                            props.setModoEdicao(false);                            
-                            toast.success("Produto Alterado!");
+                            props.setModoEdicao(false);
+                            toast.success("Produto alterado com sucesso!");
                         }
                         else
                             toast.error(resultado.mensagem);
@@ -241,7 +241,7 @@ export default function FormCadProduto(props) {
                                         <Form.Group as={Col} md={4} className="mb-3">
                                             <Form.Label>Validade</Form.Label>
                                             <Form.Control
-                                                type="date"
+                                                type="text"
                                                 id="dataValidade"
                                                 name="dataValidade"
                                                 placeholder="Data de Validade"

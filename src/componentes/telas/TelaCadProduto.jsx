@@ -3,8 +3,8 @@ import Pagina from "../layouts/Pagina.jsx";
 import TabelaProdutos from "./tabelas/TabelaProdutos.jsx";
 import { Alert } from "react-bootstrap"
 import { useState, useEffect } from "react";
-//import { produtos } from "../../dados/mockProdutos.js";
 import { consultarProduto } from "../../servicos/servicoProduto.js";
+//import { produtos } from "../../dados/mockProdutos.js";
 
 export default function TelaCadProduto(props) {
     const [produtos, setProdutos] = useState([]);
@@ -26,6 +26,12 @@ export default function TelaCadProduto(props) {
             setListaDeProdutos(lista);
         });
     }, []); // listaVazia -> didMount
+
+    useEffect(() => {
+        consultarProduto().then((lista) => {
+            setListaDeProdutos(lista);
+        });
+    }, [listaDeProdutos]); // didUpdate
 
     return (
         <Pagina>
