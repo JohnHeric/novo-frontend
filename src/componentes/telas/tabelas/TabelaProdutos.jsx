@@ -1,7 +1,6 @@
 import { Button, Container, Table } from "react-bootstrap"
 import { excluirProduto } from "../../../servicos/servicoProduto.js";
-import toast from "react-hot-toast";
-import { Toaster } from "react-hot-toast";
+import toast, {Toaster} from "react-hot-toast";
 
 export default function TabelaProdutos(props) {
 
@@ -25,6 +24,7 @@ export default function TabelaProdutos(props) {
     function alterarProduto(produto) {
         props.setExibirTabela(false);
         props.setProdutoSelecionado(produto);
+        produto.dataValidade = new Date(produto.dataValidade).toLocaleDateString();
         props.setModoEdicao(true);
     }
 
@@ -54,14 +54,15 @@ export default function TabelaProdutos(props) {
                         <th>Qtd. em Estoque</th>
                         <th>Imagem</th>
                         <th>Validade</th>
+                        <th>Categoria</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        props.listaDeProdutos?.map((produto) => {
+                        props?.listaDeProdutos?.map((produto) => {
                             return (
-                                <tr>
+                                <tr>    
                                     <td>{produto.codigo}</td>
                                     <td>{produto.descricao}</td>
                                     <td>{produto.precoCusto}</td>
@@ -72,6 +73,7 @@ export default function TabelaProdutos(props) {
                                         "height": "40px"
                                     }} src={produto.urlImagem} alt="foto do produto" /></td>
                                     <td>{new Date(produto.dataValidade).toLocaleDateString()}</td>
+                                    <td>{produto.categoria.descricao}</td>
                                     <td>
                                         <Button onClick={() => {
                                             alterarProduto(produto);

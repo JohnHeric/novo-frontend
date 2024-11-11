@@ -236,7 +236,11 @@ export default function FormCadProduto(props) {
                                         </Form.Group>
                                         <Form.Group as={Col} md={7} className="mb-3">
                                             <Form.Label>Categoria</Form.Label>
-                                            <Form.Select id="categoria" name="categoria" onChange={selecionarCategoria}>
+                                            <Form.Select
+                                            id="categoria"
+                                            name="categoria"
+                                            value={produto.categoria.codigo}
+                                            onChange={selecionarCategoria}>
                                                 <option value="" selected disabled>Selecione uma categoria</option>
                                                 {
                                                     // Criar em tempo de execução as categorias existentes no banco de dados
