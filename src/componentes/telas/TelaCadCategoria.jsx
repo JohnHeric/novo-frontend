@@ -2,7 +2,7 @@ import FormCadCategoria from "./formularios/FormCadCategoria.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaCategorias from "./tabelas/TabelaCategorias.jsx"
 import { categorias } from "../../dados/mockCategorias.js"
-import { Alert } from "react-bootstrap";
+import { Alert, Container } from "react-bootstrap";
 import { useState } from "react"
 
 export default function TelaCadCategoria(props) {
@@ -16,11 +16,13 @@ export default function TelaCadCategoria(props) {
 
     return (
         <Pagina>
-            <Alert className="mt-2 mb-2 text-center">
-                <h2>
-                    Categorias
-                </h2>
-            </Alert>
+            <Container>
+                <Alert className="mt-2 mb-2 text-center">
+                    <h2>
+                        Categorias
+                    </h2>
+                </Alert>
+            </Container>
             {
                 exibirTabela ?
                     <TabelaCategorias listaDeCategorias={listaDeCategorias}

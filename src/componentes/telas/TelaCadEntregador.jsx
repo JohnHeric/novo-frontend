@@ -2,7 +2,7 @@ import FormCadEntregador from "./formularios/FormCadEntregador.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaEntregadores from "./tabelas/TabelaEntregadores.jsx";
 import { entregadores } from "../../dados/mockEntregadores.js";
-import { Alert } from "react-bootstrap"
+import { Alert, Container } from "react-bootstrap"
 import { useState } from "react";
 
 export default function TelaCadEntregador(props) {
@@ -20,11 +20,13 @@ export default function TelaCadEntregador(props) {
 
     return (
         <Pagina>
-            <Alert className="mt-2 mb-2 text-center">
-                <h2>
-                    Entregadores
-                </h2>
-            </Alert>
+            <Container>
+                <Alert className="mt-2 mb-2 text-center">
+                    <h2>
+                        Entregadores
+                    </h2>
+                </Alert>
+            </Container>
             {
                 exibirTabela ?
                     <TabelaEntregadores listaDeEntregadores={listaDeEntregadores}

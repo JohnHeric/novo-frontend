@@ -2,7 +2,7 @@ import FormCadCliente from "./formularios/FormCadCliente.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaClientes from "./tabelas/TabelaClientes.jsx";
 import { clientes } from "../../dados/mockClientes.js"
-import { Alert } from "react-bootstrap";
+import { Alert, Container } from "react-bootstrap";
 import { useState } from "react";
 
 export default function TelaCadCliente(props) {
@@ -22,11 +22,13 @@ export default function TelaCadCliente(props) {
 
     return (
         <Pagina>
-            <Alert className="mt-2 mb-2 text-center">
-                <h2>
-                    Clientes
-                </h2>
-            </Alert>
+            <Container>
+                <Alert className="mt-2 mb-2 text-center">
+                    <h2>
+                        Clientes
+                    </h2>
+                </Alert>
+            </Container>
             {
                 exibirTabela ?
                     <TabelaClientes listaDeClientes={listaDeClientes}

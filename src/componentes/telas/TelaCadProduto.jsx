@@ -1,7 +1,7 @@
 import FormCadProduto from "./formularios/FormCadProduto.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaProdutos from "./tabelas/TabelaProdutos.jsx";
-import { Alert } from "react-bootstrap"
+import { Alert, Container } from "react-bootstrap"
 import { useState, useEffect } from "react";
 import { consultarProduto } from "../../servicos/servicoProduto.js";
 //import { produtos } from "../../dados/mockProdutos.js";
@@ -35,11 +35,13 @@ export default function TelaCadProduto(props) {
 
     return (
         <Pagina>
-            <Alert className="mt-2 mb-2 text-center">
-                <h2>
-                    Produtos
-                </h2>
-            </Alert>
+            <Container>
+                <Alert className="mt-2 mb-2 text-center">
+                    <h2>
+                        Produtos
+                    </h2>
+                </Alert>
+            </Container>
             {
                 exibirTabela ?
                     <TabelaProdutos listaDeProdutos={listaDeProdutos}

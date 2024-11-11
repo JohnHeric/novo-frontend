@@ -2,7 +2,7 @@ import FormCadUsuario from "./formularios/FormCadUsuario.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaUsuarios from "./tabelas/TabelaUsuarios.jsx";
 import { usuarios } from "../../dados/mockUsuarios.js";
-import { Alert } from "react-bootstrap"
+import { Alert, Container } from "react-bootstrap"
 import { useState } from "react";
 
 export default function TelaCadUsuario(props) {
@@ -23,11 +23,13 @@ export default function TelaCadUsuario(props) {
 
     return (
         <Pagina>
-            <Alert className="mt-2 mb-2 text-center">
-                <h2>
-                    Usuários
-                </h2>
-            </Alert>
+            <Container>
+                <Alert className="mt-2 mb-2 text-center">
+                    <h2>
+                        Usuários
+                    </h2>
+                </Alert>
+            </Container>
             {
                 exibirTabela ?
                     <TabelaUsuarios listaDeUsuarios={listaDeUsuarios}

@@ -141,38 +141,22 @@ export default function FormCadProduto(props) {
                                         </Form.Group>
                                     </Row>
                                     <Row className="mb-3">
-                                        {
-                                            props.modoEdicao ?
-                                                <fieldset disabled>
-                                                    <Form.Group as={Col} className="mb-3">
-                                                        <Form.Label className="text-center">Código</Form.Label>
-                                                        <Form.Control
-                                                            type="text"
-                                                            id="codigo"
-                                                            name="codigo"
-                                                            placeholder="Código do Produto"
-                                                            value={produto.codigo}
-                                                            // Ao invés de usar o fieldset disabled, poderia desabilitar o modo de edição apenas neste campo
-                                                            // disabled = {props.modoEdicao}
-                                                            onChange={manipularMudanca}
-                                                            required
-                                                        />
-                                                    </Form.Group>
-                                                </fieldset> :
-
-                                                <Form.Group as={Col} className="mb-3">
-                                                    <Form.Label className="text-center">Código</Form.Label>
-                                                    <Form.Control
-                                                        type="text"
-                                                        id="codigo"
-                                                        name="codigo"
-                                                        placeholder="Código do Produto"
-                                                        value={produto.codigo}
-                                                        onChange={manipularMudanca}
-                                                        required
-                                                    />
-                                                </Form.Group>
-                                        }
+                                        <fieldset disabled>
+                                            <Form.Group as={Col} className="mb-3">
+                                                <Form.Label className="text-center">Código</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    id="codigo"
+                                                    name="codigo"
+                                                    placeholder="Código do Produto"
+                                                    value={produto.codigo}
+                                                    // Ao invés de usar o fieldset disabled, poderia desabilitar o modo de edição apenas neste campo
+                                                    // disabled = {props.modoEdicao}
+                                                    onChange={manipularMudanca}
+                                                    required
+                                                />
+                                            </Form.Group>
+                                        </fieldset>
                                         <Form.Group as={Col} className="mb-3">
                                             <Form.Label>Estoque</Form.Label>
                                             <InputGroup>
