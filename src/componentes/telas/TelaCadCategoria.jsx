@@ -1,18 +1,25 @@
 import FormCadCategoria from "./formularios/FormCadCategoria.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaCategorias from "./tabelas/TabelaCategorias.jsx"
-import { categorias } from "../../dados/mockCategorias.js"
 import { Alert, Container } from "react-bootstrap";
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { consultarCategoria } from "../../servicos/servicoCategoria.js";
+//import { categorias } from "../../dados/mockCategorias.js"
 
 export default function TelaCadCategoria(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
-    const [listaDeCategorias, setListaDeCategorias] = useState(categorias);
+    const [listaDeCategorias, setListaDeCategorias] = useState([]);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [categoriaSelecionada, setCategoriaSelecionada] = useState({
         codigo: 0,
         descricao: ""
-    });
+    }); 
+
+    useEffect(() => {
+        consultarCategoria().then((lista) => {
+            setListaDeCategorias(lista);
+        });
+    }, []); // listaVazia -> didMount
 
     return (
         <Pagina>

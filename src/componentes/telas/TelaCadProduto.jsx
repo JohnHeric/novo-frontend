@@ -7,9 +7,9 @@ import { consultarProduto } from "../../servicos/servicoProduto.js";
 //import { produtos } from "../../dados/mockProdutos.js";
 
 export default function TelaCadProduto(props) {
-    const [produtos, setProdutos] = useState([]);
+    //const [produtos, setProdutos] = useState([]);
     const [exibirTabela, setExibirTabela] = useState(true);
-    const [listaDeProdutos, setListaDeProdutos] = useState(produtos);
+    const [listaDeProdutos, setListaDeProdutos] = useState([]);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [produtoSelecionado, setProdutoSelecionado] = useState({
         codigo: 0,
@@ -27,11 +27,11 @@ export default function TelaCadProduto(props) {
         });
     }, []); // listaVazia -> didMount
 
-    useEffect(() => {
+    /*useEffect(() => {
         consultarProduto().then((lista) => {
             setListaDeProdutos(lista);
         });
-    }, [listaDeProdutos]); // didUpdate
+    }, [listaDeProdutos]); // didUpdate*/   
 
     return (
         <Pagina>

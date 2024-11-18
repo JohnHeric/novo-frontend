@@ -62,7 +62,7 @@ export default function TabelaProdutos(props) {
                     {
                         props?.listaDeProdutos?.map((produto) => {
                             return (
-                                <tr>    
+                                <tr>        
                                     <td>{produto.codigo}</td>
                                     <td>{produto.descricao}</td>
                                     <td>{produto.precoCusto}</td>
