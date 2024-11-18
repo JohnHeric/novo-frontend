@@ -2,7 +2,7 @@ import FormCadEntregador from "./formularios/FormCadEntregador.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaEntregadores from "./tabelas/TabelaEntregadores.jsx";
 import { entregadores } from "../../dados/mockEntregadores.js";
-import { Alert, Container } from "react-bootstrap"
+import { Alert, Container } from "react-bootstrap";
 import { useState } from "react";
 
 export default function TelaCadEntregador(props) {

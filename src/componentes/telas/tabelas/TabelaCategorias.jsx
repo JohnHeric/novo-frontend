@@ -1,4 +1,4 @@
-import { Button, Container, Table } from "react-bootstrap"
+import { Button, Container, Table } from "react-bootstrap";
 
 export default function TabelaCategorias(props) {
     function excluirCategoria(categoria) {

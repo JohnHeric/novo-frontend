@@ -1,4 +1,4 @@
-import { Button, Container, Table } from "react-bootstrap"
+import { Button, Container, Table } from "react-bootstrap";
 import { excluirProduto } from "../../../servicos/servicoProduto.js";
 import toast, {Toaster} from "react-hot-toast";
 

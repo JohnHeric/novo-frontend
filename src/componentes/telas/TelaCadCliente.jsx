@@ -1,7 +1,7 @@
 import FormCadCliente from "./formularios/FormCadCliente.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaClientes from "./tabelas/TabelaClientes.jsx";
-import { clientes } from "../../dados/mockClientes.js"
+import { clientes } from "../../dados/mockClientes.js";
 import { Alert, Container } from "react-bootstrap";
 import { useState } from "react";
 

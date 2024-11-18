@@ -2,7 +2,7 @@ import FormCadUsuario from "./formularios/FormCadUsuario.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaUsuarios from "./tabelas/TabelaUsuarios.jsx";
 import { usuarios } from "../../dados/mockUsuarios.js";
-import { Alert, Container } from "react-bootstrap"
+import { Alert, Container } from "react-bootstrap";
 import { useState } from "react";
 
 export default function TelaCadUsuario(props) {

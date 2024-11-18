@@ -1,8 +1,8 @@
 import FormCadCategoria from "./formularios/FormCadCategoria.jsx";
 import Pagina from "../layouts/Pagina.jsx";
-import TabelaCategorias from "./tabelas/TabelaCategorias.jsx"
+import TabelaCategorias from "./tabelas/TabelaCategorias.jsx";
 import { Alert, Container } from "react-bootstrap";
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import { consultarCategoria } from "../../servicos/servicoCategoria.js";
 //import { categorias } from "../../dados/mockCategorias.js"
 

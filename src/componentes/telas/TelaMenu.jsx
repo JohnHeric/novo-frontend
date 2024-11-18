@@ -1,5 +1,5 @@
-import Pagina from "../layouts/Pagina.jsx"
-import { Alert, Container } from "react-bootstrap"
+import Pagina from "../layouts/Pagina.jsx";
+import { Alert, Container } from "react-bootstrap";
 
 export default function TelaMenu(props) {
     return (

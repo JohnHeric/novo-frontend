@@ -9,6 +9,8 @@ import TelaMenu from "./componentes/telas/TelaMenu.jsx"
 import Tela404 from "./componentes/telas/Tela404.jsx"
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { createContext, useState } from "react";
+import store from "./redux/store.js";
+import { Provider } from "react-redux";
 
 export const ContextoUsuario = createContext();
 
@@ -27,23 +29,25 @@ function App() {
   } else
     return (
       <div className="App">
-        <ContextoUsuario.Provider value={{ usuario, setUsuario }}>
-          <BrowserRouter>
-            {
-              // A ordem das rotas é importante
-            }
-            <Routes>
-              <Route path="/produtos" element={<TelaCadProduto />} />
-              <Route path="/clientes" element={<TelaCadCliente />} />
-              <Route path="/fornecedores" element={<TelaCadFornecedor />} />
-              <Route path="/categorias" element={<TelaCadCategoria />} />
-              <Route path="/entregadores" element={<TelaCadEntregador />} />
-              <Route path="/usuarios" element={<TelaCadUsuario />} />
-              <Route path="/" element={<TelaMenu props="TESTE" />} />
-              <Route path="*" element={<Tela404 />} />
-            </Routes>
-          </BrowserRouter>
-        </ContextoUsuario.Provider>
+        <Provider store={store}>
+          <ContextoUsuario.Provider value={{ usuario, setUsuario }}>
+            <BrowserRouter>
+              {
+                // A ordem das rotas é importante
+              }
+              <Routes>
+                <Route path="/produtos" element={<TelaCadProduto />} />
+                <Route path="/clientes" element={<TelaCadCliente />} />
+                <Route path="/fornecedores" element={<TelaCadFornecedor />} />
+                <Route path="/categorias" element={<TelaCadCategoria />} />
+                <Route path="/entregadores" element={<TelaCadEntregador />} />
+                <Route path="/usuarios" element={<TelaCadUsuario />} />
+                <Route path="/" element={<TelaMenu props="TESTE" />} />
+                <Route path="*" element={<Tela404 />} />
+              </Routes>
+            </BrowserRouter>
+          </ContextoUsuario.Provider>
+        </Provider>
       </div>
     );
 }

@@ -1,6 +1,6 @@
 import { Button, Card, Col, Container, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { consultarCategoria } from "../../../servicos/servicoCategoria.js"
+import { consultarCategoria } from "../../../servicos/servicoCategoria.js";
 import { gravarProduto, alterarProduto } from "../../../servicos/servicoProduto.js";
 import toast, { Toaster } from "react-hot-toast";
 

@@ -1,9 +1,9 @@
 import FormCadFornecedor from "./formularios/FormCadFornecedor.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaFornecedores from "./tabelas/TabelaFornecedores.jsx";
-import { fornecedores } from "../../dados/mockFornecedores.js"
+import { fornecedores } from "../../dados/mockFornecedores.js";
 import { Alert, Container } from "react-bootstrap";
-import { useState } from "react"
+import { useState } from "react";
 
 export default function TelaCadFornecedor(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
