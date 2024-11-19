@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { consultarCategoria } from "../../../servicos/servicoCategoria.js";
 import { consultarFornecedor } from "../../../servicos/servicoFornecedor.js"
 import { gravarProduto, alterarProduto } from "../../../servicos/servicoProduto.js";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function FormCadProduto(props) {
     const [produto, setProduto] = useState(props.produtoSelecionado);
@@ -19,8 +19,7 @@ export default function FormCadProduto(props) {
                 setFornecedores(resultado);
                 setTemFornecedores(true);
                 toast.success("Fornecedores carregados com sucesso!");
-            }
-            else
+            } else
                 toast.error("Não foi possível carregar os fornecedores!");
         }).catch((erro) => {
             setTemFornecedores(false);
@@ -63,38 +62,27 @@ export default function FormCadProduto(props) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (!props.modoEdicao) {
-                produto.dataValidade = new Date(produto.data).toLocaleDateString();
                 gravarProduto(produto)
                     .then((resultado) => {
                         if (resultado.status) {
+                            props.setListaDeProdutos([...props.listaDeProdutos, produto]);
                             props.setExibirTabela(true);
                             toast.success("Produto cadastrado com sucesso!");
-                        }
-                        else
+                        } else
                             toast.error(resultado.mensagem);
                     });
-                // Nosso cadastro, anteriormente, salvava o produto em uma lista de dados mockados.
-                // props.setListaDeProdutos([...props.listaDeProdutos, produto]); // Array vazio está recebendo o conteúdo da lista espalhada mais o produto
-                // Exibir tabela com o produto incluído
-                // props.setExibirTabela(true);
             } else {
                 alterarProduto(produto)
                     .then((resultado) => {
                         if (resultado.status) {
+                            props.setListaDeProdutos(props.listaDeProdutos.map((item) => {
+                                return item.codigo === produto.codigo ? produto : item;
+                            }));
                             props.setModoEdicao(false);
                             toast.success("Produto alterado com sucesso!");
-                        }
-                        else
+                        } else
                             toast.error(resultado.mensagem);
                     });
-                // Não é necessário esparramar a lista pois o .map retorna um novo array
-                // props.setListaDeProdutos([...props.listaDeProdutos.map((item) => ...
-                props.setListaDeProdutos(props.listaDeProdutos.map((item) => {
-                    return item.codigo === produto.codigo ? produto : item;
-                }));
-                // O algoritmo abaixo excluia o elemento alterado e adicionava-o no final, desordenando a lista
-                // props.setListaDeProdutos([...props.listaDeProdutos.filter((item) => item.codigo !== produto.codigo), produto]);
-                //props.setModoEdicao(false);
             }
             props.setExibirTabela(true)
             props.setProdutoSelecionado({
@@ -179,8 +167,6 @@ export default function FormCadProduto(props) {
                                                     name="codigo"
                                                     placeholder="Código do Produto"
                                                     value={produto.codigo}
-                                                    // Ao invés de usar o fieldset disabled, poderia desabilitar o modo de edição apenas neste campo
-                                                    // disabled = {props.modoEdicao}
                                                     onChange={manipularMudanca}
                                                     required
                                                 />
@@ -272,7 +258,6 @@ export default function FormCadProduto(props) {
                                                 onChange={selecionarCategoria}>
                                                 <option value="" selected disabled>Selecione uma categoria</option>
                                                 {
-                                                    // Criar em tempo de execução as categorias existentes no banco de dados
                                                     categorias.map((categoria) => {
                                                         return <option value={categoria.codigo}>
                                                             {categoria.descricao}
@@ -300,7 +285,6 @@ export default function FormCadProduto(props) {
                                                 onChange={selecionarFornecedor}>
                                                 <option value="" selected disabled>Selecione um fornecedor</option>
                                                 {
-                                                    // Criar em tempo de execução as fornecedorrs existentes no banco de dados
                                                     fornecedores.map((fornecedor) => {
                                                         return <option value={fornecedor.codigo}>
                                                             {fornecedor.razaoSocial}
@@ -348,7 +332,6 @@ export default function FormCadProduto(props) {
                     </Card>
                 </Col>
             </Row>
-            <Toaster position="top-center" />
         </Container >
     );
 }

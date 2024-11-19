@@ -1,12 +1,10 @@
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 import { useState } from "react";
+import { gravarCategoria, alterarCategoria } from '../../../servicos/servicoCategoria';
+import toast from 'react-hot-toast';
+
 
 export default function FormCadCategoria(props) {
-    const categoriaVazia = {
-        codigo: 0,
-        descricao: ""
-    };
-
     const [formValidado, setFormValidado] = useState(false);
     const estadoCategoria = props.categoriaSelecionada;
     const [categoria, setCategoria] = useState(estadoCategoria);
@@ -15,16 +13,34 @@ export default function FormCadCategoria(props) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (!props.modoEdicao) {
-                props.setListaDeCategorias([...props.listaDeCategorias, categoria]);
+                gravarCategoria(categoria)
+                    .then((resultado) => {
+                        if(resultado.status) {
+                            props.setListaDeCategorias([...props.listaDeCategorias, categoria]);
+                            props.setExibirTabela(true);
+                            toast.success("Categoria cadastrada com sucesso!");
+                        } else
+                            toast.error(resultado.mensagem);
+                    });   
             } else {
-                props.setListaDeCategorias([...props.listaDeCategorias.map((item) => {
-                    return item.codigo === categoria.codigo ? categoria : item;
-                })]);
-                props.setModoEdicao(false);
-                props.setCategoriaSelecionada(categoriaVazia);
+
+                alterarCategoria(categoria)
+                    .then((resultado) => {
+                        if (resultado.status) {
+                            props.setListaDeCategorias(props.listaDeCategorias.map((item) => {
+                                return item.codigo === categoria.codigo ? categoria : item;
+                            }));
+                            props.setModoEdicao(false);
+                            toast.success("Produto alterado com sucesso!");
+                        } else
+                            toast.error(resultado.mensagem);
+                    });
             }
             props.setExibirTabela(true);
-            setCategoria(categoriaVazia);
+            props.setCategoriaSelecionada({
+                codigo: 0,
+                descricao: ""
+            });
             setFormValidado(false);
         } else {
             setFormValidado(true);
@@ -38,6 +54,15 @@ export default function FormCadCategoria(props) {
         const valor = evento.target.value;
         setCategoria({ ...categoria, [elemento]: valor });
         console.log(`componente: ${elemento} : ${valor}`);
+    }
+
+    function voltar() {
+        props.setExibirTabela(true);
+        props.setModoEdicao(false);
+        props.setCategoriaSelecionada({
+            codigo: 0,
+            descricao: ""
+        });
     }
 
     return (
@@ -57,37 +82,20 @@ export default function FormCadCategoria(props) {
                                 </p>
                                 <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
                                     <Row className="mb-3">
-                                        {
-                                            props.modoEdicao ?
-                                                <fieldset disabled>
-                                                    <Form.Group as={Col} className="mb-3">
-                                                        <Form.Label className="text-center">Código</Form.Label>
-                                                        <Form.Control
-                                                            type="text"
-                                                            id="codigo"
-                                                            name="codigo"
-                                                            placeholder="Digite o código"
-                                                            value={categoria.codigo}
-                                                            onChange={manipularMudanca}
-                                                            required
-                                                        />
-                                                    </Form.Group>
-                                                </fieldset> :
-
-                                                <Form.Group as={Col} className="mb-3">
-                                                    <Form.Label className="text-center">Código</Form.Label>
-                                                    <Form.Control
-                                                        type="text"
-                                                        id="codigo"
-                                                        name="codigo"
-                                                        placeholder="Digite o código"
-                                                        value={categoria.codigo}
-                                                        onChange={manipularMudanca}
-                                                        required
-                                                    />
-                                                </Form.Group>
-                                        }
-
+                                        <fieldset disabled>
+                                            <Form.Group as={Col} className="mb-3">
+                                                <Form.Label className="text-center">Código</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    id="codigo"
+                                                    name="codigo"
+                                                    placeholder="Digite o código"
+                                                    value={categoria.codigo}
+                                                    onChange={manipularMudanca}
+                                                    required
+                                                />
+                                            </Form.Group>
+                                        </fieldset>
                                         <Form.Group as={Col}>
                                         </Form.Group>
                                     </Row>
@@ -120,9 +128,7 @@ export default function FormCadCategoria(props) {
                                         <Col md={{ offset: 1 }}>
                                             <div className="mt-2 mb-2">
                                                 <Button onClick={() => {
-                                                    props.setExibirTabela(true);
-                                                    props.setModoEdicao(false);
-                                                    props.setCategoriaSelecionada(categoriaVazia);
+                                                    voltar();
                                                 }}>
                                                     Voltar
                                                 </Button>

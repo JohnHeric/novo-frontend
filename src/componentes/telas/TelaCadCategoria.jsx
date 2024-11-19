@@ -4,11 +4,10 @@ import TabelaCategorias from "./tabelas/TabelaCategorias.jsx";
 import { Alert, Container } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { consultarCategoria } from "../../servicos/servicoCategoria.js";
-//import { categorias } from "../../dados/mockCategorias.js"
 
 export default function TelaCadCategoria(props) {
-    const [exibirTabela, setExibirTabela] = useState(true);
     const [listaDeCategorias, setListaDeCategorias] = useState([]);
+    const [exibirTabela, setExibirTabela] = useState(true);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [categoriaSelecionada, setCategoriaSelecionada] = useState({
         codigo: 0,
@@ -19,7 +18,13 @@ export default function TelaCadCategoria(props) {
         consultarCategoria().then((lista) => {
             setListaDeCategorias(lista);
         });
-    }, []); // listaVazia -> didMount
+    }, []);
+
+    useEffect(() => {
+        consultarCategoria().then((lista) => {
+            setListaDeCategorias(lista);
+        });
+    }, [listaDeCategorias]);
 
     return (
         <Pagina>

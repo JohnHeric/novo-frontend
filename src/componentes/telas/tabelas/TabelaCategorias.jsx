@@ -1,11 +1,22 @@
 import { Button, Container, Table } from "react-bootstrap";
+import { excluirCategoria } from "../../../servicos/servicoCategoria.js";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function TabelaCategorias(props) {
-    function excluirCategoria(categoria) {
+
+    function excluirCategoriaSelecionada(categoria) {
         if (window.confirm("Deseja realmente excluir a categoria " + categoria.descricao)) {
-            props.setListaDeCategorias(props.listaDeCategorias.filter((item) => {
-                return item.codigo !== categoria.codigo;
-            }));
+            excluirCategoria(categoria)
+                .then((resultado) => {
+                    if (resultado.status) {
+                        props.setListaDeCategorias(props.listaDeCategorias.filter((item) => {
+                            return item.codigo !== categoria.codigo;
+                        }));
+                        toast.success("Categoria excluída com sucesso!");
+                    }
+                    else
+                        toast.error("Não foi possível excluir a categoria: " + resultado.mensagem);
+                });
         }
     }
 
@@ -32,7 +43,7 @@ export default function TabelaCategorias(props) {
                 </thead>
                 <tbody>
                     {
-                        props.listaDeCategorias?.map((categoria) => {
+                        props?.listaDeCategorias?.map((categoria) => {
                             return (
                                 <tr>
                                     <td>{categoria.codigo}</td>
@@ -46,7 +57,7 @@ export default function TabelaCategorias(props) {
                                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                                             </svg>
                                         </Button> <Button onClick={() => {
-                                            excluirCategoria(categoria)
+                                            excluirCategoriaSelecionada(categoria);
                                         }} variant="danger">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
@@ -61,6 +72,7 @@ export default function TabelaCategorias(props) {
                 </tbody>
             </Table>
             <p>Quantidade de categorias cadastradas: {props.listaDeCategorias.length}</p>
+            <Toaster position="top-center" />
         </Container>
     );
 }

@@ -1,6 +1,6 @@
 import { Button, Container, Table } from "react-bootstrap";
 import { excluirProduto } from "../../../servicos/servicoProduto.js";
-import toast, {Toaster} from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function TabelaProdutos(props) {
 
@@ -9,10 +9,9 @@ export default function TabelaProdutos(props) {
             excluirProduto(produto)
                 .then((resultado) => {
                     if (resultado.status) {
-                        props.setListaDeProdutos(props.listaDeProdutos.filter(
-                            (item) => {
-                                return item.codigo !== produto.codigo;
-                            }));
+                        props.setListaDeProdutos(props.listaDeProdutos.filter((item) => {
+                            return item.codigo !== produto.codigo;
+                        }));
                         toast.success("Produto excluído com sucesso!");
                     }
                     else
@@ -26,15 +25,6 @@ export default function TabelaProdutos(props) {
         props.setProdutoSelecionado(produto);
         props.setModoEdicao(true);
     }
-
-    // Este algoritmo faz o mesmo que o algoritmo de cima
-    /*let novaLista = []
-    for (let i=0; i< props.listaDeProdutos.length ; i++) {
-        if(props.listaDeProdutos[i].codigo != produto.codigo) {
-            novaLista.push(props.listaDeProdutos[i])
-        }
-    }
-    props.setListaDeProdutos(novaLista);*/
 
     function formatarData(data) {
         const [ano, mes, dia] = data.split("-");
@@ -67,7 +57,7 @@ export default function TabelaProdutos(props) {
                     {
                         props?.listaDeProdutos?.map((produto) => {
                             return (
-                                <tr>        
+                                <tr>
                                     <td>{produto.codigo}</td>
                                     <td>{produto.descricao}</td>
                                     <td>{produto.precoCusto}</td>

@@ -3,9 +3,7 @@ import { consultarProduto } from "../servicos/servicoProduto";
 import ESTADO from "./estados";
 
 export const buscarProdutos = createAsyncThunk('buscarProdutos', async () => {
-    // Lista de produtos
     const resultado = await consultarProduto();
-    // Se for um array/lista a consulta funcionou
     try {
         if (Array.isArray(resultado)) {
             return {
