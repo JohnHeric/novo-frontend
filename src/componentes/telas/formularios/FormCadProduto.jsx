@@ -1,6 +1,7 @@
 import { Button, Card, Col, Container, Form, InputGroup, Row, Spinner } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { consultarCategoria } from "../../../servicos/servicoCategoria.js";
+import { consultarFornecedor } from "../../../servicos/servicoFornecedor.js"
 import { gravarProduto, alterarProduto } from "../../../servicos/servicoProduto.js";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -8,22 +9,47 @@ export default function FormCadProduto(props) {
     const [produto, setProduto] = useState(props.produtoSelecionado);
     const [formValidado, setFormValidado] = useState(false);
     const [categorias, setCategorias] = useState([]);
+    const [fornecedores, setFornecedores] = useState([]);
     const [temCategorias, setTemCategorias] = useState(false);
+    const [temFornecedores, setTemFornecedores] = useState(false);
+
+    useEffect(() => {
+        consultarFornecedor().then((resultado) => {
+            if (Array.isArray(resultado)) {
+                setFornecedores(resultado);
+                setTemFornecedores(true);
+                toast.success("Fornecedores carregados com sucesso!");
+            }
+            else
+                toast.error("Não foi possível carregar os fornecedores!");
+        }).catch((erro) => {
+            setTemFornecedores(false);
+            toast.error("Não foi possível carregar os fornecedores!" + erro);
+        });
+    }, []);
 
     useEffect(() => {
         consultarCategoria().then((resultado) => {
             if (Array.isArray(resultado)) {
                 setCategorias(resultado);
                 setTemCategorias(true);
-                toast.success("Categorias Carregadas com Sucesso!");
+                toast.success("Categorias carregadas com sucesso!");
             }
             else
                 toast.error("Não foi possível carregar as categorias!");
         }).catch((erro) => {
             setTemCategorias(false);
-            toast.error("Não foi possível carregar as categorias!");
+            toast.error("Não foi possível carregar as categorias! " + erro);
         });
     }, []); // Para que o useEffect tenha o efeito de um didMount o segundo parâmetro deve ser um vetor VAZIO!
+
+    function selecionarFornecedor(evento) {
+        setProduto({
+            ...produto, fornecedor: {
+                codigo: evento.currentTarget.value
+            }
+        });
+    }
 
     function selecionarCategoria(evento) {
         setProduto({
@@ -37,6 +63,7 @@ export default function FormCadProduto(props) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (!props.modoEdicao) {
+                produto.dataValidade = new Date(produto.data).toLocaleDateString();
                 gravarProduto(produto)
                     .then((resultado) => {
                         if (resultado.status) {
@@ -78,7 +105,8 @@ export default function FormCadProduto(props) {
                 qtdEstoque: "",
                 urlImagem: "",
                 dataValidade: "",
-                categoria: {}
+                categoria: {},
+                fornecedor: {}
             });
             setFormValidado(false);
         } else {
@@ -106,7 +134,8 @@ export default function FormCadProduto(props) {
             qtdEstoque: "",
             urlImagem: "",
             dataValidade: "",
-            categoria: {}
+            categoria: {},
+            fornecedor: {}
         });
     }
 
@@ -220,12 +249,10 @@ export default function FormCadProduto(props) {
                                                 onChange={manipularMudanca}
                                             />
                                         </Form.Group>
-                                    </Row>
-                                    <Row>
                                         <Form.Group as={Col} md={4} className="mb-3">
                                             <Form.Label>Validade</Form.Label>
                                             <Form.Control
-                                                type="text"
+                                                type="date"
                                                 id="dataValidade"
                                                 name="dataValidade"
                                                 placeholder="Data de Validade"
@@ -234,6 +261,8 @@ export default function FormCadProduto(props) {
                                                 required
                                             />
                                         </Form.Group>
+                                    </Row>
+                                    <Row>
                                         <Form.Group as={Col} md={7} className="mb-3">
                                             <Form.Label>Categoria</Form.Label>
                                             <Form.Select
@@ -262,11 +291,39 @@ export default function FormCadProduto(props) {
                                                     ""
                                             }
                                         </Form.Group>
+                                        <Form.Group as={Col} md={7} className="mb-3">
+                                            <Form.Label>Fornecedor</Form.Label>
+                                            <Form.Select
+                                                id="fornecedor"
+                                                name="fornecedor"
+                                                value={produto.fornecedor.codigo}
+                                                onChange={selecionarFornecedor}>
+                                                <option value="" selected disabled>Selecione um fornecedor</option>
+                                                {
+                                                    // Criar em tempo de execução as fornecedorrs existentes no banco de dados
+                                                    fornecedores.map((fornecedor) => {
+                                                        return <option value={fornecedor.codigo}>
+                                                            {fornecedor.razaoSocial}
+                                                        </option>;
+                                                    })
+                                                }
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <Form.Group as={Col} md={1} className="mt-4">
+                                            <Form.Label>     </Form.Label>
+                                            {
+                                                !temFornecedores ?
+                                                    <Spinner className="mt-2" animation="border" role="status" variant="primary">
+                                                        <span className="visually-hidden">Loading...</span>
+                                                    </Spinner> :
+                                                    ""
+                                            }
+                                        </Form.Group>
                                     </Row>
                                     <Row>
                                         <Col md={1}>
                                             <div className="mb-2 mt-2">
-                                                <Button type="submit" disabled={!temCategorias}>
+                                                <Button type="submit" disabled={!temCategorias || !temFornecedores}>
                                                     {
                                                         props.modoEdicao ?
                                                             "Alterar" :

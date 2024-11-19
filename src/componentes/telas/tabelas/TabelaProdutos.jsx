@@ -24,7 +24,6 @@ export default function TabelaProdutos(props) {
     function alterarProduto(produto) {
         props.setExibirTabela(false);
         props.setProdutoSelecionado(produto);
-        produto.dataValidade = new Date(produto.dataValidade).toLocaleDateString();
         props.setModoEdicao(true);
     }
 
@@ -36,6 +35,11 @@ export default function TabelaProdutos(props) {
         }
     }
     props.setListaDeProdutos(novaLista);*/
+
+    function formatarData(data) {
+        const [ano, mes, dia] = data.split("-");
+        return `${dia}/${mes}/${ano}`;
+    }
 
     return (
         <Container>
@@ -55,6 +59,7 @@ export default function TabelaProdutos(props) {
                         <th>Imagem</th>
                         <th>Validade</th>
                         <th>Categoria</th>
+                        <th>Fornecedor</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -72,8 +77,9 @@ export default function TabelaProdutos(props) {
                                         "width": "40px",
                                         "height": "40px"
                                     }} src={produto.urlImagem} alt="foto do produto" /></td>
-                                    <td>{new Date(produto.dataValidade).toLocaleDateString()}</td>
+                                    <td>{formatarData(produto.dataValidade)}</td>
                                     <td>{produto.categoria.descricao}</td>
+                                    <td>{produto.fornecedor.razaoSocial}</td>
                                     <td>
                                         <Button onClick={() => {
                                             alterarProduto(produto);

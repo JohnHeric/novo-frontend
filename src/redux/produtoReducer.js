@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { consultarProduto } from "../servicos/servicoProduto";
 import ESTADO from "./estados";
 
-const buscarProdutos = createAsyncThunk('buscarProdutos', async () => {
+export const buscarProdutos = createAsyncThunk('buscarProdutos', async () => {
     // Lista de produtos
     const resultado = await consultarProduto();
     // Se for um array/lista a consulta funcionou
@@ -10,7 +11,7 @@ const buscarProdutos = createAsyncThunk('buscarProdutos', async () => {
             return {
                 "status": true,
                 "mensagem": "Produtos recuperados com sucesso",
-                listaDeProdutos
+                resultado
             };
         } else {
             return {
