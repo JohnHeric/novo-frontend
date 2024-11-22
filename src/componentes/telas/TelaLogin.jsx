@@ -38,7 +38,7 @@ export default function TelaLogin() {
                     </Form.Text>
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Group className="mb-3">
                     <Form.Label>Senha</Form.Label>
                     <Form.Control
                         type="password"

@@ -1,15 +1,16 @@
 import FormCadFornecedor from "./formularios/FormCadFornecedor.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaFornecedores from "./tabelas/TabelaFornecedores.jsx";
-import { fornecedores } from "../../dados/mockFornecedores.js";
 import { Alert, Container } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { consultarFornecedor } from "../../servicos/servicoFornecedor.js";
 
 export default function TelaCadFornecedor(props) {
+    const [listaDeFornecedores, setListaDeFornecedores] = useState([]);
     const [exibirTabela, setExibirTabela] = useState(true);
-    const [listaDeFornecedores, setListaDeFornecedores] = useState(fornecedores);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState({
+        codigo: 0,
         razaoSocial: "",
         cnpj: "",
         telefone: "",
@@ -20,6 +21,18 @@ export default function TelaCadFornecedor(props) {
         uf: "",
         cep: ""
     });
+
+    useEffect(() => {
+        consultarFornecedor().then((lista) => {
+            setListaDeFornecedores(lista);
+        });
+    }, []); // listaVazia -> didMount
+
+    useEffect(() => {
+        consultarFornecedor().then((lista) => {
+            setListaDeFornecedores(lista);
+        });
+    }, [listaDeFornecedores]); // listaVazia -> didMount
 
     return (
         <Pagina>

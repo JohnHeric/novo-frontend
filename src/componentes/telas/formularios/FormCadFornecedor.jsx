@@ -1,36 +1,64 @@
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import { useState } from "react";
+import { gravarFornecedor, alterarFornecedor } from '../../../servicos/servicoFornecedor';
+import toast from 'react-hot-toast';
 
 export default function FormCadFornecedor(props) {
-    const fornecedorVazio = {
-        razaoSocial: "",
-        cnpj: "",
-        nomeFantasia: "",
-        telefone: "",
-        rua: "",
-        numero: "",
-        cidade: "",
-        cep: ""
-    }
-
     const [formValidado, setFormValidado] = useState(false);
-    const estadoFornecedor = props.fornecedorSelecionado;
-    const [fornecedor, setFornecedor] = useState(estadoFornecedor);
+    const [fornecedor, setFornecedor] = useState(props.fornecedorSelecionado);
+
+
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (!props.modoEdicao) {
-                props.setListaDeFornecedores([...props.listaDeFornecedores, fornecedor]);
+                gravarFornecedor(fornecedor)
+                    .then((resultado) => {
+                        if (resultado.status) {
+                            props.setListaDeFornecedores([...props.listaDeFornecedores, fornecedor]);
+                            props.setExibirTabela(true);
+                            toast.success("Fornecedor cadastrado com sucesso!");
+                        } else
+                            toast.error(resultado.mensagem);
+                    });
             } else {
-                props.setListaDeFornecedores([...props.listaDeFornecedores.map((item) => {
-                    return item.cnpj === fornecedor.cnpj ? fornecedor : item;
-                })]);
+                alterarFornecedor(fornecedor)
+                    .then((resultado) => {
+                        if (resultado.status) {
+                            props.setListaDeFornecedores(props.listaDeFornecedores.map((item) => {
+                                return item.codigo === fornecedor.codigo ? fornecedor : item;
+                            }));
+                            props.setModoEdicao(false);
+                            toast.success("Fornecedor alterado com sucesso!");
+                        } else
+                            toast.error(resultado.mensagem);
+                    });
                 props.setModoEdicao(false);
-                props.setFornecedorSelecionado(fornecedorVazio);
+                props.setFornecedorSelecionado({
+                    codigo: 0,
+                    razaoSocial: "",
+                    cnpj: "",
+                    nomeFantasia: "",
+                    telefone: "",
+                    rua: "",
+                    numero: "",
+                    cidade: "",
+                    cep: ""
+                });
             }
             props.setExibirTabela(true)
-            setFornecedor(fornecedorVazio);
+            props.setFornecedorSelecionado({
+                codigo: 0,
+                razaoSocial: "",
+                cnpj: "",
+                nomeFantasia: "",
+                telefone: "",
+                rua: "",
+                numero: "",
+                cidade: "",
+                cep: ""
+            });
             setFormValidado(false);
         } else {
             setFormValidado(true);
@@ -44,6 +72,22 @@ export default function FormCadFornecedor(props) {
         const valor = evento.target.value;
         setFornecedor({ ...fornecedor, [elemento]: valor });
         console.log(`componente: ${elemento} : ${valor}`);
+    }
+
+    function voltar() {
+        props.setExibirTabela(true);
+        props.setModoEdicao(false);
+        props.setFornecedorSelecionado({
+            codigo: 0,
+            razaoSocial: "",
+            cnpj: "",
+            nomeFantasia: "",
+            telefone: "",
+            rua: "",
+            numero: "",
+            cidade: "",
+            cep: ""
+        });
     }
 
     return (
@@ -76,37 +120,35 @@ export default function FormCadFornecedor(props) {
                                             />
                                         </Form.Group>
                                     </Row>
+                                    <Row>
+                                        <fieldset disabled>
+                                            <Form.Group as={Col} className="mb-3">
+                                                <Form.Label className="text-center">Código</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    id="codigo"
+                                                    name="codigo"
+                                                    placeholder="Código do Usuário"
+                                                    value={fornecedor.codigo}
+                                                    onChange={manipularMudanca}
+                                                    required
+                                                />
+                                            </Form.Group>
+                                        </fieldset>
+                                    </Row>
                                     <Row className="mb-3">
-                                        {
-                                            props.modoEdicao ?
-                                                <fieldset disabled>
-                                                    <Form.Group as={Col} className="mb-3">
-                                                        <Form.Label className="text-center">CNPJ</Form.Label>
-                                                        <Form.Control
-                                                            type="text"
-                                                            id="cnpj"
-                                                            name="cnpj"
-                                                            placeholder="Digite o CNJP"
-                                                            value={fornecedor.cnpj}
-                                                            onChange={manipularMudanca}
-                                                            required
-                                                        />
-                                                    </Form.Group>
-                                                </fieldset> :
-
-                                                <Form.Group as={Col} className="mb-3">
-                                                    <Form.Label className="text-center">CNPJ</Form.Label>
-                                                    <Form.Control
-                                                        type="text"
-                                                        id="cnpj"
-                                                        name="cnpj"
-                                                        placeholder="Digite o CNJP"
-                                                        value={fornecedor.cnpj}
-                                                        onChange={manipularMudanca}
-                                                        required
-                                                    />
-                                                </Form.Group>
-                                        }
+                                        <Form.Group as={Col} className="mb-3">
+                                            <Form.Label className="text-center">CNPJ</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="cnpj"
+                                                name="cnpj"
+                                                placeholder="Digite o CNJP"
+                                                value={fornecedor.cnpj}
+                                                onChange={manipularMudanca}
+                                                required
+                                            />
+                                        </Form.Group>
                                         <Form.Group as={Col} className="mb-3">
                                             <Form.Label>Telefone</Form.Label>
                                             <Form.Control
@@ -216,9 +258,7 @@ export default function FormCadFornecedor(props) {
                                         <Col md={{ offset: 1 }}>
                                             <div className="mb-2 mt-2">
                                                 <Button onClick={() => {
-                                                    props.setExibirTabela(true)
-                                                    props.setModoEdicao(false)
-                                                    props.setFornecedorSelecionado(fornecedorVazio)
+                                                    voltar();
                                                 }}>
                                                     Voltar
                                                 </Button>

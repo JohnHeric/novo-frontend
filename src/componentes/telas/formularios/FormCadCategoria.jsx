@@ -5,9 +5,8 @@ import toast from 'react-hot-toast';
 
 
 export default function FormCadCategoria(props) {
+    const [categoria, setCategoria] = useState(props.categoriaSelecionada);
     const [formValidado, setFormValidado] = useState(false);
-    const estadoCategoria = props.categoriaSelecionada;
-    const [categoria, setCategoria] = useState(estadoCategoria);
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
@@ -15,13 +14,13 @@ export default function FormCadCategoria(props) {
             if (!props.modoEdicao) {
                 gravarCategoria(categoria)
                     .then((resultado) => {
-                        if(resultado.status) {
+                        if (resultado.status) {
                             props.setListaDeCategorias([...props.listaDeCategorias, categoria]);
                             props.setExibirTabela(true);
                             toast.success("Categoria cadastrada com sucesso!");
                         } else
                             toast.error(resultado.mensagem);
-                    });   
+                    });
             } else {
 
                 alterarCategoria(categoria)

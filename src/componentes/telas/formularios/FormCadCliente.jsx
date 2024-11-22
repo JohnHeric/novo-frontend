@@ -1,36 +1,63 @@
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 import { useState } from "react";
+import { gravarCliente, alterarCliente } from '../../../servicos/servicoCliente';
+import toast from 'react-hot-toast';
 
 export default function FormCadCliente(props) {
-    const clienteVazio = {
-        cpf: "",
-        nome: "",
-        endereco: "",
-        numero: "",
-        bairro: "",
-        cidade: "",
-        uf: "",
-        cep: "",
-    };
-
+    const [cliente, setCliente] = useState(props.clienteSelecionado);
     const [formValidado, setFormValidado] = useState(false);
-    const estadoCliente = props.clienteSelecionado;
-    const [cliente, setCliente] = useState(estadoCliente);
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (!props.modoEdicao) {
+                gravarCliente(cliente)
+                    .then((resultado) => {
+                        if (resultado.status) {
+                            props.setListaDeClientes([...props.listaDeClientes, cliente]);
+                            props.setExibirTabela(true);
+                            toast.success("Cliente cadastrado com sucesso!");
+                        } else
+                            toast.error(resultado.mensagem);
+                    });
                 props.setListaDeClientes([...props.listaDeClientes, cliente]);
             } else {
-                props.setListaDeClientes([...props.listaDeClientes.map((item) => {
-                    return item.cpf === cliente.cpf ? cliente : item;
-                })]);
+                alterarCliente(cliente)
+                    .then((resultado) => {
+                        if (resultado.status) {
+                            props.setListaDeClientes(props.listaDeClientes.map((item) => {
+                                return item.codigo === cliente.codigo ? cliente : item;
+                            }));
+                            props.setModoEdicao(false);
+                            toast.success("Cliente alterado com sucesso!");
+                        } else
+                            toast.error(resultado.mensagem);
+                    });
                 props.setModoEdicao(false);
-                props.setClienteSelecionado(clienteVazio);
+                props.setClienteSelecionado({
+                    codigo: 0,
+                    cpf: "",
+                    nome: "",
+                    endereco: "",
+                    numero: "",
+                    bairro: "",
+                    cidade: "",
+                    uf: "",
+                    cep: "",
+                });
             }
             props.setExibirTabela(true);
-            setCliente(clienteVazio);
+            props.setClienteSelecionado({
+                codigo: 0,
+                cpf: "",
+                nome: "",
+                endereco: "",
+                numero: "",
+                bairro: "",
+                cidade: "",
+                uf: "",
+                cep: "",
+            });
             setFormValidado(false);
         } else {
             setFormValidado(true);
@@ -44,6 +71,22 @@ export default function FormCadCliente(props) {
         const valor = evento.target.value;
         setCliente({ ...cliente, [elemento]: valor });
         console.log(`componente: ${elemento} : ${valor}`);
+    }
+
+    function voltar() {
+        props.setExibirTabela(true);
+        props.setModoEdicao(false);
+        props.setClienteSelecionado({
+            codigo: 0,
+            cpf: "",
+            nome: "",
+            endereco: "",
+            numero: "",
+            bairro: "",
+            cidade: "",
+            uf: "",
+            cep: "",
+        });
     }
 
     return (
@@ -62,7 +105,7 @@ export default function FormCadCliente(props) {
                                     }
                                 </p>
                                 <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
-                                    <h3>Dados Pessoais</h3>                                    
+                                    <h3>Dados Pessoais</h3>
                                     <Row className="mt-4">
                                         <Form.Group as={Col} className="mb-3">
                                             <Form.Label className="text-center">Nome</Form.Label>
@@ -77,37 +120,35 @@ export default function FormCadCliente(props) {
                                             />
                                         </Form.Group>
                                     </Row>
+                                    <Row>
+                                        <fieldset disabled>
+                                            <Form.Group as={Col} className="mb-3">
+                                                <Form.Label className="text-center">Código</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    id="codigo"
+                                                    name="codigo"
+                                                    placeholder="Código do Usuário"
+                                                    value={cliente.codigo}
+                                                    onChange={manipularMudanca}
+                                                    required
+                                                />
+                                            </Form.Group>
+                                        </fieldset>
+                                    </Row>
                                     <Row className="mb-3">
-                                        {
-                                            props.modoEdicao ?
-                                                <fieldset disabled>
-                                                    <Form.Group as={Col} className="mb-3">
-                                                        <Form.Label className="text-center">CPF</Form.Label>
-                                                        <Form.Control
-                                                            type="text"
-                                                            id="cpf"
-                                                            name="cpf"
-                                                            placeholder="Digite o seu CPF"
-                                                            value={cliente.cpf}
-                                                            onChange={manipularMudanca}
-                                                            required
-                                                        />
-                                                    </Form.Group>
-                                                </fieldset> :
-
-                                                <Form.Group as={Col} className="mb-3">
-                                                    <Form.Label className="text-center">CPF</Form.Label>
-                                                    <Form.Control
-                                                        type="text"
-                                                        id="cpf"
-                                                        name="cpf"
-                                                        placeholder="Digite o seu CPF"
-                                                        value={cliente.cpf}
-                                                        onChange={manipularMudanca}
-                                                        required
-                                                    />
-                                                </Form.Group>
-                                        }
+                                        <Form.Group as={Col} className="mb-3">
+                                            <Form.Label className="text-center">CPF</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="cpf"
+                                                name="cpf"
+                                                placeholder="Digite o seu CPF"
+                                                value={cliente.cpf}
+                                                onChange={manipularMudanca}
+                                                required
+                                            />
+                                        </Form.Group>
                                     </Row>
                                     <h2>Endereço</h2>
                                     <Row className="mt-4">
@@ -205,9 +246,7 @@ export default function FormCadCliente(props) {
                                         <Col md={{ offset: 1 }}>
                                             <div className="mb-2 mt-2">
                                                 <Button onClick={() => {
-                                                    props.setExibirTabela(true)
-                                                    props.setModoEdicao(false)
-                                                    props.setClienteSelecionado(clienteVazio)
+                                                    voltar();
                                                 }}>
                                                     Voltar
                                                 </Button>

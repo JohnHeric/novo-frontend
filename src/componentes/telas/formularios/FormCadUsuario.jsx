@@ -1,36 +1,64 @@
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 import { useState } from "react";
+import { gravarUsuario, alterarUsuario } from '../../../servicos/servicoUsuario';
+import toast from 'react-hot-toast';
 
 export default function FormCadusuario(props) {
-    const usuarioVazio = {
-        cpf: "",
-        nome: "",
-        endereco: "",
-        numero: "",
-        bairro: "",
-        cidade: "",
-        uf: "",
-        cep: "",
-    };
-
+    const [usuario, setUsuario] = useState(props.usuarioSelecionado);
     const [formValidado, setFormValidado] = useState(false);
-    const estadoUsuario = props.usuarioSelecionado;
-    const [usuario, setUsuario] = useState(estadoUsuario);
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (!props.modoEdicao) {
-                props.setListaDeUsuarios([...props.listaDeUsuarios, usuario]);
+                gravarUsuario(usuario)
+                    .then((resultado) => {
+                        if (resultado.status) {
+                            props.setListaDeUsuarios([...props.listaDeUsuarios, usuario]);
+                            props.setExibirTabela(true);
+                            toast.success("Usuário cadastrado com sucesso!");
+                        } else
+                            toast.error(resultado.mensagem);
+                    });
             } else {
-                props.setListaDeUsuarios([...props.listaDeUsuarios.map((item) => {
-                    return item.login === usuario.login ? usuario : item;
-                })]);
+                alterarUsuario(usuario)
+                    .then((resultado) => {
+                        if (resultado.status) {
+                            props.setListaDeUsuarios(props.listaDeUsuarios.map((item) => {
+                                return item.codigo === usuario.codigo ? usuario : item;
+                            }));
+                            props.setModoEdicao(false);
+                            toast.success("Usuário alterado com sucesso!");
+                        } else
+                            toast.error(resultado.mensagem);
+                    });
                 props.setModoEdicao(false);
-                props.setUsuarioSelecionado(usuarioVazio);
+                props.setUsuarioSelecionado({
+                    codigo: "",
+                    nome: "",
+                    login: "",
+                    senha: "",
+                    endereco: "",
+                    numero: "",
+                    bairro: "",
+                    cidade: "",
+                    uf: "",
+                    cep: ""
+                });
             }
             props.setExibirTabela(true);
-            setUsuario(usuarioVazio);
+            props.setUsuarioSelecionado({
+                codigo: "",
+                nome: "",
+                login: "",
+                senha: "",
+                endereco: "",
+                numero: "",
+                bairro: "",
+                cidade: "",
+                uf: "",
+                cep: ""
+            });
             setFormValidado(false);
         } else {
             setFormValidado(true);
@@ -49,7 +77,17 @@ export default function FormCadusuario(props) {
     function voltar() {
         props.setExibirTabela(true);
         props.setModoEdicao(false);
-        props.setUsuarioSelecionado(usuarioVazio);
+        props.setUsuarioSelecionado({
+            codigo: 0,
+            cpf: "",
+            nome: "",
+            endereco: "",
+            numero: "",
+            bairro: "",
+            cidade: "",
+            uf: "",
+            cep: "",
+        });
     }
 
     return (
@@ -82,6 +120,22 @@ export default function FormCadusuario(props) {
                                                 required
                                             />
                                         </Form.Group>
+                                    </Row>
+                                    <Row>
+                                        <fieldset disabled>
+                                            <Form.Group as={Col} className="mb-3">
+                                                <Form.Label className="text-center">Código</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    id="codigo"
+                                                    name="codigo"
+                                                    placeholder="Código do Usuário"
+                                                    value={usuario.codigo}
+                                                    onChange={manipularMudanca}
+                                                    required
+                                                />
+                                            </Form.Group>
+                                        </fieldset>
                                     </Row>
                                     {
                                         props.modoEdicao ?

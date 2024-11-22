@@ -1,24 +1,37 @@
 import FormCadCliente from "./formularios/FormCadCliente.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaClientes from "./tabelas/TabelaClientes.jsx";
-import { clientes } from "../../dados/mockClientes.js";
 import { Alert, Container } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { consultarCliente } from "../../servicos/servicoCliente.js";
 
 export default function TelaCadCliente(props) {
+    const [listaDeClientes, setListaDeClientes] = useState([]);
     const [exibirTabela, setExibirTabela] = useState(true);
-    const [listaDeClientes, setListaDeClientes] = useState(clientes);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [clienteSelecionado, setClienteSelecionado] = useState({
-        cpf: "",
+        codigo: 0,
         nome: "",
+        cpf: "",
         endereco: "",
         numero: "",
         bairro: "",
         cidade: "",
         uf: "",
-        cep: "",
-    })
+        cep: ""
+    });
+
+    useEffect(() => {
+        consultarCliente().then((lista) => {
+            setListaDeClientes(lista);
+        });
+    }, []); // listaVazia -> didMount
+
+    useEffect(() => {
+        consultarCliente().then((lista) => {
+            setListaDeClientes(lista);
+        });
+    }, [listaDeClientes]); // listaVazia -> didMount
 
     return (
         <Pagina>

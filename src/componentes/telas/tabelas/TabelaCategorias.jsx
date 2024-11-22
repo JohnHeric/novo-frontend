@@ -1,6 +1,6 @@
 import { Button, Container, Table } from "react-bootstrap";
 import { excluirCategoria } from "../../../servicos/servicoCategoria.js";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function TabelaCategorias(props) {
 
@@ -13,8 +13,7 @@ export default function TabelaCategorias(props) {
                             return item.codigo !== categoria.codigo;
                         }));
                         toast.success("Categoria excluída com sucesso!");
-                    }
-                    else
+                    } else
                         toast.error("Não foi possível excluir a categoria: " + resultado.mensagem);
                 });
         }
@@ -72,7 +71,6 @@ export default function TabelaCategorias(props) {
                 </tbody>
             </Table>
             <p>Quantidade de categorias cadastradas: {props.listaDeCategorias.length}</p>
-            <Toaster position="top-center" />
         </Container>
     );
 }

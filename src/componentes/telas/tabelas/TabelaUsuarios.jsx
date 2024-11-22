@@ -1,13 +1,21 @@
 import { Button, Container, Table } from "react-bootstrap";
+import { excluirUsuario } from "../../../servicos/servicoUsuario.js";
+import toast from "react-hot-toast";
 
 export default function TabelaUsuarios(props) {
 
-    function excluirUsuario(usuario) {
-        if (window.confirm("Deseja realmente excluir o usuário " + usuario.nome)) {
-            props.setListaDeUsuarios(props.listaDeUsuarios.filter(
-                (item) => {
-                    return item.login !== usuario.login
-                }));
+    function excluirUsuarioSelecionado(usuario) {
+        if (window.confirm("Deseja realmente excluir o usuario " + usuario.descricao)) {
+            excluirUsuario(usuario)
+                .then((resultado) => {
+                    if (resultado.status) {
+                        props.setListaDeUsuarios(props.listaDeUsuarios.filter((item) => {
+                            return item.codigo !== usuario.codigo;
+                        }));
+                        toast.success("Usuário excluído com sucesso!");
+                    } else
+                        toast.error("Não foi possível excluir o usuario: " + resultado.mensagem);
+                });
         }
     }
 
@@ -27,6 +35,7 @@ export default function TabelaUsuarios(props) {
             <Table striped bordered hover>
                 <thead>
                     <tr>
+                        <th>Código</th>
                         <th>Login</th>
                         <th>Nome</th>
                         <th>Endereço</th>
@@ -40,9 +49,10 @@ export default function TabelaUsuarios(props) {
                 </thead>
                 <tbody>
                     {
-                        props.listaDeUsuarios?.map((usuario) => {
+                        props?.listaDeUsuarios?.map((usuario) => {
                             return (
                                 <tr>
+                                    <td>{usuario.codigo}</td>
                                     <td>{usuario.login}</td>
                                     <td>{usuario.nome}</td>
                                     <td>{usuario.endereco}</td>
@@ -60,7 +70,7 @@ export default function TabelaUsuarios(props) {
                                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                                             </svg>
                                         </Button> <Button onClick={() => {
-                                            excluirUsuario(usuario);
+                                            excluirUsuarioSelecionado(usuario);
                                         }} variant="danger">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />

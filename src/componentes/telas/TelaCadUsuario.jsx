@@ -1,25 +1,38 @@
 import FormCadUsuario from "./formularios/FormCadUsuario.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaUsuarios from "./tabelas/TabelaUsuarios.jsx";
-import { usuarios } from "../../dados/mockUsuarios.js";
 import { Alert, Container } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { consultarUsuario } from "../../servicos/servicoUsuario.js";
 
 export default function TelaCadUsuario(props) {
+    const [listaDeUsuarios, setListaDeUsuarios] = useState([]);
     const [exibirTabela, setExibirTabela] = useState(true);
-    const [listaDeUsuarios, setListaDeUsuarios] = useState(usuarios);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [usuarioSelecionado, setUsuarioSelecionado] = useState({
-        login: "",
+        codigo: 0,
         nome: "",
+        login: "",
+        senha: "",
         endereco: "",
         numero: "",
         bairro: "",
         cidade: "",
         uf: "",
-        cep: "",
-        senha: ""
+        cep: ""
     });
+
+    useEffect(() => {
+        consultarUsuario().then((lista) => {
+            setListaDeUsuarios(lista);
+        });
+    }, []); // listaVazia -> didMount
+
+    useEffect(() => {
+        consultarUsuario().then((lista) => {
+            setListaDeUsuarios(lista);
+        });
+    }, [listaDeUsuarios]); // listaVazia -> didMount
 
     return (
         <Pagina>

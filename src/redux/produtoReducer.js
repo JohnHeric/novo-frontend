@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { consultarProduto } from "../servicos/servicoProduto";
+import { alterarProduto, consultarProduto, excluirProduto, gravarProduto } from "../servicos/servicoProduto";
 import ESTADO from "./estados";
 
 export const buscarProdutos = createAsyncThunk('buscarProdutos', async () => {
@@ -9,7 +9,7 @@ export const buscarProdutos = createAsyncThunk('buscarProdutos', async () => {
             return {
                 "status": true,
                 "mensagem": "Produtos recuperados com sucesso",
-                resultado
+                "listaDeProdutos": resultado
             };
         } else {
             return {
@@ -21,8 +21,23 @@ export const buscarProdutos = createAsyncThunk('buscarProdutos', async () => {
     } catch (erro) {
         return {
             "status": false,
-            "mensagem": "Erro: " + erro.message,
+            "mensagem": "Erro: " + erro.mensagem,
             "listaDeProdutos": []
+        };
+    };
+});
+
+export const apagarProduto = createAsyncThunk('apagarProduto', async (produto) => {
+    const resultado = await excluirProduto(produto);
+    try {
+        return {
+            "status": resultado,
+            "mensagem": resultado.mensagem
+        };
+    } catch (erro) {
+        return {
+            "status": false,
+            "mensagem": "Erro: " + erro.mensagem
         };
     };
 });
@@ -39,7 +54,7 @@ const produtoReducer = createSlice({
         builder
             .addCase(buscarProdutos.pending, (state, action) => {
                 state.estado = ESTADO.PENDENTE;
-                state.mensagem = "Processando requisição (buscando produtos)";
+                state.mensagem = "Processando requisição (Buscando produtos)";
             })
             .addCase(buscarProdutos.fulfilled, (state, action) => {
                 if (action.payload.status) {
@@ -49,67 +64,27 @@ const produtoReducer = createSlice({
                 } else {
                     state.estado = ESTADO.ERRO;
                     state.mensagem = action.payload.mensagem;
+                    state.listaDeProdutos = action.payload.listaDeProdutos;
                 }
             })
             .addCase(buscarProdutos.rejected, (state, action) => {
+                state.estado = ESTADO.ERRO;
+                state.mensagem = action.payload.mensagem;
+                state.listaDeProdutos = action.payload.listaDeProdutos;
+            })
+
+            .addCase(apagarProduto.pending, (state, action) => {
                 state.estado = ESTADO.PENDENTE;
-                state.mensagem = "Processando requisição (buscando produtos)"
+                state.mensagem = "Processando requisição (Excluindo produto)";
             })
-            /*
-            .addCase(excluirProdutos.pending, (state, action) => {
-                state.estado = ESTADO.PENDENTE;
-                state.mensagem = "Processando requisição (buscando produtos)";
+            .addCase(apagarProduto.fulfilled, (state, action) => {
+                state.estado = ESTADO.OCIOSO;
+                state.mensagem = action.payload.mensagem;
             })
-            .addCase(excluirProdutos.fulfilled, (state, action) => {
-                if (action.payload.status) {
-                    state.estado = ESTADO.OCIOSO;
-                    state.mensagem = action.payload.mensagem;
-                    state.listaDeProdutos = action.payload.listaDeProdutos;
-                } else {
-                    state.estado = ESTADO.ERRO;
-                    state.mensagem = action.payload.mensagem;
-                }
+            .addCase(apagarProduto.rejected, (state, action) => {
+                state.estado = ESTADO.ERRO;
+                state.mensagem = action.payload.mensagem;
             })
-            .addCase(excluirProdutos.rejected, (state, action) => {
-                state.estado = ESTADO.PENDENTE;
-                state.mensagem = "Processando requisição (buscando produtos)"
-            })
-            .addCase(alterarProdutos.pending, (state, action) => {
-                state.estado = ESTADO.PENDENTE;
-                state.mensagem = "Processando requisição (buscando produtos)";
-            })
-            .addCase(alterarProdutos.fulfilled, (state, action) => {
-                if (action.payload.status) {
-                    state.estado = ESTADO.OCIOSO;
-                    state.mensagem = action.payload.mensagem;
-                    state.listaDeProdutos = action.payload.listaDeProdutos;
-                } else {
-                    state.estado = ESTADO.ERRO;
-                    state.mensagem = action.payload.mensagem;
-                }
-            })
-            .addCase(alterarProdutos.rejected, (state, action) => {
-                state.estado = ESTADO.PENDENTE;
-                state.mensagem = "Processando requisição (buscando produtos)"
-            })
-            .addCase(adicionarProdutos.pending, (state, action) => {
-                state.estado = ESTADO.PENDENTE;
-                state.mensagem = "Processando requisição (buscando produtos)";
-            })
-            .addCase(adicionarProdutos.fulfilled, (state, action) => {
-                if (action.payload.status) {
-                    state.estado = ESTADO.OCIOSO;
-                    state.mensagem = action.payload.mensagem;
-                    state.listaDeProdutos = action.payload.listaDeProdutos;
-                } else {
-                    state.estado = ESTADO.ERRO;
-                    state.mensagem = action.payload.mensagem;
-                }
-            })
-            .addCase(adicionarProdutos.rejected, (state, action) => {
-                state.estado = ESTADO.PENDENTE;
-                state.mensagem = "Processando requisição (buscando produtos)"
-            })*/
     }
 });
 

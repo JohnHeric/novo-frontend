@@ -12,7 +12,7 @@ export default function TelaCadCategoria(props) {
     const [categoriaSelecionada, setCategoriaSelecionada] = useState({
         codigo: 0,
         descricao: ""
-    }); 
+    });
 
     useEffect(() => {
         consultarCategoria().then((lista) => {

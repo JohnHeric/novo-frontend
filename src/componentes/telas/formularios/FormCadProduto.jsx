@@ -233,6 +233,7 @@ export default function FormCadProduto(props) {
                                                 placeholder="URL da Imagem"
                                                 value={produto.urlImagem}
                                                 onChange={manipularMudanca}
+                                                required
                                             />
                                         </Form.Group>
                                         <Form.Group as={Col} md={4} className="mb-3">
@@ -254,6 +255,7 @@ export default function FormCadProduto(props) {
                                             <Form.Select
                                                 id="categoria"
                                                 name="categoria"
+                                                required
                                                 value={produto.categoria.codigo}
                                                 onChange={selecionarCategoria}>
                                                 <option value="" selected disabled>Selecione uma categoria</option>
@@ -281,6 +283,7 @@ export default function FormCadProduto(props) {
                                             <Form.Select
                                                 id="fornecedor"
                                                 name="fornecedor"
+                                                required
                                                 value={produto.fornecedor.codigo}
                                                 onChange={selecionarFornecedor}>
                                                 <option value="" selected disabled>Selecione um fornecedor</option>

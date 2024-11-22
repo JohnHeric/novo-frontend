@@ -1,13 +1,21 @@
 import { Button, Container, Table } from "react-bootstrap";
+import { excluirCliente } from "../../../servicos/servicoCliente.js";
+import toast from "react-hot-toast";
 
 export default function TabelaClientes(props) {
 
-    function excluirCliente(cliente) {
-        if (window.confirm("Deseja realmente excluir o cliente " + cliente.nome)) {
-            props.setListaDeClientes(props.listaDeClientes.filter(
-                (item) => {
-                    return item.cpf !== cliente.cpf
-                }));
+    function excluirClienteSelecionado(cliente) {
+        if (window.confirm("Deseja realmente excluir o cliente " + cliente.descricao)) {
+            excluirCliente(cliente)
+                .then((resultado) => {
+                    if (resultado.status) {
+                        props.setListaDeClientes(props.listaDeClientes.filter((item) => {
+                            return item.codigo !== cliente.codigo;
+                        }));
+                        toast.success("Cliente excluído com sucesso!");
+                    } else
+                        toast.error("Não foi possível excluir o cliente: " + resultado.mensagem);
+                });
         }
     }
 
@@ -27,8 +35,9 @@ export default function TabelaClientes(props) {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>CPF</th>
+                        <th>Código</th>
                         <th>Nome</th>
+                        <th>CPF</th>
                         <th>Endereço</th>
                         <th>Número</th>
                         <th>Bairro</th>
@@ -43,8 +52,9 @@ export default function TabelaClientes(props) {
                         props.listaDeClientes?.map((cliente) => {
                             return (
                                 <tr>
-                                    <td>{cliente.cpf}</td>
+                                    <td>{cliente.codigo}</td>
                                     <td>{cliente.nome}</td>
+                                    <td>{cliente.cpf}</td>
                                     <td>{cliente.endereco}</td>
                                     <td>{cliente.numero}</td>
                                     <td>{cliente.bairro}</td>
@@ -60,7 +70,7 @@ export default function TabelaClientes(props) {
                                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                                             </svg>
                                         </Button> <Button onClick={() => {
-                                            excluirCliente(cliente);
+                                            excluirClienteSelecionado(cliente);
                                         }} variant="danger">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />

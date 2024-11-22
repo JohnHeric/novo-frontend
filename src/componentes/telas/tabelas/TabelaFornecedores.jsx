@@ -1,13 +1,21 @@
 import { Button, Container, Table } from "react-bootstrap";
+import { excluirFornecedor } from "../../../servicos/servicoFornecedor.js";
+import toast from "react-hot-toast";
 
 export default function TabelaFornecedores(props) {
 
-    function excluirFornecedor(fornecedor) {
-        if (window.confirm("Deseja realmente excluir o fornecedor " + fornecedor.nomeFantasia)) {
-            props.setListaDeFornecedores(props.listaDeFornecedores.filter(
-                (item) => {
-                    return item.cnpj !== fornecedor.cnpj;
-                }));
+    function excluirFornecedorSelecionado(fornecedor) {
+        if (window.confirm("Deseja realmente excluir o fornecedor " + fornecedor.descricao)) {
+            excluirFornecedor(fornecedor)
+                .then((resultado) => {
+                    if (resultado.status) {
+                        props.setListaDeFornecedores(props.setListaDeFornecedores.filter((item) => {
+                            return item.codigo !== fornecedor.codigo;
+                        }));
+                        toast.success("Fornecedor excluído com sucesso!");
+                    } else
+                        toast.error("Não foi possível excluir o fornecedor: " + resultado.mensagem);
+                });
         }
     }
 
@@ -27,6 +35,7 @@ export default function TabelaFornecedores(props) {
             <Table striped bordered hover>
                 <thead>
                     <tr>
+                        <th>Código</th>
                         <th>Razão Social</th>
                         <th>CNPJ</th>
                         <th>Telefone</th>
@@ -44,6 +53,7 @@ export default function TabelaFornecedores(props) {
                         props.listaDeFornecedores?.map((fornecedor) => {
                             return (
                                 <tr>
+                                    <td>{fornecedor.codigo}</td>
                                     <td>{fornecedor.razaoSocial}</td>
                                     <td>{fornecedor.cnpj}</td>
                                     <td>{fornecedor.telefone}</td>
@@ -62,7 +72,7 @@ export default function TabelaFornecedores(props) {
                                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                                             </svg>
                                         </Button> <Button onClick={() => {
-                                            excluirFornecedor(fornecedor);
+                                            excluirFornecedorSelecionado(fornecedor);
                                         }} variant="danger">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
