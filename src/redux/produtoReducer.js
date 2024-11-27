@@ -1,6 +1,38 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { alterarProduto, consultarProduto, excluirProduto, gravarProduto } from "../servicos/servicoProduto";
 import ESTADO from "./estados";
+import { alterarProduto, consultarProduto, excluirProduto, gravarProduto } from "../servicos/servicoProduto";
+
+export const apagarProduto = createAsyncThunk('apagarProduto', async (produto) => {
+    const resultado = await excluirProduto(produto);
+    try {
+        return {
+            "status": resultado.status,
+            "mensagem": resultado.mensagem,
+            produto
+        };
+    } catch (erro) {
+        return {
+            "status": false,
+            "mensagem": "Erro: " + erro.mensagem
+        };
+    };
+});
+
+export const atualizarProduto = createAsyncThunk('atualizarProduto', async (produto) => {
+    const resultado = await alterarProduto(produto);
+    try {
+        return {
+            "status": resultado.status,
+            "mensagem": resultado.mensagem,
+            produto
+        };
+    } catch (erro) {
+        return {
+            "status": false,
+            "mensagem": "Erro: " + erro.mensagem
+        };
+    };
+});
 
 export const buscarProdutos = createAsyncThunk('buscarProdutos', async () => {
     const resultado = await consultarProduto();
@@ -27,12 +59,13 @@ export const buscarProdutos = createAsyncThunk('buscarProdutos', async () => {
     };
 });
 
-export const apagarProduto = createAsyncThunk('apagarProduto', async (produto) => {
-    const resultado = await excluirProduto(produto);
+export const incluirProduto = createAsyncThunk('incluirProduto', async (produto) => {
+    const resultado = await gravarProduto(produto);
     try {
         return {
-            "status": resultado,
-            "mensagem": resultado.mensagem
+            "status": resultado.status,
+            "mensagem": resultado.mensagem,
+            produto
         };
     } catch (erro) {
         return {
@@ -64,13 +97,11 @@ const produtoReducer = createSlice({
                 } else {
                     state.estado = ESTADO.ERRO;
                     state.mensagem = action.payload.mensagem;
-                    state.listaDeProdutos = action.payload.listaDeProdutos;
                 }
             })
             .addCase(buscarProdutos.rejected, (state, action) => {
                 state.estado = ESTADO.ERRO;
                 state.mensagem = action.payload.mensagem;
-                state.listaDeProdutos = action.payload.listaDeProdutos;
             })
 
             .addCase(apagarProduto.pending, (state, action) => {
@@ -78,10 +109,57 @@ const produtoReducer = createSlice({
                 state.mensagem = "Processando requisição (Excluindo produto)";
             })
             .addCase(apagarProduto.fulfilled, (state, action) => {
-                state.estado = ESTADO.OCIOSO;
-                state.mensagem = action.payload.mensagem;
+                if (action.payload.status) {
+                    state.estado = ESTADO.OCIOSO;
+                    state.mensagem = action.payload.mensagem;
+                    state.listaDeProdutos = state.listaDeProdutos.filter((produto) =>
+                        produto.codigo !== action.payload.produto.codigo
+                    );
+                } else {
+                    state.estado = ESTADO.ERRO;
+                    state.mensagem = action.payload.mensagem;
+                }
             })
             .addCase(apagarProduto.rejected, (state, action) => {
+                state.estado = ESTADO.ERRO;
+                state.mensagem = action.payload.mensagem;
+            })
+
+            .addCase(incluirProduto.pending, (state, action) => {
+                state.estado = ESTADO.PENDENTE;
+                state.mensagem = "Processando requisição (Incluindo produto)";
+            })
+            .addCase(incluirProduto.fulfilled, (state, action) => {
+                if (action.payload.status) {
+                    state.estado = ESTADO.OCIOSO;
+                    state.mensagem = action.payload.mensagem;
+                    state.listaDeProdutos.push(action.payload.produto);
+                } else {
+                    state.estado = ESTADO.ERRO;
+                    state.mensagem = action.payload.mensagem;
+                }
+            })
+            .addCase(incluirProduto.rejected, (state, action) => {
+                state.estado = ESTADO.ERRO;
+                state.mensagem = action.payload.mensagem;
+            })
+
+            .addCase(atualizarProduto.pending, (state, action) => {
+                state.estado = ESTADO.PENDENTE;
+                state.mensagem = "Processando requisição (Atualizando produto)";
+            })
+            .addCase(atualizarProduto.fulfilled, (state, action) => {
+                if (action.payload.status) {
+                    state.estado = ESTADO.OCIOSO;
+                    state.mensagem = action.payload.mensagem;
+                    const i = state.listaDeProdutos.findIndex((produto) => produto.codigo === action.payload.produto.codigo);
+                    state.listaDeProdutos[i] = action.payload.produto;
+                } else {
+                    state.estado = ESTADO.ERRO;
+                    state.mensagem = action.payload.mensagem;
+                }
+            })
+            .addCase(atualizarProduto.rejected, (state, action) => {
                 state.estado = ESTADO.ERRO;
                 state.mensagem = action.payload.mensagem;
             })

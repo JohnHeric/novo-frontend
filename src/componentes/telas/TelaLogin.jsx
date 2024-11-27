@@ -7,6 +7,10 @@ export default function TelaLogin() {
     const senha = useRef();
     const { usuario, setUsuario } = useContext(ContextoUsuario);
 
+    function validarUsuario (usuario, senha) {
+        
+    }
+
     function manipularSubmissao(evento) {
         const usuarioDigitado = nomeUsuario.current.value;
         const senhaDigitada = senha.current.value;
@@ -23,9 +27,7 @@ export default function TelaLogin() {
     return (
         <Container className="square rounded-4 mt-5 w-25 border p-4">
             <Form onSubmit={manipularSubmissao} >
-                <Form.Group
-                    className="mb-3"
-                    controlId="formBasicEmail" >
+                <Form.Group className="mb-3" >
                     <Form.Label>Usuário</Form.Label>
                     <Form.Control
                         type="text"

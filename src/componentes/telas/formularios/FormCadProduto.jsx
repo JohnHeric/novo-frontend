@@ -2,16 +2,29 @@ import { Button, Card, Col, Container, Form, InputGroup, Row, Spinner } from "re
 import { useEffect, useState } from "react";
 import { consultarCategoria } from "../../../servicos/servicoCategoria.js";
 import { consultarFornecedor } from "../../../servicos/servicoFornecedor.js"
-import { gravarProduto, alterarProduto } from "../../../servicos/servicoProduto.js";
+import { atualizarProduto, incluirProduto } from "../../../redux/produtoReducer.js"
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 
 export default function FormCadProduto(props) {
+    const despachante = useDispatch();
     const [produto, setProduto] = useState(props.produtoSelecionado);
     const [formValidado, setFormValidado] = useState(false);
     const [categorias, setCategorias] = useState([]);
     const [fornecedores, setFornecedores] = useState([]);
     const [temCategorias, setTemCategorias] = useState(false);
     const [temFornecedores, setTemFornecedores] = useState(false);
+    const produtoVazio = {
+        codigo: 0,
+        descricao: "",
+        precoCusto: "",
+        precoVenda: "",
+        qtdEstoque: "",
+        urlImagem: "",
+        dataValidade: "",
+        categoria: {},
+        fornecedor: {}
+    }
 
     useEffect(() => {
         consultarFornecedor().then((resultado) => {
@@ -62,17 +75,10 @@ export default function FormCadProduto(props) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
             if (!props.modoEdicao) {
-                gravarProduto(produto)
-                    .then((resultado) => {
-                        if (resultado.status) {
-                            props.setListaDeProdutos([...props.listaDeProdutos, produto]);
-                            props.setExibirTabela(true);
-                            toast.success("Produto cadastrado com sucesso!");
-                        } else
-                            toast.error(resultado.mensagem);
-                    });
+                despachante(incluirProduto(produto));
             } else {
-                alterarProduto(produto)
+                despachante(atualizarProduto(produto));
+                /*alterarProduto(produto)
                     .then((resultado) => {
                         if (resultado.status) {
                             props.setListaDeProdutos(props.listaDeProdutos.map((item) => {
@@ -82,20 +88,10 @@ export default function FormCadProduto(props) {
                             toast.success("Produto alterado com sucesso!");
                         } else
                             toast.error(resultado.mensagem);
-                    });
+                    });*/
             }
             props.setExibirTabela(true)
-            props.setProdutoSelecionado({
-                codigo: 0,
-                descricao: "",
-                precoCusto: "",
-                precoVenda: "",
-                qtdEstoque: "",
-                urlImagem: "",
-                dataValidade: "",
-                categoria: {},
-                fornecedor: {}
-            });
+            props.setProdutoSelecionado(produtoVazio);
             setFormValidado(false);
         } else {
             setFormValidado(true);
@@ -114,17 +110,7 @@ export default function FormCadProduto(props) {
     function voltar() {
         props.setExibirTabela(true);
         props.setModoEdicao(false);
-        props.setProdutoSelecionado({
-            codigo: 0,
-            descricao: "",
-            precoCusto: "",
-            precoVenda: "",
-            qtdEstoque: "",
-            urlImagem: "",
-            dataValidade: "",
-            categoria: {},
-            fornecedor: {}
-        });
+        props.setProdutoSelecionado(produtoVazio);
     }
 
     return (
@@ -255,12 +241,12 @@ export default function FormCadProduto(props) {
                                             <Form.Select
                                                 id="categoria"
                                                 name="categoria"
-                                                required
                                                 value={produto.categoria.codigo}
-                                                onChange={selecionarCategoria}>
-                                                <option value="" selected disabled>Selecione uma categoria</option>
+                                                onChange={selecionarCategoria}
+                                                required>
+                                                <option selected disabled>Selecione uma categoria</option>
                                                 {
-                                                    categorias.map((categoria) => {
+                                                    categorias?.map((categoria) => {
                                                         return <option value={categoria.codigo}>
                                                             {categoria.descricao}
                                                         </option>;
@@ -283,10 +269,10 @@ export default function FormCadProduto(props) {
                                             <Form.Select
                                                 id="fornecedor"
                                                 name="fornecedor"
-                                                required
                                                 value={produto.fornecedor.codigo}
-                                                onChange={selecionarFornecedor}>
-                                                <option value="" selected disabled>Selecione um fornecedor</option>
+                                                onChange={selecionarFornecedor}
+                                                required>
+                                                <option selected disabled>Selecione um fornecedor</option>
                                                 {
                                                     fornecedores.map((fornecedor) => {
                                                         return <option value={fornecedor.codigo}>
