@@ -22,8 +22,12 @@ export default function FormCadProduto(props) {
         qtdEstoque: "",
         urlImagem: "",
         dataValidade: "",
-        categoria: {},
-        fornecedor: {}
+        categoria: {
+            codigo: 1
+        },
+        fornecedor: {
+            codigo: 1
+        }
     }
 
     useEffect(() => {
@@ -74,28 +78,15 @@ export default function FormCadProduto(props) {
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            if (!props.modoEdicao) {
+            if (!props.modoEdicao)
                 despachante(incluirProduto(produto));
-            } else {
+            else
                 despachante(atualizarProduto(produto));
-                /*alterarProduto(produto)
-                    .then((resultado) => {
-                        if (resultado.status) {
-                            props.setListaDeProdutos(props.listaDeProdutos.map((item) => {
-                                return item.codigo === produto.codigo ? produto : item;
-                            }));
-                            props.setModoEdicao(false);
-                            toast.success("Produto alterado com sucesso!");
-                        } else
-                            toast.error(resultado.mensagem);
-                    });*/
-            }
             props.setExibirTabela(true)
             props.setProdutoSelecionado(produtoVazio);
             setFormValidado(false);
-        } else {
+        } else
             setFormValidado(true);
-        }
         evento.preventDefault();
         evento.stopPropagation();
     }
@@ -139,8 +130,7 @@ export default function FormCadProduto(props) {
                                                 placeholder="Descrição do Produto"
                                                 value={produto.descricao}
                                                 onChange={manipularMudanca}
-                                                required
-                                            />
+                                                required />
                                         </Form.Group>
                                     </Row>
                                     <Row className="mb-3">
@@ -247,7 +237,7 @@ export default function FormCadProduto(props) {
                                                 <option selected disabled>Selecione uma categoria</option>
                                                 {
                                                     categorias?.map((categoria) => {
-                                                        return <option value={categoria.codigo}>
+                                                        return <option key={categoria.codigo} value={categoria.codigo}>
                                                             {categoria.descricao}
                                                         </option>;
                                                     })
@@ -266,21 +256,23 @@ export default function FormCadProduto(props) {
                                         </Form.Group>
                                         <Form.Group as={Col} md={7} className="mb-3">
                                             <Form.Label>Fornecedor</Form.Label>
-                                            <Form.Select
-                                                id="fornecedor"
-                                                name="fornecedor"
-                                                value={produto.fornecedor.codigo}
-                                                onChange={selecionarFornecedor}
-                                                required>
-                                                <option selected disabled>Selecione um fornecedor</option>
-                                                {
-                                                    fornecedores.map((fornecedor) => {
-                                                        return <option value={fornecedor.codigo}>
-                                                            {fornecedor.razaoSocial}
-                                                        </option>;
-                                                    })
-                                                }
-                                            </Form.Select>
+                                            {
+                                                <Form.Select
+                                                    id="fornecedor"
+                                                    name="fornecedor"
+                                                    value={produto.fornecedor.codigo}
+                                                    onChange={selecionarFornecedor}
+                                                    required >
+                                                    <option selected disabled="disabled">Selecione um fornecedor</option>
+                                                    {
+                                                        fornecedores?.map((fornecedor) => {
+                                                            return <option key={fornecedor.codigo} value={fornecedor.codigo}>
+                                                                {fornecedor.razaoSocial}
+                                                            </option>;
+                                                        })
+                                                    }
+                                                </Form.Select>
+                                            }
                                         </Form.Group>
                                         <Form.Group as={Col} md={1} className="mt-4">
                                             <Form.Label>     </Form.Label>
@@ -307,9 +299,7 @@ export default function FormCadProduto(props) {
                                         </Col>
                                         <Col md={{ offset: 1 }}>
                                             <div className="mb-2 mt-2">
-                                                <Button onClick={() => {
-                                                    voltar();
-                                                }}>
+                                                <Button onClick={() => { voltar(); }}>
                                                     Voltar
                                                 </Button>
                                             </div>

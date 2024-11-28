@@ -16,11 +16,11 @@ export default function TelaCadProduto(props) {
         urlImagem: "",
         dataValidade: "",
         categoria: {
-            codigo: 0,
+            codigo: 1,
             descricao: ""
         },
         fornecedor: {
-            codigo: 0,
+            codigo: 1,
             razaoSocial: "",
             cnpj: "",
             telefone: "",
