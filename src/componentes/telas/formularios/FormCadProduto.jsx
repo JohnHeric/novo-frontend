@@ -17,9 +17,9 @@ export default function FormCadProduto(props) {
     const produtoVazio = {
         codigo: 0,
         descricao: "",
-        precoCusto: "",
-        precoVenda: "",
-        qtdEstoque: "",
+        precoCusto: 0,
+        precoVenda: 0,
+        qtdEstoque: 0,
         urlImagem: "",
         dataValidade: "",
         categoria: {
@@ -57,7 +57,7 @@ export default function FormCadProduto(props) {
             setTemCategorias(false);
             toast.error("Não foi possível carregar as categorias! " + erro);
         });
-    }, []); // Para que o useEffect tenha o efeito de um didMount o segundo parâmetro deve ser um vetor VAZIO!
+    }, []);
 
     function selecionarFornecedor(evento) {
         setProduto({
@@ -95,7 +95,6 @@ export default function FormCadProduto(props) {
         const elemento = evento.target.name;
         const valor = evento.target.value;
         setProduto({ ...produto, [elemento]: valor });
-        console.log(`componente: ${elemento} : ${valor}`);
     }
 
     function voltar() {
@@ -232,7 +231,7 @@ export default function FormCadProduto(props) {
                                                 id="categoria"
                                                 name="categoria"
                                                 value={produto.categoria.codigo}
-                                                onChange={selecionarCategoria}
+                                                onChange={(evento) => selecionarCategoria(evento)}
                                                 required>
                                                 <option selected disabled>Selecione uma categoria</option>
                                                 {
@@ -256,23 +255,21 @@ export default function FormCadProduto(props) {
                                         </Form.Group>
                                         <Form.Group as={Col} md={7} className="mb-3">
                                             <Form.Label>Fornecedor</Form.Label>
-                                            {
-                                                <Form.Select
-                                                    id="fornecedor"
-                                                    name="fornecedor"
-                                                    value={produto.fornecedor.codigo}
-                                                    onChange={selecionarFornecedor}
-                                                    required >
-                                                    <option selected disabled="disabled">Selecione um fornecedor</option>
-                                                    {
-                                                        fornecedores?.map((fornecedor) => {
-                                                            return <option key={fornecedor.codigo} value={fornecedor.codigo}>
-                                                                {fornecedor.razaoSocial}
-                                                            </option>;
-                                                        })
-                                                    }
-                                                </Form.Select>
-                                            }
+                                            <Form.Select
+                                                id="fornecedor"
+                                                name="fornecedor"
+                                                value={produto.fornecedor.codigo}
+                                                onChange={(evento) => selecionarFornecedor(evento)}
+                                                required >
+                                                <option selected disabled>Selecione um fornecedor</option>
+                                                {
+                                                    fornecedores?.map((fornecedor) => {
+                                                        return <option key={fornecedor.codigo} value={fornecedor.codigo}>
+                                                            {fornecedor.razaoSocial}
+                                                        </option>;
+                                                    })
+                                                }
+                                            </Form.Select>
                                         </Form.Group>
                                         <Form.Group as={Col} md={1} className="mt-4">
                                             <Form.Label>     </Form.Label>

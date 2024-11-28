@@ -10,9 +10,9 @@ export default function TelaCadProduto(props) {
     const [produtoSelecionado, setProdutoSelecionado] = useState({
         codigo: 0,
         descricao: "",
-        precoCusto: "",
-        precoVenda: "",
-        qtdEstoque: "",
+        precoCusto: 0,
+        precoVenda: 0,
+        qtdEstoque: 0,
         urlImagem: "",
         dataValidade: "",
         categoria: {
@@ -26,7 +26,7 @@ export default function TelaCadProduto(props) {
             telefone: "",
             endereco: "",
             numero: "",
-            bairro: "",
+            bairro: 0,
             cidade: "",
             uf: "",
             cep: ""

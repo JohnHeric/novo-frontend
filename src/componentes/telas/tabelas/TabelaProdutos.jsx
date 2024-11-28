@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { buscarProdutos, apagarProduto } from "../../../redux/produtoReducer.js";
 import ESTADO from "../../../redux/estados.js";
-import toast from "react-hot-toast";
 
 export default function TabelaProdutos(props) {
     const { estado, mensagem, listaDeProdutos } = useSelector(estado => estado.produto);
