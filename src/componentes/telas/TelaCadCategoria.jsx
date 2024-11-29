@@ -15,7 +15,7 @@ export default function TelaCadCategoria(props) {
     return (
         <Pagina>
             <Container>
-                <Alert className="mt-2 mb-2 text-center">
+                <Alert className="mt-2 mb-2 text-center" variant="light">
                     <h2>
                         Categorias
                     </h2>

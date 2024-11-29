@@ -1,15 +1,15 @@
 import Pagina from "../layouts/Pagina.jsx";
-import { Alert, Container } from "react-bootstrap";
+import logo from "../../assets/imagens/AcmeLogo.png";
+import { Container } from "react-bootstrap";
 
 export default function TelaMenu(props) {
     return (
         <Pagina>
-            <Container>
-                <Alert className="mt-02 mb-02 p-3 success text-center" variant="success">
-                    <h2>
-                        Tela Menu
-                    </h2>
-                </Alert>
+            <Container className="p-4 mt-3">
+                <div className="text-center ">
+                    <img className="square bg-primary rounded" alt="erro404" src={logo} width="500" />
+                </div>
+                <h1 className="text-center">Bem vindo à ACME Corporation!</h1>
             </Container>
         </Pagina>
     )

@@ -3,10 +3,12 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { buscarFornecedores, apagarFornecedor } from "../../../redux/fornecedorReducer.js";
 import ESTADO from "../../../redux/estados.js";
+import { useNavigate } from "react-router-dom";
 
 export default function TabelaFornecedores(props) {
     const { estado, mensagem, listaDeFornecedores } = useSelector(estado => estado.fornecedor);
     const despachante = useDispatch();
+    const navegar = useNavigate();
 
     function excluirFornecedorSelecionado(fornecedor) {
         if (window.confirm("Deseja realmente excluir o fornecedor " + fornecedor.descricao))
@@ -27,7 +29,7 @@ export default function TabelaFornecedores(props) {
         return (
             <Container>
                 <Spinner animation="border" role="status"></Spinner>
-                <Alert variant="primary">{mensagem}</Alert>
+                <Alert variant="dark">{mensagem}</Alert>
             </Container>
         );
     } else if (estado === ESTADO.ERRO) {
@@ -57,6 +59,7 @@ export default function TabelaFornecedores(props) {
                             <th>Cidade</th>
                             <th>Estado</th>
                             <th>CEP</th>
+                            <th>Produtos</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -75,6 +78,11 @@ export default function TabelaFornecedores(props) {
                                         <td>{fornecedor.cidade}</td>
                                         <td>{fornecedor.uf}</td>
                                         <td>{fornecedor.cep}</td>
+                                        <td>
+                                            <Button onClick={() => navegar("/produtosfornecedor?id=" + fornecedor.codigo)}>
+                                                Ver
+                                            </Button>
+                                        </td>
                                         <td>
                                             <Button onClick={() => {
                                                 alterarFornecedor(fornecedor);

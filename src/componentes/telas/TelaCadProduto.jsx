@@ -36,7 +36,7 @@ export default function TelaCadProduto(props) {
     return (
         <Pagina>
             <Container>
-                <Alert className="mt-2 mb-2 text-center">
+                <Alert className="mt-2 mb-2 text-center" variant="light">
                     <h2>
                         Produtos
                     </h2>

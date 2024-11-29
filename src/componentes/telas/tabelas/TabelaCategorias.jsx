@@ -27,7 +27,7 @@ export default function TabelaCategorias(props) {
         return (
             <Container>
                 <Spinner animation="border" role="status"></Spinner>
-                <Alert variant="primary">{mensagem}</Alert>
+                <Alert variant="dark">{mensagem}</Alert>
             </Container>
         );
     } else if (estado === ESTADO.ERRO) {

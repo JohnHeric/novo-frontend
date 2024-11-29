@@ -1,12 +1,15 @@
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { atualizarUsuario, incluirUsuario } from "../../../redux/usuarioReducer.js"
 import { useDispatch } from 'react-redux';
+import { ContextoUsuario } from '../../../App.js';
 
 export default function FormCadusuario(props) {
     const despachante = useDispatch();
-    const [usuario, setUsuario] = useState(props.usuarioSelecionado);
+    const [usu, setUsuario] = useState(props.usuarioSelecionado);
     const [formValidado, setFormValidado] = useState(false);
+    const [senhaC, setSenhaC] = useState("");
+    const { usuario } = useContext(ContextoUsuario)
     const usuarioVazio = {
         codigo: "",
         nome: "",
@@ -17,23 +20,27 @@ export default function FormCadusuario(props) {
         bairro: "",
         cidade: "",
         uf: "",
-        cep: ""
+        cep: "",
+        tipo: 0
     }
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
-        if (form.checkValidity()) {
-            if (!props.modoEdicao)
-                despachante(incluirUsuario(usuario));
-            else {
-                despachante(atualizarUsuario(usuario));
-                props.setModoEdicao(false);
-            }
-            props.setUsuarioSelecionado(usuarioVazio);
-            props.setExibirTabela(true);
-            setFormValidado(false);
+        if (usu.senha === senhaC) {
+            if (form.checkValidity()) {
+                if (!props.modoEdicao)
+                    despachante(incluirUsuario(usu));
+                else {
+                    despachante(atualizarUsuario(usu));
+                    props.setModoEdicao(false);
+                }
+                props.setUsuarioSelecionado(usuarioVazio);
+                props.setExibirTabela(true);
+                setFormValidado(false);
+            } else
+                setFormValidado(true);
         } else
-            setFormValidado(true);
+            window.alert("As senhas não batem")
         evento.preventDefault();
         evento.stopPropagation();
     }
@@ -41,7 +48,7 @@ export default function FormCadusuario(props) {
     function manipularMudanca(evento) {
         const elemento = evento.target.name;
         const valor = evento.target.value;
-        setUsuario({ ...usuario, [elemento]: valor });
+        setUsuario({ ...usu, [elemento]: valor });
         console.log(`componente: ${elemento} : ${valor}`);
     }
 
@@ -62,8 +69,8 @@ export default function FormCadusuario(props) {
                                 <p className="mb-4">
                                     {
                                         props.modoEdicao ?
-                                            "Alteração de usuario" :
-                                            "Cadastro de usuario"
+                                            "Alteração de usuário" :
+                                            "Cadastro de usuário"
                                     }
                                 </p>
                                 <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
@@ -76,7 +83,7 @@ export default function FormCadusuario(props) {
                                                 id="nome"
                                                 name="nome"
                                                 placeholder="Nome Completo"
-                                                value={usuario.nome}
+                                                value={usu.nome}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -91,7 +98,7 @@ export default function FormCadusuario(props) {
                                                     id="codigo"
                                                     name="codigo"
                                                     placeholder="Código do Usuário"
-                                                    value={usuario.codigo}
+                                                    value={usu.codigo}
                                                     onChange={manipularMudanca}
                                                     required
                                                 />
@@ -104,7 +111,7 @@ export default function FormCadusuario(props) {
                                                 id="login"
                                                 name="login"
                                                 placeholder="Digite o nome de usuário desejado"
-                                                value={usuario.login}
+                                                value={usu.login}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -120,7 +127,7 @@ export default function FormCadusuario(props) {
                                                         id="senha"
                                                         name="senha"
                                                         placeholder="Digite sua nova senha"
-                                                        value={usuario.senha}
+                                                        value={usu.senha}
                                                         onChange={manipularMudanca}
                                                         required
                                                     />
@@ -132,8 +139,8 @@ export default function FormCadusuario(props) {
                                                         id="senha"
                                                         name="senha"
                                                         placeholder="Digite sua nova senha"
-                                                        value={usuario.senha}
-                                                        onChange={manipularMudanca}
+                                                        value={senhaC}
+                                                        onChange={(e) => setSenhaC(e.target.value)}
                                                         required
                                                     />
                                                 </Form.Group>
@@ -146,7 +153,7 @@ export default function FormCadusuario(props) {
                                                         id="senha"
                                                         name="senha"
                                                         placeholder="Digite sua nova senha"
-                                                        value={usuario.senha}
+                                                        value={usu.senha}
                                                         onChange={manipularMudanca}
                                                         required
                                                     />
@@ -158,8 +165,8 @@ export default function FormCadusuario(props) {
                                                         id="senha"
                                                         name="senha"
                                                         placeholder="Digite sua nova senha"
-                                                        value={usuario.senha}
-                                                        onChange={manipularMudanca}
+                                                        value={senhaC}
+                                                        onChange={(e) => setSenhaC(e.target.value)}
                                                         required
                                                     />
                                                 </Form.Group>
@@ -174,7 +181,7 @@ export default function FormCadusuario(props) {
                                                 id="endereco"
                                                 name="endereco"
                                                 placeholder="Digite o nome da Rua ou Av."
-                                                value={usuario.endereco}
+                                                value={usu.endereco}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -186,7 +193,7 @@ export default function FormCadusuario(props) {
                                                 id="numero"
                                                 name="numero"
                                                 placeholder="Informe o número da residência"
-                                                value={usuario.numero}
+                                                value={usu.numero}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -200,7 +207,7 @@ export default function FormCadusuario(props) {
                                                 id="bairro"
                                                 name="bairro"
                                                 placeholder="Informe o Bairro"
-                                                value={usuario.bairro}
+                                                value={usu.bairro}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -213,7 +220,7 @@ export default function FormCadusuario(props) {
                                                 id="cidade"
                                                 name="cidade"
                                                 placeholder="Informe a Cidade"
-                                                value={usuario.cidade}
+                                                value={usu.cidade}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -227,7 +234,7 @@ export default function FormCadusuario(props) {
                                                 id="uf"
                                                 name="uf"
                                                 placeholder="Informe o Estado"
-                                                value={usuario.uf}
+                                                value={usu.uf}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
@@ -239,12 +246,26 @@ export default function FormCadusuario(props) {
                                                 id="cep"
                                                 name="cep"
                                                 placeholder="Informe o CEP"
-                                                value={usuario.cep}
+                                                value={usu.cep}
                                                 onChange={manipularMudanca}
                                                 required
                                             />
                                         </Form.Group>
                                     </Row>
+                                    <Form.Group as={Col} md={7} className="mb-3">
+                                        <Form.Label>Privilégios de administrador?</Form.Label>
+                                        <Form.Select
+                                            id="tipo"
+                                            name="tipo"
+                                            value={usu.tipo}
+                                            onChange={manipularMudanca}
+                                            disabled={usuario.admin === 0}
+                                            required>
+                                            <option selected disabled>Selecine uma opção</option>
+                                            <option value="0">Não</option>
+                                            <option value="1">Sim</option>
+                                        </Form.Select>
+                                    </Form.Group>
                                     <Row>
                                         <Col md={1}>
                                             <div className="mb-2 mt-2">

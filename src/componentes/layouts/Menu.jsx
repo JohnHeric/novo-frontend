@@ -14,11 +14,21 @@ export default function Menu(props) {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <NavDropdown title="Cadastros" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#" as={Link} to="/clientes">Clientes</NavDropdown.Item>
-                            <NavDropdown.Item href="#" as={Link} to="/fornecedores">Fornecedores</NavDropdown.Item>
-                            <NavDropdown.Item href="#" as={Link} to="/produtos">Produtos</NavDropdown.Item>
-                            <NavDropdown.Item href="#" as={Link} to="/categorias">Categorias</NavDropdown.Item>
-                            <NavDropdown.Item href="#" as={Link} to="/usuarios">Usuários</NavDropdown.Item>
+                            <NavDropdown.Item href="#" as={Link} to="/categorias">
+                                <p><img width="20" src="https://img.icons8.com/?size=100&id=FTAIe68KeQFt&format=png&color=000000" /> Categorias</p>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="#" as={Link} to="/clientes">
+                                <p><img width="20" src="https://img.icons8.com/?size=100&id=rGhKliUp2Vji&format=png&color=000000" /> Clientes</p>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="#" as={Link} to="/fornecedores">
+                                <p><img width="20" src="https://img.icons8.com/?size=100&id=X1gIhPNz9nyZ&format=png&color=000000" /> Fornecedores</p>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="#" as={Link} to="/produtos">
+                                <p><img width="20" src="https://img.icons8.com/?size=100&id=pGrIbKGi5lac&format=png&color=000000" /> Produtos</p>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="#" as={Link} to="/usuarios">
+                                <p><img width="20" src="https://img.icons8.com/?size=100&id=dnFLrXkYCNiG&format=png&color=000000" /> Usuários</p>
+                            </NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Operações" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Compra</NavDropdown.Item>
