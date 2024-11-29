@@ -2,11 +2,9 @@ import FormCadFornecedor from "./formularios/FormCadFornecedor.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaFornecedores from "./tabelas/TabelaFornecedores.jsx";
 import { Alert, Container } from "react-bootstrap";
-import { useState, useEffect } from "react";
-import { consultarFornecedor } from "../../servicos/servicoFornecedor.js";
+import { useState } from "react";
 
 export default function TelaCadFornecedor(props) {
-    const [listaDeFornecedores, setListaDeFornecedores] = useState([]);
     const [exibirTabela, setExibirTabela] = useState(true);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState({
@@ -22,18 +20,6 @@ export default function TelaCadFornecedor(props) {
         cep: ""
     });
 
-    useEffect(() => {
-        consultarFornecedor().then((lista) => {
-            setListaDeFornecedores(lista);
-        });
-    }, []); // listaVazia -> didMount
-
-    useEffect(() => {
-        consultarFornecedor().then((lista) => {
-            setListaDeFornecedores(lista);
-        });
-    }, [listaDeFornecedores]); // listaVazia -> didMount
-
     return (
         <Pagina>
             <Container>
@@ -45,15 +31,11 @@ export default function TelaCadFornecedor(props) {
             </Container>
             {
                 exibirTabela ?
-                    <TabelaFornecedores listaDeFornecedores={listaDeFornecedores}
-                        setListaDeFornecedores={setListaDeFornecedores}
-                        setModoEdicao={setModoEdicao}
+                    <TabelaFornecedores setModoEdicao={setModoEdicao}
                         setFornecedorSelecionado={setFornecedorSelecionado}
                         setExibirTabela={setExibirTabela} /> :
 
-                    <FormCadFornecedor listaDeFornecedores={listaDeFornecedores}
-                        setListaDeFornecedores={setListaDeFornecedores}
-                        modoEdicao={modoEdicao}
+                    <FormCadFornecedor modoEdicao={modoEdicao}
                         setModoEdicao={setModoEdicao}
                         fornecedorSelecionado={fornecedorSelecionado}
                         setFornecedorSelecionado={setFornecedorSelecionado}

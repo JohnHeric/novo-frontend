@@ -1,49 +1,32 @@
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 import { useState } from "react";
-import { gravarCategoria, alterarCategoria } from '../../../servicos/servicoCategoria';
-import toast from 'react-hot-toast';
+import { atualizarCategoria, incluirCategoria } from "../../../redux/categoriaReducer.js"
+import { useDispatch } from "react-redux";
 
 
 export default function FormCadCategoria(props) {
+    const despachante = useDispatch();
     const [categoria, setCategoria] = useState(props.categoriaSelecionada);
     const [formValidado, setFormValidado] = useState(false);
+    const categoriaVazia = {
+        codigo: 0,
+        descricao: ""
+    }
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            if (!props.modoEdicao) {
-                gravarCategoria(categoria)
-                    .then((resultado) => {
-                        if (resultado.status) {
-                            props.setListaDeCategorias([...props.listaDeCategorias, categoria]);
-                            props.setExibirTabela(true);
-                            toast.success("Categoria cadastrada com sucesso!");
-                        } else
-                            toast.error(resultado.mensagem);
-                    });
-            } else {
-
-                alterarCategoria(categoria)
-                    .then((resultado) => {
-                        if (resultado.status) {
-                            props.setListaDeCategorias(props.listaDeCategorias.map((item) => {
-                                return item.codigo === categoria.codigo ? categoria : item;
-                            }));
-                            props.setModoEdicao(false);
-                            toast.success("Produto alterado com sucesso!");
-                        } else
-                            toast.error(resultado.mensagem);
-                    });
+            if (!props.modoEdicao)
+                despachante(incluirCategoria(categoria));
+            else {
+                despachante(atualizarCategoria(categoria));
+                props.setModoEdicao(false);
             }
+            props.setCategoriaSelecionada(categoriaVazia);
             props.setExibirTabela(true);
-            props.setCategoriaSelecionada({
-                codigo: 0,
-                descricao: ""
-            });
             setFormValidado(false);
-        } else {
+        } else
             setFormValidado(true);
-        }
         evento.preventDefault();
         evento.stopPropagation();
     }
@@ -58,10 +41,7 @@ export default function FormCadCategoria(props) {
     function voltar() {
         props.setExibirTabela(true);
         props.setModoEdicao(false);
-        props.setCategoriaSelecionada({
-            codigo: 0,
-            descricao: ""
-        });
+        props.setCategoriaSelecionada(categoriaVazia);
     }
 
     return (
@@ -126,9 +106,7 @@ export default function FormCadCategoria(props) {
                                         </Col>
                                         <Col md={{ offset: 1 }}>
                                             <div className="mt-2 mb-2">
-                                                <Button onClick={() => {
-                                                    voltar();
-                                                }}>
+                                                <Button onClick={() => { voltar(); }}>
                                                     Voltar
                                                 </Button>
                                             </div>

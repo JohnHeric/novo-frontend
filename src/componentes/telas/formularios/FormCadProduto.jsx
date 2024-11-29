@@ -80,10 +80,12 @@ export default function FormCadProduto(props) {
         if (form.checkValidity()) {
             if (!props.modoEdicao)
                 despachante(incluirProduto(produto));
-            else
+            else {
                 despachante(atualizarProduto(produto));
-            props.setExibirTabela(true)
+                props.setModoEdicao(false);
+            }
             props.setProdutoSelecionado(produtoVazio);
+            props.setExibirTabela(true)
             setFormValidado(false);
         } else
             setFormValidado(true);

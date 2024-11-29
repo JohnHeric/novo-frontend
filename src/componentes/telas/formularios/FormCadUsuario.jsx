@@ -1,68 +1,39 @@
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 import { useState } from "react";
-import { gravarUsuario, alterarUsuario } from '../../../servicos/servicoUsuario';
-import toast from 'react-hot-toast';
+import { atualizarUsuario, incluirUsuario } from "../../../redux/usuarioReducer.js"
+import { useDispatch } from 'react-redux';
 
 export default function FormCadusuario(props) {
+    const despachante = useDispatch();
     const [usuario, setUsuario] = useState(props.usuarioSelecionado);
     const [formValidado, setFormValidado] = useState(false);
+    const usuarioVazio = {
+        codigo: "",
+        nome: "",
+        login: "",
+        senha: "",
+        endereco: "",
+        numero: "",
+        bairro: "",
+        cidade: "",
+        uf: "",
+        cep: ""
+    }
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            if (!props.modoEdicao) {
-                gravarUsuario(usuario)
-                    .then((resultado) => {
-                        if (resultado.status) {
-                            props.setListaDeUsuarios([...props.listaDeUsuarios, usuario]);
-                            props.setExibirTabela(true);
-                            toast.success("Usuário cadastrado com sucesso!");
-                        } else
-                            toast.error(resultado.mensagem);
-                    });
-            } else {
-                alterarUsuario(usuario)
-                    .then((resultado) => {
-                        if (resultado.status) {
-                            props.setListaDeUsuarios(props.listaDeUsuarios.map((item) => {
-                                return item.codigo === usuario.codigo ? usuario : item;
-                            }));
-                            props.setModoEdicao(false);
-                            toast.success("Usuário alterado com sucesso!");
-                        } else
-                            toast.error(resultado.mensagem);
-                    });
+            if (!props.modoEdicao)
+                despachante(incluirUsuario(usuario));
+            else {
+                despachante(atualizarUsuario(usuario));
                 props.setModoEdicao(false);
-                props.setUsuarioSelecionado({
-                    codigo: "",
-                    nome: "",
-                    login: "",
-                    senha: "",
-                    endereco: "",
-                    numero: "",
-                    bairro: "",
-                    cidade: "",
-                    uf: "",
-                    cep: ""
-                });
             }
+            props.setUsuarioSelecionado(usuarioVazio);
             props.setExibirTabela(true);
-            props.setUsuarioSelecionado({
-                codigo: "",
-                nome: "",
-                login: "",
-                senha: "",
-                endereco: "",
-                numero: "",
-                bairro: "",
-                cidade: "",
-                uf: "",
-                cep: ""
-            });
             setFormValidado(false);
-        } else {
+        } else
             setFormValidado(true);
-        }
         evento.preventDefault();
         evento.stopPropagation();
     }
@@ -77,17 +48,7 @@ export default function FormCadusuario(props) {
     function voltar() {
         props.setExibirTabela(true);
         props.setModoEdicao(false);
-        props.setUsuarioSelecionado({
-            codigo: 0,
-            cpf: "",
-            nome: "",
-            endereco: "",
-            numero: "",
-            bairro: "",
-            cidade: "",
-            uf: "",
-            cep: "",
-        });
+        props.setUsuarioSelecionado(usuarioVazio);
     }
 
     return (
@@ -136,26 +97,36 @@ export default function FormCadusuario(props) {
                                                 />
                                             </Form.Group>
                                         </fieldset>
+                                        <Form.Group as={Col} className="mb-3">
+                                            <Form.Label className="text-center">Login</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="login"
+                                                name="login"
+                                                placeholder="Digite o nome de usuário desejado"
+                                                value={usuario.login}
+                                                onChange={manipularMudanca}
+                                                required
+                                            />
+                                        </Form.Group>
                                     </Row>
                                     {
                                         props.modoEdicao ?
                                             <Row>
-                                                <fieldset disabled>
-                                                    <Form.Group as={Col} className="mb-3">
-                                                        <Form.Label className="text-center">Login</Form.Label>
-                                                        <Form.Control
-                                                            type="text"
-                                                            id="login"
-                                                            name="login"
-                                                            placeholder="Digite o nome de usuário desejado"
-                                                            value={usuario.login}
-                                                            onChange={manipularMudanca}
-                                                            required
-                                                        />
-                                                    </Form.Group>
-                                                </fieldset>
                                                 <Form.Group as={Col} className="mb-3">
                                                     <Form.Label className="text-center">Nova Senha</Form.Label>
+                                                    <Form.Control
+                                                        type="password"
+                                                        id="senha"
+                                                        name="senha"
+                                                        placeholder="Digite sua nova senha"
+                                                        value={usuario.senha}
+                                                        onChange={manipularMudanca}
+                                                        required
+                                                    />
+                                                </Form.Group>
+                                                <Form.Group as={Col} className="mb-3">
+                                                    <Form.Label className="text-center">Confirmar Senha</Form.Label>
                                                     <Form.Control
                                                         type="password"
                                                         id="senha"
@@ -169,19 +140,19 @@ export default function FormCadusuario(props) {
                                             </Row> :
                                             <Row>
                                                 <Form.Group as={Col} className="mb-3">
-                                                    <Form.Label className="text-center">Login</Form.Label>
+                                                    <Form.Label className="text-center">Senha</Form.Label>
                                                     <Form.Control
-                                                        type="text"
-                                                        id="login"
-                                                        name="login"
-                                                        placeholder="Digite o nome de usuário desejado"
-                                                        value={usuario.login}
+                                                        type="password"
+                                                        id="senha"
+                                                        name="senha"
+                                                        placeholder="Digite sua nova senha"
+                                                        value={usuario.senha}
                                                         onChange={manipularMudanca}
                                                         required
                                                     />
                                                 </Form.Group>
                                                 <Form.Group as={Col} className="mb-3">
-                                                    <Form.Label className="text-center">Senha</Form.Label>
+                                                    <Form.Label className="text-center">Confirmar Senha</Form.Label>
                                                     <Form.Control
                                                         type="password"
                                                         id="senha"
@@ -288,9 +259,7 @@ export default function FormCadusuario(props) {
                                         </Col>
                                         <Col md={{ offset: 1 }}>
                                             <div className="mb-2 mt-2">
-                                                <Button onClick={() => {
-                                                    voltar();
-                                                }}>
+                                                <Button onClick={() => { voltar(); }}>
                                                     Voltar
                                                 </Button>
                                             </div>

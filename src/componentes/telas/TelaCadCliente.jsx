@@ -2,11 +2,9 @@ import FormCadCliente from "./formularios/FormCadCliente.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaClientes from "./tabelas/TabelaClientes.jsx";
 import { Alert, Container } from "react-bootstrap";
-import { useState, useEffect } from "react";
-import { consultarCliente } from "../../servicos/servicoCliente.js";
+import { useState } from "react";
 
 export default function TelaCadCliente(props) {
-    const [listaDeClientes, setListaDeClientes] = useState([]);
     const [exibirTabela, setExibirTabela] = useState(true);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [clienteSelecionado, setClienteSelecionado] = useState({
@@ -21,18 +19,6 @@ export default function TelaCadCliente(props) {
         cep: ""
     });
 
-    useEffect(() => {
-        consultarCliente().then((lista) => {
-            setListaDeClientes(lista);
-        });
-    }, []); // listaVazia -> didMount
-
-    useEffect(() => {
-        consultarCliente().then((lista) => {
-            setListaDeClientes(lista);
-        });
-    }, [listaDeClientes]); // listaVazia -> didMount
-
     return (
         <Pagina>
             <Container>
@@ -44,15 +30,11 @@ export default function TelaCadCliente(props) {
             </Container>
             {
                 exibirTabela ?
-                    <TabelaClientes listaDeClientes={listaDeClientes}
-                        setListaDeClientes={setListaDeClientes}
-                        setModoEdicao={setModoEdicao}
+                    <TabelaClientes setModoEdicao={setModoEdicao}
                         setClienteSelecionado={setClienteSelecionado}
                         setExibirTabela={setExibirTabela} /> :
 
-                    <FormCadCliente listaDeClientes={listaDeClientes}
-                        setListaDeClientes={setListaDeClientes}
-                        modoEdicao={modoEdicao}
+                    <FormCadCliente modoEdicao={modoEdicao}
                         setModoEdicao={setModoEdicao}
                         clienteSelecionado={clienteSelecionado}
                         setClienteSelecionado={setClienteSelecionado}

@@ -1,68 +1,38 @@
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import { useState } from "react";
-import { gravarFornecedor, alterarFornecedor } from '../../../servicos/servicoFornecedor';
-import toast from 'react-hot-toast';
+import { atualizarFornecedor, incluirFornecedor } from "../../../redux/fornecedorReducer.js"
+import { useDispatch } from "react-redux";
 
 export default function FormCadFornecedor(props) {
+    const despachante = useDispatch();
     const [formValidado, setFormValidado] = useState(false);
     const [fornecedor, setFornecedor] = useState(props.fornecedorSelecionado);
-
-
+    const fornecedorVazio = {
+        codigo: 0,
+        razaoSocial: "",
+        cnpj: "",
+        nomeFantasia: "",
+        telefone: "",
+        rua: "",
+        numero: "",
+        cidade: "",
+        cep: ""
+    }
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            if (!props.modoEdicao) {
-                gravarFornecedor(fornecedor)
-                    .then((resultado) => {
-                        if (resultado.status) {
-                            props.setListaDeFornecedores([...props.listaDeFornecedores, fornecedor]);
-                            props.setExibirTabela(true);
-                            toast.success("Fornecedor cadastrado com sucesso!");
-                        } else
-                            toast.error(resultado.mensagem);
-                    });
-            } else {
-                alterarFornecedor(fornecedor)
-                    .then((resultado) => {
-                        if (resultado.status) {
-                            props.setListaDeFornecedores(props.listaDeFornecedores.map((item) => {
-                                return item.codigo === fornecedor.codigo ? fornecedor : item;
-                            }));
-                            props.setModoEdicao(false);
-                            toast.success("Fornecedor alterado com sucesso!");
-                        } else
-                            toast.error(resultado.mensagem);
-                    });
+            if (!props.modoEdicao)
+                despachante(incluirFornecedor(fornecedor));
+            else {
+                despachante(atualizarFornecedor(fornecedor));
                 props.setModoEdicao(false);
-                props.setFornecedorSelecionado({
-                    codigo: 0,
-                    razaoSocial: "",
-                    cnpj: "",
-                    nomeFantasia: "",
-                    telefone: "",
-                    rua: "",
-                    numero: "",
-                    cidade: "",
-                    cep: ""
-                });
             }
-            props.setExibirTabela(true)
-            props.setFornecedorSelecionado({
-                codigo: 0,
-                razaoSocial: "",
-                cnpj: "",
-                nomeFantasia: "",
-                telefone: "",
-                rua: "",
-                numero: "",
-                cidade: "",
-                cep: ""
-            });
+            props.setFornecedorSelecionado(fornecedorVazio);
+            props.setExibirTabela(true);
             setFormValidado(false);
-        } else {
+        } else
             setFormValidado(true);
-        }
         evento.preventDefault();
         evento.stopPropagation();
     }
@@ -77,17 +47,7 @@ export default function FormCadFornecedor(props) {
     function voltar() {
         props.setExibirTabela(true);
         props.setModoEdicao(false);
-        props.setFornecedorSelecionado({
-            codigo: 0,
-            razaoSocial: "",
-            cnpj: "",
-            nomeFantasia: "",
-            telefone: "",
-            rua: "",
-            numero: "",
-            cidade: "",
-            cep: ""
-        });
+        props.setFornecedorSelecionado(fornecedorVazio);
     }
 
     return (
@@ -257,9 +217,7 @@ export default function FormCadFornecedor(props) {
                                         </Col>
                                         <Col md={{ offset: 1 }}>
                                             <div className="mb-2 mt-2">
-                                                <Button onClick={() => {
-                                                    voltar();
-                                                }}>
+                                                <Button onClick={() => { voltar(); }}>
                                                     Voltar
                                                 </Button>
                                             </div>

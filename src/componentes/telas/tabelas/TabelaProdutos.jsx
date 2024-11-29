@@ -9,9 +9,8 @@ export default function TabelaProdutos(props) {
     const despachante = useDispatch();
 
     function excluirProdutoSelecionado(produto) {
-        if (window.confirm("Deseja realmente excluir o produto " + produto.descricao)) {
+        if (window.confirm("Deseja realmente excluir o produto " + produto.descricao))
             despachante(apagarProduto(produto));
-        }
     }
 
     function alterarProduto(produto) {
@@ -24,7 +23,7 @@ export default function TabelaProdutos(props) {
         const [ano, mes, dia] = data.split("-");
         return `${dia}/${mes}/${ano}`;
     }
-    
+
     useEffect(() => {
         despachante(buscarProdutos());
     }, [despachante]);
@@ -105,7 +104,7 @@ export default function TabelaProdutos(props) {
                         }
                     </tbody>
                 </Table>
-                <p>Quantidade de produtos cadastrados: {listaDeProdutos.length}</p>
+                <p>Quantidade de produtos cadastrados: {listaDeProdutos ? listaDeProdutos.length : 0}</p>
             </Container >
         );
     }

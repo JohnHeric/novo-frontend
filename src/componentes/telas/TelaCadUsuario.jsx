@@ -2,11 +2,9 @@ import FormCadUsuario from "./formularios/FormCadUsuario.jsx";
 import Pagina from "../layouts/Pagina.jsx";
 import TabelaUsuarios from "./tabelas/TabelaUsuarios.jsx";
 import { Alert, Container } from "react-bootstrap";
-import { useState, useEffect } from "react";
-import { consultarUsuario } from "../../servicos/servicoUsuario.js";
+import { useState } from "react";
 
 export default function TelaCadUsuario(props) {
-    const [listaDeUsuarios, setListaDeUsuarios] = useState([]);
     const [exibirTabela, setExibirTabela] = useState(true);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [usuarioSelecionado, setUsuarioSelecionado] = useState({
@@ -22,18 +20,6 @@ export default function TelaCadUsuario(props) {
         cep: ""
     });
 
-    useEffect(() => {
-        consultarUsuario().then((lista) => {
-            setListaDeUsuarios(lista);
-        });
-    }, []); // listaVazia -> didMount
-
-    useEffect(() => {
-        consultarUsuario().then((lista) => {
-            setListaDeUsuarios(lista);
-        });
-    }, [listaDeUsuarios]); // listaVazia -> didMount
-
     return (
         <Pagina>
             <Container>
@@ -45,15 +31,11 @@ export default function TelaCadUsuario(props) {
             </Container>
             {
                 exibirTabela ?
-                    <TabelaUsuarios listaDeUsuarios={listaDeUsuarios}
-                        setListaDeUsuarios={setListaDeUsuarios}
-                        setModoEdicao={setModoEdicao}
+                    <TabelaUsuarios setModoEdicao={setModoEdicao}
                         setUsuarioSelecionado={setUsuarioSelecionado}
                         setExibirTabela={setExibirTabela} /> :
 
-                    <FormCadUsuario listaDeUsuarios={listaDeUsuarios}
-                        setListaDeUsuarios={setListaDeUsuarios}
-                        modoEdicao={modoEdicao}
+                    <FormCadUsuario modoEdicao={modoEdicao}
                         setModoEdicao={setModoEdicao}
                         usuarioSelecionado={usuarioSelecionado}
                         setUsuarioSelecionado={setUsuarioSelecionado}

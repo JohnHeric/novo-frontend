@@ -1,67 +1,38 @@
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 import { useState } from "react";
-import { gravarCliente, alterarCliente } from '../../../servicos/servicoCliente';
-import toast from 'react-hot-toast';
+import { atualizarCliente, incluirCliente } from "../../../redux/clienteReducer.js"
+import { useDispatch } from "react-redux";
 
 export default function FormCadCliente(props) {
+    const despachante = useDispatch();
     const [cliente, setCliente] = useState(props.clienteSelecionado);
     const [formValidado, setFormValidado] = useState(false);
+    const clienteVazio = {
+        codigo: 0,
+        cpf: "",
+        nome: "",
+        endereco: "",
+        numero: "",
+        bairro: "",
+        cidade: "",
+        uf: "",
+        cep: "",
+    }
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            if (!props.modoEdicao) {
-                gravarCliente(cliente)
-                    .then((resultado) => {
-                        if (resultado.status) {
-                            props.setListaDeClientes([...props.listaDeClientes, cliente]);
-                            props.setExibirTabela(true);
-                            toast.success("Cliente cadastrado com sucesso!");
-                        } else
-                            toast.error(resultado.mensagem);
-                    });
-                props.setListaDeClientes([...props.listaDeClientes, cliente]);
-            } else {
-                alterarCliente(cliente)
-                    .then((resultado) => {
-                        if (resultado.status) {
-                            props.setListaDeClientes(props.listaDeClientes.map((item) => {
-                                return item.codigo === cliente.codigo ? cliente : item;
-                            }));
-                            props.setModoEdicao(false);
-                            toast.success("Cliente alterado com sucesso!");
-                        } else
-                            toast.error(resultado.mensagem);
-                    });
+            if (!props.modoEdicao)
+                despachante(incluirCliente(cliente));
+            else {
+                despachante(atualizarCliente(cliente));
                 props.setModoEdicao(false);
-                props.setClienteSelecionado({
-                    codigo: 0,
-                    cpf: "",
-                    nome: "",
-                    endereco: "",
-                    numero: "",
-                    bairro: "",
-                    cidade: "",
-                    uf: "",
-                    cep: "",
-                });
             }
+            props.setClienteSelecionado(clienteVazio);
             props.setExibirTabela(true);
-            props.setClienteSelecionado({
-                codigo: 0,
-                cpf: "",
-                nome: "",
-                endereco: "",
-                numero: "",
-                bairro: "",
-                cidade: "",
-                uf: "",
-                cep: "",
-            });
             setFormValidado(false);
-        } else {
+        } else
             setFormValidado(true);
-        }
         evento.preventDefault();
         evento.stopPropagation();
     }
@@ -76,17 +47,7 @@ export default function FormCadCliente(props) {
     function voltar() {
         props.setExibirTabela(true);
         props.setModoEdicao(false);
-        props.setClienteSelecionado({
-            codigo: 0,
-            cpf: "",
-            nome: "",
-            endereco: "",
-            numero: "",
-            bairro: "",
-            cidade: "",
-            uf: "",
-            cep: "",
-        });
+        props.setClienteSelecionado(clienteVazio);
     }
 
     return (
@@ -245,9 +206,7 @@ export default function FormCadCliente(props) {
                                         </Col>
                                         <Col md={{ offset: 1 }}>
                                             <div className="mb-2 mt-2">
-                                                <Button onClick={() => {
-                                                    voltar();
-                                                }}>
+                                                <Button onClick={() => { voltar(); }}>
                                                     Voltar
                                                 </Button>
                                             </div>
