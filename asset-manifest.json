@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/SistemaReact/static/css/main.d221dc40.css",
-    "main.js": "/SistemaReact/static/js/main.91c38873.js",
+    "main.js": "/SistemaReact/static/js/main.cd207f5e.js",
     "static/media/AcmeLogo.png": "/SistemaReact/static/media/AcmeLogo.9fdb07d439f867afcd6e.png",
     "static/media/Tela404.png": "/SistemaReact/static/media/Tela404.1b8b41b2951f4dac8128.png",
     "index.html": "/SistemaReact/index.html",
     "main.d221dc40.css.map": "/SistemaReact/static/css/main.d221dc40.css.map",
-    "main.91c38873.js.map": "/SistemaReact/static/js/main.91c38873.js.map"
+    "main.cd207f5e.js.map": "/SistemaReact/static/js/main.cd207f5e.js.map"
   },
   "entrypoints": [
     "static/css/main.d221dc40.css",
-    "static/js/main.91c38873.js"
+    "static/js/main.cd207f5e.js"
   ]
 }
