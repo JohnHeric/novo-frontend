@@ -40,7 +40,8 @@ function App() {
                 <Route path="/produtosfornecedor" element={<TelaProdForn />} />
                 <Route path="/categorias" element={<TelaCadCategoria />} />
                 <Route path="/usuarios" element={<TelaCadUsuario />} />
-                <Route path="/" element={<TelaMenu props="TESTE" />} />
+                <Route path="/SistemaReact" element={<TelaMenu />} />
+                <Route path="/" element={<TelaMenu />} />
                 <Route path="*" element={<Tela404 />} />
               </Routes>
             </BrowserRouter>

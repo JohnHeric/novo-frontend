@@ -1,7 +1,7 @@
 import { Alert, Button, Container, Spinner, Table } from "react-bootstrap";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { buscarCategorias, apagarCategoria } from "../../../redux/categoriaReducer.js";
+import { useDispatch, useSelector } from "react-redux";
+import { apagarCategoria, buscarCategorias } from "../../../redux/categoriaReducer.js";
 import ESTADO from "../../../redux/estados.js";
 
 export default function TabelaCategorias(props) {

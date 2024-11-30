@@ -1,7 +1,7 @@
 import { Alert, Button, Container, Spinner, Table } from "react-bootstrap";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { buscarClientes, apagarCliente } from "../../../redux/clienteReducer.js";
+import { useDispatch, useSelector } from "react-redux";
+import { apagarCliente, buscarClientes } from "../../../redux/clienteReducer.js";
 import ESTADO from "../../../redux/estados.js";
 
 export default function TabelaClientes(props) {

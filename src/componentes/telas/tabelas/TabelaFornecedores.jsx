@@ -1,7 +1,7 @@
 import { Alert, Button, Container, Spinner, Table } from "react-bootstrap";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { buscarFornecedores, apagarFornecedor } from "../../../redux/fornecedorReducer.js";
+import { useDispatch, useSelector } from "react-redux";
+import { apagarFornecedor, buscarFornecedores } from "../../../redux/fornecedorReducer.js";
 import ESTADO from "../../../redux/estados.js";
 import { useNavigate } from "react-router-dom";
 

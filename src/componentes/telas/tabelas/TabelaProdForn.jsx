@@ -1,12 +1,15 @@
-import { Alert, Container, Spinner, Table } from "react-bootstrap";
+import { Alert, Button, Container, Spinner, Table } from "react-bootstrap";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { buscarProdutos } from "../../../redux/produtoReducer.js";
+import { useNavigate } from "react-router-dom";
 import ESTADO from "../../../redux/estados.js";
 
 export default function TabelaProdForn(props) {
     const { estado, mensagem, listaDeProdutos } = useSelector(estado => estado.produto);
     const despachante = useDispatch();
+    const navegar = useNavigate();
+    var qtde = 0;
 
     function formatarData(data) {
         const [ano, mes, dia] = data.split("-");
@@ -49,7 +52,8 @@ export default function TabelaProdForn(props) {
                     <tbody>
                         {
                             listaDeProdutos.map((produto) => {
-                                if (produto.fornecedor.codigo === props.idUrl)
+                                if (produto.fornecedor.codigo === props.idUrl) {
+                                    qtde++;
                                     return (
                                         <tr key={produto.codigo}>
                                             <td>{produto.codigo}</td>
@@ -65,11 +69,15 @@ export default function TabelaProdForn(props) {
                                             <td>{produto.categoria.descricao}</td>
                                         </tr>
                                     );
+                                }
                             })
                         }
                     </tbody>
                 </Table>
-                <p>Quantidade de produtos cadastrados: {listaDeProdutos ? listaDeProdutos.length : 0}</p>
+                <Button className="auto" onClick={() => navegar("/fornecedores")}>
+                    Voltar
+                </Button>
+                <p>Quantidade de produtos cadastrados: {qtde}</p>
             </Container >
         );
     }

@@ -82,20 +82,19 @@ export default function FormCadCliente(props) {
                                         </Form.Group>
                                     </Row>
                                     <Row>
-                                        <fieldset disabled>
-                                            <Form.Group as={Col} className="mb-3">
-                                                <Form.Label className="text-center">Código</Form.Label>
-                                                <Form.Control
-                                                    type="text"
-                                                    id="codigo"
-                                                    name="codigo"
-                                                    placeholder="Código do Usuário"
-                                                    value={cliente.codigo}
-                                                    onChange={manipularMudanca}
-                                                    required
-                                                />
-                                            </Form.Group>
-                                        </fieldset>
+                                        <Form.Group as={Col} className="mb-3">
+                                            <Form.Label className="text-center">Código</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="codigo"
+                                                name="codigo"
+                                                placeholder="Código do Usuário"
+                                                value={cliente.codigo}
+                                                onChange={manipularMudanca}
+                                                disabled
+                                                required
+                                            />
+                                        </Form.Group>
                                     </Row>
                                     <Row className="mb-3">
                                         <Form.Group as={Col} className="mb-3">

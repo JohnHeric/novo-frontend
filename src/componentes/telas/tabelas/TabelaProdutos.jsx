@@ -1,7 +1,7 @@
 import { Alert, Button, Container, Spinner, Table } from "react-bootstrap";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { buscarProdutos, apagarProduto } from "../../../redux/produtoReducer.js";
+import { useDispatch, useSelector } from "react-redux";
+import { apagarProduto, buscarProdutos } from "../../../redux/produtoReducer.js";
 import ESTADO from "../../../redux/estados.js";
 
 export default function TabelaProdutos(props) {

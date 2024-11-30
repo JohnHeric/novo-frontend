@@ -118,59 +118,36 @@ export default function FormCadusuario(props) {
                                         </Form.Group>
                                     </Row>
                                     {
-                                        props.modoEdicao ?
-                                            <Row>
-                                                <Form.Group as={Col} className="mb-3">
-                                                    <Form.Label className="text-center">Nova Senha</Form.Label>
-                                                    <Form.Control
-                                                        type="password"
-                                                        id="senha"
-                                                        name="senha"
-                                                        placeholder="Digite sua nova senha"
-                                                        value={usu.senha}
-                                                        onChange={manipularMudanca}
-                                                        required
-                                                    />
-                                                </Form.Group>
-                                                <Form.Group as={Col} className="mb-3">
-                                                    <Form.Label className="text-center">Confirmar Senha</Form.Label>
-                                                    <Form.Control
-                                                        type="password"
-                                                        id="senha"
-                                                        name="senha"
-                                                        placeholder="Digite sua nova senha"
-                                                        value={senhaC}
-                                                        onChange={(e) => setSenhaC(e.target.value)}
-                                                        required
-                                                    />
-                                                </Form.Group>
-                                            </Row> :
-                                            <Row>
-                                                <Form.Group as={Col} className="mb-3">
-                                                    <Form.Label className="text-center">Senha</Form.Label>
-                                                    <Form.Control
-                                                        type="password"
-                                                        id="senha"
-                                                        name="senha"
-                                                        placeholder="Digite sua nova senha"
-                                                        value={usu.senha}
-                                                        onChange={manipularMudanca}
-                                                        required
-                                                    />
-                                                </Form.Group>
-                                                <Form.Group as={Col} className="mb-3">
-                                                    <Form.Label className="text-center">Confirmar Senha</Form.Label>
-                                                    <Form.Control
-                                                        type="password"
-                                                        id="senha"
-                                                        name="senha"
-                                                        placeholder="Digite sua nova senha"
-                                                        value={senhaC}
-                                                        onChange={(e) => setSenhaC(e.target.value)}
-                                                        required
-                                                    />
-                                                </Form.Group>
-                                            </Row>
+                                        <Row>
+                                            <Form.Group as={Col} className="mb-3">
+                                                {
+                                                    props.modoEdicao ?
+                                                        <Form.Label className="text-center">Nova Senha</Form.Label> :
+                                                        <Form.Label className="text-center">Senha</Form.Label>
+                                                }
+                                                <Form.Control
+                                                    type="password"
+                                                    id="senha"
+                                                    name="senha"
+                                                    placeholder="Digite sua nova senha"
+                                                    value={usu.senha}
+                                                    onChange={manipularMudanca}
+                                                    required
+                                                />
+                                            </Form.Group>
+                                            <Form.Group as={Col} className="mb-3">
+                                                <Form.Label className="text-center">Confirmar Senha</Form.Label>
+                                                <Form.Control
+                                                    type="password"
+                                                    id="senha"
+                                                    name="senha"
+                                                    placeholder="Digite sua nova senha"
+                                                    value={senhaC}
+                                                    onChange={(e) => setSenhaC(e.target.value)}
+                                                    required
+                                                />
+                                            </Form.Group>
+                                        </Row>
                                     }
                                     <h2>Endereço</h2>
                                     <Row className="mt-4">

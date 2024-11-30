@@ -61,20 +61,19 @@ export default function FormCadCategoria(props) {
                                 </p>
                                 <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
                                     <Row className="mb-3">
-                                        <fieldset disabled>
-                                            <Form.Group as={Col} className="mb-3">
-                                                <Form.Label className="text-center">Código</Form.Label>
-                                                <Form.Control
-                                                    type="text"
-                                                    id="codigo"
-                                                    name="codigo"
-                                                    placeholder="Digite o código"
-                                                    value={categoria.codigo}
-                                                    onChange={manipularMudanca}
-                                                    required
-                                                />
-                                            </Form.Group>
-                                        </fieldset>
+                                        <Form.Group as={Col} className="mb-3">
+                                            <Form.Label className="text-center">Código</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                id="codigo"
+                                                name="codigo"
+                                                placeholder="Digite o código"
+                                                value={categoria.codigo}
+                                                onChange={manipularMudanca}
+                                                disabled
+                                                required
+                                            />
+                                        </Form.Group>
                                         <Form.Group as={Col}>
                                         </Form.Group>
                                     </Row>

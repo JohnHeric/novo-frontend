@@ -2,7 +2,7 @@ import Pagina from "../layouts/Pagina.jsx";
 import TabelaProdForn from "./tabelas/TabelaProdForn.jsx";
 import { Alert, Container } from "react-bootstrap";
 import { consultarFornecedor } from "../../servicos/servicoFornecedor.js";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 export default function TelaProd(props) {
